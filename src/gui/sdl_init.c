@@ -21,19 +21,27 @@ int 			sdl_init_everything(t_sdl *s)
 	}
 	s->win = SDL_CreateWindow("RT",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
+		s->win_w, s->win_h, SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
 	if (s->win == NULL)
 	{
 		ft_putendl_fd("failed to initiate WIN in SDL", 2);
 		return (0);
 	}
-	s->renderer = SDL_CreateRenderer(s->win, -1, SDL_RENDERER_ACCELERATED);
+	s->renderer = SDL_CreateRenderer(s->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (s->renderer == NULL)
 	{
 		ft_putendl_fd("failed to initiate renderer in SDL", 2);
 		return (0);
 	}
-	SDL_RenderSetLogicalSize(s->renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!(s->texture = SDL_CreateTexture(s->renderer,
+								SDL_PIXELFORMAT_ARGB8888,
+								SDL_TEXTUREACCESS_STATIC,
+								s->win_w, s->win_h)))
+	{
+		ft_putendl_fd("failed to initiate texture in SDL", 2);
+		return (0);
+	}
+	SDL_RenderSetLogicalSize(s->renderer, s->win_w, s->win_h);
 	SDL_SetRenderDrawColor(s->renderer, 0, 255, 0, 255);
 	s->file = NULL;
 	s->go = 1;
@@ -41,20 +49,7 @@ int 			sdl_init_everything(t_sdl *s)
 	return (1);
 }
 
-	
-SDL_Texture* load_texture(const char *str, t_sdl *s)
-{
-	SDL_Texture* texture;
 
-	texture = IMG_LoadTexture( s->renderer, str);
-	if ( texture == NULL )
-	{
-		ft_putstr_fd(str, 2);
-		ft_putendl_fd("    -     have not been loaded to texture SDL", 2);
-		return NULL;
-	}
-	return texture;
-}
 
 int 			run_ui(t_sdl *s)
 {

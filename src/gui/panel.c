@@ -11,6 +11,46 @@
 /* ************************************************************************** */
 
 #include "panels.h"
+void				show_settings(t_sdl *s)
+{
+	SDL_Texture* bg;
+	SDL_Rect backgroundPos;
+
+	bg = load_texture("src/img/dark_pixel.png", s);
+	backgroundPos.y = 0;
+	backgroundPos.w = 200;
+	backgroundPos.h = WINDOW_HEIGHT;
+	backgroundPos.x = WINDOW_WIDTH - backgroundPos.w;
+	SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
+}
+
+void				render_subbuttons(t_sdl *s)
+{
+	int				i;
+	SDL_Texture*	rama;
+	SDL_Rect		ram;
+
+	i = 4;
+	rama = load_texture("src/img/rama.png", s);
+	while (i < 12)
+	{
+		if (!s->buttons[i].pressed)
+			SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+		else
+		{
+			if (i == 2)
+				show_settings(s);
+			ram.x = s->buttons[i].rect.x - 5;
+			ram.y = s->buttons[i].rect.y - 5;
+			ram.w = s->buttons[i].rect.w + 10;
+			ram.h = s->buttons[i].rect.h + 10;
+			SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+			SDL_RenderCopy(s->renderer, rama, NULL, &ram);
+		}
+		i++;
+	}
+	SDL_DestroyTexture(rama);
+}
 
 void				render_buttons(t_sdl *s)
 {
@@ -19,16 +59,17 @@ void				render_buttons(t_sdl *s)
 	SDL_Rect		ram;
 
 	i = 0;
-	rama = load_texture("src/img/pressed2.png", s);
-	while (i < BUTTONS_AMOUNT)
+	rama = load_texture("src/img/rama.png", s);
+	while (i < 4)
 	{
 		if (!s->buttons[i].pressed)
-		{
 			SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
-		}
 		else
 		{
-			// printf("pressed i = %i\n", i);
+			if (i == 2)
+				show_settings(s);
+			else if (i == 1)
+				create_new_scene(s);
 			ram.x = s->buttons[i].rect.x - 5;
 			ram.y = s->buttons[i].rect.y - 5;
 			ram.w = s->buttons[i].rect.w + 10;
@@ -36,13 +77,10 @@ void				render_buttons(t_sdl *s)
 			SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
 			SDL_RenderCopy(s->renderer, rama, NULL, &ram);
 		}
-		// if (i == 8)
-		// {
-			
-		// }
 		i++;
 	}
 	SDL_DestroyTexture(rama);
+	// render_subbuttons(s);
 }
 
 void			set_panel(t_sdl *s)
@@ -50,15 +88,15 @@ void			set_panel(t_sdl *s)
 	SDL_Texture* bg;
 	SDL_Rect backgroundPos;
 
-	bg = load_texture("src/img/pixel.png", s);
+	bg = load_texture("src/img/dark_pixel.png", s);
 	backgroundPos.x = 0;
 	backgroundPos.y = 0;
-	backgroundPos.w = 200;
-	backgroundPos.h = WINDOW_HEIGHT;
+	backgroundPos.w = 190;
+	backgroundPos.h = 70;
 	SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
-	backgroundPos.x = WINDOW_WIDTH - backgroundPos.w;
-	backgroundPos.y = 0;
-	SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
+	// backgroundPos.x = WINDOW_WIDTH - backgroundPos.w;
+	// backgroundPos.y = 0;
+	// SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
 	render_buttons(s);
 }
 
@@ -67,7 +105,7 @@ void			set_bg(t_sdl *s)
 	SDL_Texture* bg;
 	SDL_Rect backgroundPos;
 
-	bg = load_texture("src/img/pixel4.png", s);
+	bg = load_texture("src/img/dark_pixel2.png", s);
 	backgroundPos.x = 0;
 	backgroundPos.y = 0;
 	backgroundPos.w = WINDOW_WIDTH;

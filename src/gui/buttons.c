@@ -1,55 +1,51 @@
 
 #include "panels.h"
 
-char **set_icons(void)
+void set_icons(t_sdl *s)
 {
-	char **icon;
+	s->icon = (char **)malloc(sizeof(char *) * BUTTONS_AMOUNT);
+	s->icon[0] = "src/icons/find.png";
+	s->icon[1] = "src/icons/create_file.png";
+	s->icon[2] = "src/icons/settings.png";
+	s->icon[3] = "src/icons/render.png";
+	s->icon[4] = "src/icons/sphere.png";
+	s->icon[5] = "src/icons/planes.png";
+	s->icon[6] = "src/icons/cyli.png";
+	s->icon[7] = "src/icons/cones.png";
+	s->icon[8] = "src/icons/tria.png";
+	s->icon[9] = "src/icons/stop.png";
+	s->icon[10] = "src/icons/icon.png";
+	s->icon[11] = "src/icons/cubes.png";
+	s->icon[12] = "src/icons/settings.png";
 
-	icon = (char **)malloc(sizeof(char *) * BUTTONS_AMOUNT);
-	icon[0] = "src/icons/0.png";
-	icon[1] = "src/icons/1.png";
-	icon[2] = "src/icons/2.png";
-	icon[3] = "src/icons/3.png";
-	icon[4] = "src/icons/4.png";
-	icon[5] = "src/icons/5.png";
-	icon[6] = "src/icons/6.png";
-	icon[7] = "src/icons/7.png";
-	icon[8] = "src/icons/8.png";
-	// icon[9] = "icons/9.png";
-	// icon[10] = "icons/10.png";
-	return (icon);
 }
 
 void			create_buttons(t_sdl *s)
 {
 	int i;
-	char **icons;
 
 	i = 0;
-	icons = set_icons();
+	set_icons(s);
 	while (i < BUTTONS_AMOUNT)
 	{
 		s->buttons[i].pressed = 0;
 		s->buttons[i].name = i;
-		s->buttons[i].rect.x = 30 + i * 40;
-		s->buttons[i].rect.w = BUTTON_SIZE;
-		s->buttons[i].rect.h = BUTTON_SIZE;
 		if (i < 4)
-			s->buttons[i].rect.y = 20;
-		else if (i < 8)
-		{
-			s->buttons[i].rect.y = 100;
-			s->buttons[i].rect.x -= 160;
-		}
-		else
-		{
-			s->buttons[i].rect.x = 100;
-			s->buttons[i].rect.y = WINDOW_HEIGHT - 100;
-		}
-		s->buttons[i].txt = load_texture(icons[i], s);
+			s->buttons[i].rect = make_rect((10 + i * 20), 10, BUTTON_SIZE, BUTTON_SIZE);
+		// else if (i < 8)
+		// {
+
+		// 	s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
+		// 	k++;
+		// }
+		// else
+		// {
+		// 	s->buttons[i].rect = make_rect(20, 120, BUTTON_SIZE, BUTTON_SIZE);
+		// }
+		s->buttons[i].txt = load_texture(s->icon[i], s);
 		i++;
 	}
-	free(icons);
+	// free(icons);
 }
 
 void			check_pressing(t_sdl *s, int x, int y)
@@ -60,17 +56,14 @@ void			check_pressing(t_sdl *s, int x, int y)
 	printf("x = %i, y = %i\n",x,y );
 	while (i < BUTTONS_AMOUNT)
 	{
-		if (x >= s->buttons[i].rect.x - BUTTON_SIZE / 2 && x <= s->buttons[i].rect.x  + s->buttons[i].rect.w / 2
-			&& y >= s->buttons[i].rect.y - 20 && y <= s->buttons[i].rect.y - 20 + s->buttons[i].rect.h)
+		if (within_rect(s->buttons[i].rect, x, y))
 		{
-			printf("BUTTON # = %i\tx = %i\ny = %i\n",i, s->buttons[i].rect.x, s->buttons[i].rect.y );
-		printf("s->buttons[i].rect.x = %i\ns->buttons[i].rect.y = %i\n", s->buttons[i].rect.x, s->buttons[i].rect.y );
-		
 			if (s->buttons[i].pressed == 0)
 			{
 				s->buttons[i].pressed = 1;
-				if (i >= 8)
-					file_choosing(s, i); 
+				if (i == 0)
+					file_choosing(s, i);
+				
 			}
 			else
 			{

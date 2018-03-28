@@ -16,6 +16,8 @@ int			main(void)
 {
 	t_sdl	s;
 
+	s.win_w = WINDOW_WIDTH;
+	s.win_h = WINDOW_HEIGHT;
 	if (!sdl_init_everything(&s))
 	{
 		printf("Failed SDL initialization");

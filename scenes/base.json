@@ -1,0 +1,58 @@
+{
+	"objects": [{
+			"type": "plane",
+			"material": [0.7, 0.7, 0.7, 0],
+			"color": [0.7, 0.7, 0.7],
+			"origin": [0, -3, 0],
+			"normal": [0, 1, 0],
+			"texture": 0
+		},
+		{
+			"type": "sphere",
+			"material": [0.7, 0.7, 0.7, 0],
+			"color": [0.8 ,0.1, 0.1],
+			"origin": [0, 2, -5],
+			"radius": 0.6,
+			"texture": 0
+		},
+		{
+			"type": "cylinder",
+			"material": [0.7, 0.7, 0.7, 0],
+			"color": [0.8 ,0.1, 0.1],
+			"origin": [0, 2, -5],
+			"normal": [0, 1, 0],
+			"radius": 0.6,
+			"r2": 0.1,
+			"height": 3.3,
+			"texture": 0
+		},
+		{
+			"type": "cone",
+			"material": [0.7, 0.7, 0.7, 0],
+			"color": [0.8 ,0.1, 0.1],
+			"origin": [0, 2, -5],
+			"normal": [0, 1, 0],
+			"radius": 0.6,
+			"r2": 0.1,
+			"height": 3.3,
+			"texture": 0
+		},
+		{
+			"type": "sphere",
+			"material": [0.7, 0.7, 0.7, 1],
+			"color": [0.8 ,0.1, 0.1],
+			"origin": [0, 10, -5],
+			"radius": 1.6,
+			"texture": 0
+		}
+	],
+	"cameras": [{
+		"type": "common",
+		"origin": [0, 0, 0],
+		"dir": [0, 1, 0],
+		"cx": [0, 0, 0],
+		"cy": [0, 0, 0],
+		"canvas": [500, 500],
+		"field_of_view": 50
+	}]
+}

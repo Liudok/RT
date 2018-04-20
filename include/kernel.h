@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/03/27 11:53:56 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/20 20:26:59 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,17 @@
 # endif
 
 # define EPSILON 1e-3
-
+# ifndef M_PI
+#  define M_PI 3.141595f
+# endif
 # ifndef KERNEL_ONLY
 #  define float cl_float
+#  define float2 cl_float2
 #  define float3 cl_float3
 #  define float4 cl_float4
 #  define uint	cl_uint
 #  define int2	cl_int2
 # endif
-
-# define PUT_PIXEL(p, w, x, y, c) (p[y * w + x] = toInt(c))
-
-typedef unsigned char	t_uchar;
-
-typedef union	u_color
-{
-	t_uchar		byte[4];
-	int			val;
-}				t_color;
 
 typedef enum	e_obj_type
 {
@@ -51,6 +44,7 @@ typedef struct	s_sphere
 {
 	float3		origin;
 	float		radius;
+	float		r2;
 }				t_sphere;
 
 typedef struct	s_plane
@@ -95,10 +89,10 @@ typedef	union	u_primitive
 
 typedef struct	s_object
 {
-	float4		material;
-	float3		color;
 	t_obj_type	type;
 	t_primitive	prim;
+	float4		material;
+	float3		color;
 	uint 		texture;
 }				t_object;
 
@@ -109,6 +103,7 @@ typedef struct	s_camera
 	float3		cx;
 	float3		cy;
 	int2		canvas;
+	float2 		rotate;
 }				t_camera;
 
 # ifdef KERNEL_ONLY
@@ -131,13 +126,14 @@ typedef struct			s_hit
 
 typedef struct			s_surface
 {
-	constant t_object	*obj;
+	global t_object		*obj;
 	t_material			material;
 	float				maxref;
 	float3				pos;
 	float3				n;
 	float3				nl;
 	float3				f;
+	float 				m;
 }						t_surface;
 
 typedef struct			s_ray

@@ -23,7 +23,7 @@ HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
 SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c
-SRCS       += parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c
+SRCS       += parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c camera.c
 SRCS       += cl_wrapper.c init_kernel.c
 
 OBJS        = $(SRCS:.c=.o)

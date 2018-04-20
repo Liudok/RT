@@ -1,5 +1,6 @@
 
-# include "../../include/parser.h"
+#include <OpenCL/opencl.h>
+#include "../../include/parser.h"
 
 static void			get_object_info(json_value *value, t_object *o)
 {
@@ -10,7 +11,6 @@ static void			get_object_info(json_value *value, t_object *o)
 	while (i < value->u.object.length)
 	{
 		n = value->u.object.values[i].name;
-		printf("%s\n",n);
 		get_objects_details(o, n, value->u.object.values[i].value);
 		if (o->type == not_valid)
 			ft_error("Not valid type.");
@@ -18,30 +18,38 @@ static void			get_object_info(json_value *value, t_object *o)
 	}
 }
 
-void				parse_objects(json_value *value, t_sdl *s)
+void				parse_objects(json_value *value, t_scene *s)
 {
 	int				i;
 
-	s->o_amount = value->u.object.length + 1;
-	s->objs = (t_object*)ft_memalloc(sizeof(t_object) * s->o_amount);
-	ft_bzero(s->objs, sizeof(s->objs) * s->o_amount);
+	s->objnum = value->u.object.length + 1;
+	s->objs = (t_object*)ft_memalloc(sizeof(t_object) * s->objnum);
+	ft_bzero(s->objs, sizeof(s->objs) * s->objnum);
 	i = -1;
-	while (++i < (s->o_amount - 1))
+	while (++i < (int)(s->objnum - 1))
 	{
 		if (value->u.array.values[i]->type != json_object)
 			ft_error("Not valid json object.");
 		s->objs[i].type = not_valid;
 		get_object_info(value->u.array.values[i], &s->objs[i]);
-//		if (s->object[i].type == O_TRIANGLE)
-//			create_triangle_norm(&s->object[i]);
-//		else if (s->object[i].type == O_CON)
-//			create_conus(&s->object[i]);
-//		else if (s->object[i].type == O_ELIPSOID)
-//			validate_elipsoid(&s->object[i]);
 	}
 }
 
-static void			parse_value(json_value *value, t_sdl *s)
+void 				print_obj(t_object *o, int n)
+{
+	int i = 0;
+	while (i < n)
+	{
+		printf("type : %u\n", o[i].type);
+		printf("material : { %f %f %f %f}\n", o[i].material.s0, o[i].material.s1, o[i].material.s2, o[i].material.s3);
+		printf("color : { %f %f %f }\n", o[i].color.s0, o[i].color.s1, o[i].color.s2);
+		if (o[i].type == 0)
+			printf("prim origin : { %f %f %f }\n", o[i].prim.sphere.origin.s0, o[i].prim.sphere.origin.s1, o[i].prim.sphere.origin.s2);
+		i++;
+	}
+}
+void 				print_cam(t_camera *o);
+static void			parse_value(json_value *value, t_scene *s)
 {
 	int				length;
 	int				i;
@@ -54,12 +62,15 @@ static void			parse_value(json_value *value, t_sdl *s)
 	{
 		if (!ft_strcmp(value->u.object.values[i].name, "objects"))
 			parse_objects(value->u.object.values[i].value, s);
-//		if (!ft_strcmp(value->u.object.values[i].name, "cameras"))
-//			process_scene_c(value->u.object.values[i].value, s);
+		if (!ft_strcmp(value->u.object.values[i].name, "camera"))
+			parse_camera(value->u.object.values[i].value, s);
 	}
+	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i", s->objnum - 1);
+	print_obj(s->objs, s->objnum - 1);
+	print_cam(&s->camera);
 }
 
-static void			check_json_value(json_value *value, t_sdl *s)
+static void			check_json_value(json_value *value, t_scene *s)
 {
 	if (value == NULL)
 		return ;
@@ -79,7 +90,7 @@ static void			check_json_value(json_value *value, t_sdl *s)
 		ft_error("Unexpected boolean.");
 }
 
- void				start_parsing(char *file_str, t_sdl *s, int size)
+ void				start_parsing(char *file_str, t_scene *s, int size)
  {
 	 json_char		*json;
 	 json_value		*value;

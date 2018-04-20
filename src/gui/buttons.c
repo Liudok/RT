@@ -1,7 +1,7 @@
 
 #include "../../include/panels.h"
 
-void set_icons(t_sdl *s)
+void set_icons(t_rt *s)
 {
 	s->icon = (char **)malloc(sizeof(char *) * BUTTONS_AMOUNT);
 	s->icon[0] = "src/icons/find.png";
@@ -24,7 +24,7 @@ void set_icons(t_sdl *s)
 
 }
 
-void			create_buttons(t_sdl *s)
+void			create_buttons(t_rt *s)
 {
 	int i;
 
@@ -36,16 +36,6 @@ void			create_buttons(t_sdl *s)
 		s->buttons[i].name = i;
 		if (i < 4)
 			s->buttons[i].rect = make_rect((10 + i * 20), 10, BUTTON_SIZE, BUTTON_SIZE);
-		// else if (i < 8)
-		// {
-
-		// 	s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
-		// 	k++;
-		// }
-		// else
-		// {
-		// 	s->buttons[i].rect = make_rect(20, 120, BUTTON_SIZE, BUTTON_SIZE);
-		// }
 		s->buttons[i].txt = load_texture(s->icon[i], s);
 		i++;
 	}
@@ -53,7 +43,7 @@ void			create_buttons(t_sdl *s)
 	// free(icons);
 }
 
-void			create_subbuttons(t_sdl *s)
+void			create_subbuttons(t_rt *s)
 {
 	int i;
 	int k;
@@ -78,12 +68,12 @@ void			create_subbuttons(t_sdl *s)
 	}
 }
 
-void			check_pressing(t_sdl *s, int x, int y)
+void			check_pressing(t_rt *s, int x, int y)
 {
 	int i;
 
 	i = 0;
-	printf("x = %i, y = %i\n",x,y );
+	printf("x = %i, y = %i\n", x, y);
 	while (i < BUTTONS_AMOUNT)
 	{
 		if (within_rect(s->buttons[i].rect, x, y))

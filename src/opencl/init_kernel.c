@@ -6,22 +6,22 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:11:28 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/17 16:11:31 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/20 20:26:59 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "time.h"
 
-int init_kernel(t_sdl *s)
+int init_kernel(t_rt *s)
 {
-	size_t			job_size = s->win_w * s->win_h;
+	size_t			job_size = s->sdl.win_w * s->sdl.win_h;
 //	t_kernel	 	size;
 //	t_scene			scene;
 	cl_int			pixels[job_size];
 
 	bzero(pixels, sizeof(pixels));
-	s->pixels = pixels;
+	s->sdl.pixels = pixels;
 	rt_cl_init(&s->info);
 	rt_cl_compile(&s->info, "kernel.cl");
 
@@ -45,7 +45,7 @@ int init_kernel(t_sdl *s)
 //	rt_cl_push_task(&s->extended, &job_size);
 //	rt_cl_push_task(&s->extended, &job_size);
 //	rt_cl_push_task(&s->extended, &job_size);
-	cl_uint seeds[s->win_w * s->win_h * 2];
+	cl_uint seeds[s->sdl.win_w * s->sdl.win_h * 2];
 	srand(time(0));
 	s->kernel = rt_cl_create_kernel(&s->info, "path_tracing");
 	for (unsigned int i = 0; i < job_size * 2; ++i)
@@ -56,7 +56,7 @@ int init_kernel(t_sdl *s)
 	}
 	s->seeds = rt_cl_malloc_write(&s->info, sizeof(cl_uint) * job_size * 2, seeds);
 	s->colors = rt_cl_malloc_read(&s->info, sizeof(cl_float3) * job_size);
-	s->pixels_mem = rt_cl_malloc_write(&s->info, sizeof(cl_int) * job_size, s->pixels);
+	s->pixels_mem = rt_cl_malloc_write(&s->info, sizeof(cl_int) * job_size, s->sdl.pixels);
 //	s->samples = 0;
 	clSetKernelArg(s->kernel.kernel, 0, sizeof(cl_mem), &s->seeds);
 	clSetKernelArg(s->kernel.kernel, 1, sizeof(cl_mem), &s->colors);

@@ -1,6 +1,6 @@
-#include "../../include/panels.h"
+
 #include "../../include/parser.h"
-# include <sys/stat.h>
+#include <sys/stat.h>
 
 static char		*read_file(const char *filename, int size)
 {
@@ -24,7 +24,7 @@ static char		*read_file(const char *filename, int size)
 	return (file_content);
 }
 
-void				file_choosing(t_sdl *s, int i)
+void				file_choosing(t_rt *s, int i)
 {
 	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
 	struct stat		k;
@@ -33,18 +33,18 @@ void				file_choosing(t_sdl *s, int i)
 
 	if (i == 0)
 	{
-		s->file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
-		printf("file = %s\n",s->file );
-		if (ft_strcmp(".json", (char*)(s->file + ft_strlen(s->file) - 5)))
+		s->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
+		printf("file = %s\n",s->scene.file );
+		if (ft_strcmp(".json", (char*)(s->scene.file + ft_strlen(s->scene.file) - 5)))
 			ft_error("Wrong file format. Please choose file *.json");
-		if ((stat(s->file, &k) != 0) || !(S_ISREG(k.st_mode)))
+		if ((stat(s->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 			ft_error("File not found.");
 		else
 		{
 			size = k.st_size;
 			//delete current scene
-			file_str = read_file(s->file, size);
-			start_parsing(file_str, s, size);
+			file_str = read_file(s->scene.file, size);
+			start_parsing(file_str, &s->scene, size);
 		}
 	}
 }

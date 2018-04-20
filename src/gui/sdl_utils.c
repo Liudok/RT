@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 14:55:53 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/03/28 14:55:56 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/20 20:26:59 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ int			within_rect(SDL_Rect rect, int x, int y)
 	return (0);
 }
 
-SDL_Texture* load_texture(const char *str, t_sdl *s)
+SDL_Texture* load_texture(const char *str, t_rt *s)
 {
 	SDL_Texture* texture;
 
-	texture = IMG_LoadTexture(s->renderer, str);
+	texture = IMG_LoadTexture(s->sdl.renderer, str);
 	if ( texture == NULL )
 	{
 		ft_putstr_fd(str, 2);

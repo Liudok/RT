@@ -16,6 +16,19 @@ float		get_number(json_value *value)
 	return (ret);
 }
 
+int2			get_int2(json_value *value)
+{
+	int2		ret;
+
+	ret = (int2){{0, 0}};
+	if (value == NULL)
+		ft_error("No value for int2.");
+	ret.s0 = (int)get_number(value->u.array.values[0]);
+	ret.s1 = (int)get_number(value->u.array.values[1]);
+//	printf("color: %f\t%f\t%f\n", ret.s0,ret.s1,ret.s2);
+	return (ret);
+}
+
 float3			get_float3(json_value *value)
 {
 	float3		ret;
@@ -26,7 +39,7 @@ float3			get_float3(json_value *value)
 	ret.s0 = get_number(value->u.array.values[0]);
 	ret.s1 = get_number(value->u.array.values[1]);
 	ret.s2 = get_number(value->u.array.values[2]);
-	printf("color: %f\t%f\t%f\n", ret.s0,ret.s1,ret.s2);
+//	printf("color: %f\t%f\t%f\n", ret.s0,ret.s1,ret.s2);
 	return (ret);
 }
 
@@ -41,7 +54,7 @@ float4			get_float4(json_value *value)
 	ret.s1 = get_number(value->u.array.values[1]);
 	ret.s2 = get_number(value->u.array.values[2]);
 	ret.s3 = get_number(value->u.array.values[3]);
-	printf("float4: %f\t%f\t%f\t%f\n", ret.s0,ret.s1,ret.s2,ret.s3);
+//	printf("float4: %f\t%f\t%f\t%f\n", ret.s0,ret.s1,ret.s2,ret.s3);
 	if (ret.s0 > 1 || ret.s0 < 0 || ret.s1 > 1 || ret.s1 < 0 ||
 			ret.s2 > 1 || ret.s2 < 0 || ret.s3 > 1 || ret.s3 < 0)
 		ft_error("The value in material can not be more than 1 or less than 0.");

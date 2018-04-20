@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 12:14:39 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/03/25 12:14:41 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/20 20:35:41 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int			main(void)
 {
-	t_sdl	s;
+	t_rt	s;
 
-	s.win_w = WINDOW_WIDTH;
-	s.win_h = WINDOW_HEIGHT;
+	s.sdl.win_w = WINDOW_WIDTH;
+	s.sdl.win_h = WINDOW_HEIGHT;
+	s.scene.file = NULL;
 	if (!sdl_init_everything(&s))
 	{
 		printf("Failed SDL initialization");

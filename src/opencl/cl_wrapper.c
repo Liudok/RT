@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/03/22 13:43:55 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/20 20:26:59 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,12 @@ void		rt_cl_init(t_cl_info *info)
 				&info->num_platforms));
 	check_error(clGetDeviceIDs(
 				info->platform,
+# ifdef __APPLE__
 				CL_DEVICE_TYPE_GPU,
-		//		CL_DEVICE_TYPE_CPU,
-				1, &info->device_id,
+# else
+				CL_DEVICE_TYPE_CPU,
+# endif
+	1, &info->device_id,
 				&info->num_devices));
 	status = CL_SUCCESS;
 	info->context = clCreateContext(
@@ -209,7 +212,6 @@ cl_int		rt_cl_compile(t_cl_info *info, char *path)
 	char	*seeker;
 
 	status = CL_SUCCESS;
-//	printf("path: %s\n", path);
 	if ((fd = open(path, O_RDONLY)) != -1)
 	{
 		size = read(fd, src, MAX_SOURCE_SIZE);
@@ -221,7 +223,7 @@ cl_int		rt_cl_compile(t_cl_info *info, char *path)
 				&status);
 		check_error(status);
 		status = clBuildProgram(info->program,
-				1, &info->device_id, "-I inc/", NULL, NULL);
+				1, &info->device_id, "-I includes/ -I srcs/opencl/", NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
 			// Determine the size of the log
@@ -235,7 +237,7 @@ cl_int		rt_cl_compile(t_cl_info *info, char *path)
 			clGetProgramBuildInfo(info->program, info->device_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
 
 			// Print the log
-			printf("log: %s\n", log);
+			printf("%s\n", log);
 		}
 
 		close(fd);

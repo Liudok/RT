@@ -6,18 +6,18 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/03/23 12:20:16 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/20 20:28:00 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
 
-int 			load_all_textures(t_sdl *s)
+int 			load_all_textures(t_rt *s)
 {
-	if (!(s->canvas = SDL_CreateTexture(s->renderer,
+	if (!(s->sdl.canvas = SDL_CreateTexture(s->sdl.renderer,
 								SDL_PIXELFORMAT_ARGB8888,
 								SDL_TEXTUREACCESS_STATIC,
-								s->win_w, s->win_h)))
+								s->sdl.win_w, s->sdl.win_h)))
 	{
 		ft_putendl_fd("failed to initiate texture in SDL", 2);
 		return (0);
@@ -28,40 +28,38 @@ int 			load_all_textures(t_sdl *s)
 	return (1);
 }
 
-int 			sdl_init_everything(t_sdl *s)
+int 			sdl_init_everything(t_rt *s)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		ft_putendl_fd("failed to initiate SDL", 2);
 		return (0);
 	}
-	s->win = SDL_CreateWindow("RT",
+	s->sdl.win = SDL_CreateWindow("RT",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		s->win_w, s->win_h, SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
-	if (s->win == NULL)
+		s->sdl.win_w, s->sdl.win_h, SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
+	if (s->sdl.win == NULL)
 	{
 		ft_putendl_fd("failed to initiate WIN in SDL", 2);
 		return (0);
 	}
-	s->renderer = SDL_CreateRenderer(s->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (s->renderer == NULL)
+	s->sdl.renderer = SDL_CreateRenderer(s->sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (s->sdl.renderer == NULL)
 	{
 		ft_putendl_fd("failed to initiate renderer in SDL", 2);
 		return (0);
 	}
 	if (!load_all_textures(s))
 		return (0);
-	SDL_RenderSetLogicalSize(s->renderer, s->win_w, s->win_h);
-	SDL_SetRenderDrawColor(s->renderer, 0, 255, 0, 255);
-	s->file = NULL;
-	s->go = 1;
+	SDL_RenderSetLogicalSize(s->sdl.renderer, s->sdl.win_w, s->sdl.win_h);
+	SDL_SetRenderDrawColor(s->sdl.renderer, 0, 255, 0, 255);
 	create_buttons(s);
 	return (1);
 }
 
 
 
-int 			run_ui(t_sdl *s)
+int 			run_ui(t_rt *s)
 {
 	int running = 1;
 	char flag = 0;
@@ -151,16 +149,14 @@ int 			run_ui(t_sdl *s)
 		// txt = SDL_CreateTextureFromSurface(s->renderer, s->surf);
 		// txt = load_texture("folder.png", s);
 		// SDL_RenderCopy(s->renderer, load_texture("gal.png", s), NULL, NULL);
-		SDL_RenderPresent(s->renderer);
+		SDL_RenderPresent(s->sdl.renderer);
 	}
-	SDL_FreeSurface(s->surf);
+	SDL_FreeSurface(s->sdl.surf);
 	rt_cl_free_kernel(&s->kernel);
-//	rt_cl_free_kernel(&s->primary);
-//	rt_cl_free_kernel(&s->extended);
 	rt_cl_free(&s->info);
-	SDL_DestroyTexture(s->canvas);
-	SDL_DestroyRenderer(s->renderer);
-	SDL_DestroyWindow(s->win);
+	SDL_DestroyTexture(s->sdl.canvas);
+	SDL_DestroyRenderer(s->sdl.renderer);
+	SDL_DestroyWindow(s->sdl.win);
 	SDL_Quit();
 	return (1);
 }

@@ -1,5 +1,5 @@
 
-#include "panels.h"
+#include "../../include/panels.h"
 
 void set_icons(t_sdl *s)
 {
@@ -16,7 +16,11 @@ void set_icons(t_sdl *s)
 	s->icon[9] = "src/icons/stop.png";
 	s->icon[10] = "src/icons/icon.png";
 	s->icon[11] = "src/icons/cubes.png";
-	s->icon[12] = "src/icons/settings.png";
+	s->icon[12] = "src/icons/spotlight.png";
+	s->icon[13] = "src/icons/sun-2.png";
+	s->icon[14] = "src/icons/path.png";
+	s->icon[15] = "src/icons/find_in.png";
+//	s->icon[16] = "src/icons/settings.png";
 
 }
 
@@ -45,7 +49,33 @@ void			create_buttons(t_sdl *s)
 		s->buttons[i].txt = load_texture(s->icon[i], s);
 		i++;
 	}
+	create_subbuttons(s);
 	// free(icons);
+}
+
+void			create_subbuttons(t_sdl *s)
+{
+	int i;
+	int k;
+
+	i = 4;
+	k = 0;
+	while (i < 16)
+	{
+		s->buttons[i].pressed = 0;
+		s->buttons[i].name = i;
+		if (i < 8)
+			s->buttons[i].rect = make_rect((10 + k * 20), 50, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i < 12)
+			s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i < 16)
+			s->buttons[i].rect = make_rect((10 + k * 20), 120, BUTTON_SIZE, BUTTON_SIZE);
+		s->buttons[i].txt = load_texture(s->icon[i], s);
+		i++;
+		k++;
+		if (i >= 8 && k == 4)
+			k = 0;
+	}
 }
 
 void			check_pressing(t_sdl *s, int x, int y)

@@ -209,6 +209,7 @@ cl_int		rt_cl_compile(t_cl_info *info, char *path)
 	char	*seeker;
 
 	status = CL_SUCCESS;
+//	printf("path: %s\n", path);
 	if ((fd = open(path, O_RDONLY)) != -1)
 	{
 		size = read(fd, src, MAX_SOURCE_SIZE);
@@ -234,7 +235,7 @@ cl_int		rt_cl_compile(t_cl_info *info, char *path)
 			clGetProgramBuildInfo(info->program, info->device_id, CL_PROGRAM_BUILD_LOG, log_size, log, NULL);
 
 			// Print the log
-			printf("%s\n", log);
+			printf("log: %s\n", log);
 		}
 
 		close(fd);

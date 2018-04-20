@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../include/rt.h"
 
 int			main(void)
 {
@@ -25,7 +25,7 @@ int			main(void)
 	}
 	if (!run_ui(&s))
 	{
-		printf("Runnning failure");
+		printf("Running failure");
 		return (1);
 	}
 	return (0);

@@ -10,44 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "panels.h"
-
-void			create_subbuttons(t_sdl *s)
-{
-	int i;
-	int k;
-
-	i = 4;
-	k = 0;
-	while (i < 12)
-	{
-		s->buttons[i].pressed = 0;
-		s->buttons[i].name = i;
-		if (i < 8)
-			s->buttons[i].rect = make_rect((10 + k * 20), 50, BUTTON_SIZE, BUTTON_SIZE);
-		else if (i < 12)
-			s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
-		s->buttons[i].txt = load_texture(s->icon[i], s);
-		i++;
-		k++;
-		if (i >= 8 && k == 4)
-			k = 0;
-	}
-}
-
+#include "../../include/panels.h"
 
 void				show_new_scene_panel(t_sdl *s)
 {
 	SDL_Texture* bg;
 	SDL_Rect backgroundPos;
 
-	bg = load_texture("src/img/dark_pixel.png", s);
-	backgroundPos.y = 82;
+//	bg = load_texture("src/img/dark_pixel.png", s);
+	bg = s->textures[1];
+	backgroundPos.y = 74;
 	backgroundPos.w = 190;
 	backgroundPos.h = 140;
 	backgroundPos.x = 0;
 	SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
-	backgroundPos.y = 252;
+	backgroundPos.y = 218;
 	backgroundPos.w = 190;
 	backgroundPos.h = 80;
 	backgroundPos.x = 0;
@@ -60,7 +37,15 @@ void		create_new_scene(t_sdl *s)
 {
 
 	show_new_scene_panel(s);
-	create_subbuttons(s);
-	render_subbuttons(s);
+//	create_subbuttons(s);
+//	render_subbuttons(s);
+	int				i;
+	i = 4;
+
+	while (i < 16)
+	{
+		SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+		i++;
+	}
 
 }

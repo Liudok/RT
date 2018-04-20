@@ -23,8 +23,8 @@ HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
 SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c
-SRCS       += parsing.c parser_utils.c create.c tinyfiledialogs.c
-SRCS       += cl_wrapper.c
+SRCS       += parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c
+SRCS       += cl_wrapper.c init_kernel.c
 
 OBJS        = $(SRCS:.c=.o)
 
@@ -40,6 +40,7 @@ INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
 LIBRARIES   = -lm -lpthread -framework OpenGL -framework OpenCL
 LIBRARIES  += ./libft/libft.a -framework AppKit
+LIBRARIES  += ./libJSON/libJSON.a
 LIBRARIES  += ./frameworks/SDL2_image.framework/Versions/Current/SDL2_image
 LIBRARIES  += ./frameworks/SDL2.framework/SDL2
 # endif

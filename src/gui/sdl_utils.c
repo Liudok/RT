@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "panels.h"
+#include "../../include/panels.h"
 
 // void	texture_from_text(char *text, t_sdl *sdl, t_ui_bg *p)
 // {

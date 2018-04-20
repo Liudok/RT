@@ -10,7 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "panels.h"
+#include "../../include/panels.h"
+
+int 			load_all_textures(t_sdl *s)
+{
+	if (!(s->canvas = SDL_CreateTexture(s->renderer,
+								SDL_PIXELFORMAT_ARGB8888,
+								SDL_TEXTUREACCESS_STATIC,
+								s->win_w, s->win_h)))
+	{
+		ft_putendl_fd("failed to initiate texture in SDL", 2);
+		return (0);
+	}
+	s->textures[0] = load_texture("src/img/dark_pixel2.png", s);
+	s->textures[1] = load_texture("src/img/dark_pixel.png", s);
+	s->textures[2] = load_texture("src/img/rama.png", s);
+	return (1);
+}
 
 int 			sdl_init_everything(t_sdl *s)
 {
@@ -33,14 +49,8 @@ int 			sdl_init_everything(t_sdl *s)
 		ft_putendl_fd("failed to initiate renderer in SDL", 2);
 		return (0);
 	}
-	if (!(s->texture = SDL_CreateTexture(s->renderer,
-								SDL_PIXELFORMAT_ARGB8888,
-								SDL_TEXTUREACCESS_STATIC,
-								s->win_w, s->win_h)))
-	{
-		ft_putendl_fd("failed to initiate texture in SDL", 2);
+	if (!load_all_textures(s))
 		return (0);
-	}
 	SDL_RenderSetLogicalSize(s->renderer, s->win_w, s->win_h);
 	SDL_SetRenderDrawColor(s->renderer, 0, 255, 0, 255);
 	s->file = NULL;
@@ -55,8 +65,13 @@ int 			run_ui(t_sdl *s)
 {
 	int running = 1;
 	char flag = 0;
-	// char const * lFilterPatterns[2] = { "*.bmp", "*.png" };
 
+//	size_t			job_size = s->win_w * s->win_h;
+
+	printf("initioated succesfully");
+//	init_kernel(s);
+
+//
 	while (running)
 	{
 		SDL_Event evt;
@@ -75,12 +90,25 @@ int 			run_ui(t_sdl *s)
 			}
 			else if (evt.type == SDL_MOUSEBUTTONDOWN)
 			{
-				// printf("x = %i, y = %i\n",x,y );
 				check_pressing(s, evt.button.x, evt.button.y);
 				render_buttons(s);
 			}
 		}
+
+//		for (int i = 0; i < 2; i++)
+//			rt_cl_push_task(&s->extended, &job_size);
+//		rt_cl_push_task(&s->smooth, &job_size);
+// 		rt_cl_device_to_host(&s->info, s->out, pixels, job_size * sizeof(int));
+
+//		clSetKernelArg(s->kernel.kernel, 3, sizeof(cl_uint), &s->samples);
+//		rt_cl_push_task(&s->kernel, &job_size);
+//
+//		rt_cl_device_to_host(&s->info, s->pixels_mem, s->pixels, job_size * sizeof(int));
+//
+//		rt_cl_join(&s->info);
+
 		set_bg(s);
+//		SDL_RenderPresent(s->renderer);
 		// if (s->file != NULL && s->go)
 		// {
 		// 	s->go = 0;
@@ -124,9 +152,13 @@ int 			run_ui(t_sdl *s)
 		// txt = load_texture("folder.png", s);
 		// SDL_RenderCopy(s->renderer, load_texture("gal.png", s), NULL, NULL);
 		SDL_RenderPresent(s->renderer);
-		// SDL_FreeSurface(s->surf);
-		// SDL_DestroyTexture(txt);
 	}
+	SDL_FreeSurface(s->surf);
+	rt_cl_free_kernel(&s->kernel);
+//	rt_cl_free_kernel(&s->primary);
+//	rt_cl_free_kernel(&s->extended);
+	rt_cl_free(&s->info);
+	SDL_DestroyTexture(s->canvas);
 	SDL_DestroyRenderer(s->renderer);
 	SDL_DestroyWindow(s->win);
 	SDL_Quit();

@@ -1,35 +1,68 @@
 
+# include "../../libJSON/include/json.h"
+#include "../../include/rt.h"
 
-#include "rt.h"
-
-char get_fig_type(char *s)
+float		get_number(json_value *value)
 {
-	if (!ft_strncmp("Sphere", s, 6))
-		return (1);
-	else if (!ft_strncmp("Plane", s, 5))
-		return (2);
-	else if (!ft_strncmp("Cylinder", s, 8))
-		return (3);
-	else if (!ft_strncmp("Cone", s, 4))
-		return (4);
-	else if (!ft_strncmp("Light", s, 5))
-		return (0);
+	float ret;
+
+	ret = 0;
+	if (value->type == json_integer)
+		ret = (float)value->u.integer;
+	else if (value->type == json_double)
+		ret = (float)value->u.dbl;
 	else
-		ft_error(MES5);
-	return (127);
+		ft_error("Not a number format where expected.");
+	return (ret);
 }
 
-// union u_color get_fig_col(char *s)
-// {
-// 	union u_color   col;
-// 	if (ft_strlen(s) < 7)
-// 		ft_error(MES2);
-// 	col.channels[0] = (ft_atoi(s) <= 255) ? ft_atoi(s) : 255;
-// 	col.channels[1] = ft_atoi(s = ft_strchr(s,',') + 1);
-// 	col.channels[2] = ft_atoi(s = ft_strchr(s,',') + 1);
-// 	col.channels[3] = ft_atoi(ft_strchr(s,',') + 1);
-// 	return (col);
-// }
+float3			get_float3(json_value *value)
+{
+	float3		ret;
+
+	ret = (float3){{0, 0, 0}};
+	if (value == NULL)
+		ft_error("No value for float3.");
+	ret.s0 = get_number(value->u.array.values[0]);
+	ret.s1 = get_number(value->u.array.values[1]);
+	ret.s2 = get_number(value->u.array.values[2]);
+	printf("color: %f\t%f\t%f\n", ret.s0,ret.s1,ret.s2);
+	return (ret);
+}
+
+float4			get_float4(json_value *value)
+{
+	float4		ret;
+
+	ret = (float4){{0, 0, 0, 0}};
+	if (value == NULL)
+		ft_error("No value for float4.");
+	ret.s0 = get_number(value->u.array.values[0]);
+	ret.s1 = get_number(value->u.array.values[1]);
+	ret.s2 = get_number(value->u.array.values[2]);
+	ret.s3 = get_number(value->u.array.values[3]);
+	printf("float4: %f\t%f\t%f\t%f\n", ret.s0,ret.s1,ret.s2,ret.s3);
+	if (ret.s0 > 1 || ret.s0 < 0 || ret.s1 > 1 || ret.s1 < 0 ||
+			ret.s2 > 1 || ret.s2 < 0 || ret.s3 > 1 || ret.s3 < 0)
+		ft_error("The value in material can not be more than 1 or less than 0.");
+	return (ret);
+}
+
+t_obj_type		get_type(json_value *value)
+{
+	if (value->type != json_string)
+		ft_error("Not valid json type.");
+	if (!ft_strncmp(value->u.string.ptr, "plane", 5))
+		return (plane);
+	else if (!ft_strncmp(value->u.string.ptr, "sphere", 6))
+		return (sphere);
+	else if (!ft_strncmp(value->u.string.ptr, "cylinder", 8))
+		return (cylinder);
+	else if (!ft_strncmp(value->u.string.ptr, "cone", 4))
+		return (cone);
+	ft_error("Not valid object type.");
+	return (not_valid);
+}
 
 // double ft_atof(const char* s)
 // {

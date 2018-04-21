@@ -1,5 +1,5 @@
 
-#include "kernel.h"
+#include "include/kernel.h"
 
 static float  sphere_intersect(global t_sphere *obj, t_ray ray)
 {

@@ -1,10 +1,10 @@
 
 #define KERNEL_ONLY
 
-#include "kernel.h"
-#include "utils.cl"
-#include "intersect.cl"
-#include "surface.cl"
+#include "include/kernel.h"
+#include "src/opencl/utils.cl"
+#include "src/opencl/intersect.cl"
+#include "src/opencl/surface.cl"
 
 static float3   radiance(global t_object *objs, uint objnum, t_ray r, uint *seeds)
 {

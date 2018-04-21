@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/20 20:28:00 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:20:47 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,18 @@ void			set_panel(t_rt *s)
 
 void			set_bg(t_rt *s)
 {
-	SDL_Texture* bg;
-	SDL_Rect backgroundPos;
-
-	bg = s->textures[0];
-	backgroundPos.x = 0;
-	backgroundPos.y = 0;
-	backgroundPos.w = WINDOW_WIDTH;
-	backgroundPos.h = WINDOW_HEIGHT;
+//	SDL_Texture* bg;
+//	SDL_Rect backgroundPos;
+//
+//	bg = s->textures[0];
+//	backgroundPos.x = 0;
+//	backgroundPos.y = 0;
+//	backgroundPos.w = WINDOW_WIDTH;
+//	backgroundPos.h = WINDOW_HEIGHT;
+//	SDL_RenderClear(s->sdl.renderer);
+//	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
+	SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);
 	SDL_RenderClear(s->sdl.renderer);
-	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
-//	SDL_UpdateTexture(s->canvas, NULL, s->pixels, s->win_w << 2);
-//	SDL_RenderCopy(s->renderer, s->canvas, NULL, NULL);
+	SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);
 	set_panel(s);
 }

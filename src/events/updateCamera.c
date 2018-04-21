@@ -6,13 +6,13 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 18:25:48 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 18:25:52 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:26:26 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pt.h"
+#include "rt.h"
 
-void	updateCamera(t_pt *pt)
+void	updateCamera(t_rt *pt)
 {
 	t_camera	*c;
 

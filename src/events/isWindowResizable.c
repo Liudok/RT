@@ -6,11 +6,11 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:38:27 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 15:38:28 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:26:26 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pt.h"
+#include "rt.h"
 
 int	isWindowResizable(SDL_Event e)
 {

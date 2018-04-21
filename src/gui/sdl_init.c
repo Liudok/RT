@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/20 20:28:00 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:17:44 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,14 @@ int 			run_ui(t_rt *s)
 	int running = 1;
 	char flag = 0;
 
-//	size_t			job_size = s->win_w * s->win_h;
-
+	size_t			job_size = s->sdl.win_w * s->sdl.win_h;
+	s->scene.camera.canvas = (int2){{s->sdl.win_w, s->sdl.win_h}};
+//	s->camera.dir = (float3){{0, 0, 1}};
+	s->scene.camera.cx = (float3){{s->scene.camera.canvas.x * .5135 / (float)s->scene.camera.canvas.y, 0, 0}};
+	s->scene.camera.cy = vmul(normalize(cross(s->scene.camera.cx, s->scene.camera.dir)), .5135);
 	printf("initioated succesfully");
 //	init_kernel(s);
-
+	init_opencl(s);
 //
 	while (running)
 	{
@@ -98,14 +101,14 @@ int 			run_ui(t_rt *s)
 //		rt_cl_push_task(&s->smooth, &job_size);
 // 		rt_cl_device_to_host(&s->info, s->out, pixels, job_size * sizeof(int));
 
-//		clSetKernelArg(s->kernel.kernel, 3, sizeof(cl_uint), &s->samples);
-//		rt_cl_push_task(&s->kernel, &job_size);
-//
-//		rt_cl_device_to_host(&s->info, s->pixels_mem, s->pixels, job_size * sizeof(int));
+		clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
+		rt_cl_push_task(&s->kernel, &job_size);
+		rt_cl_device_to_host(&s->info, s->pixels_mem, s->sdl.pixels, job_size * sizeof(int));
 //
 //		rt_cl_join(&s->info);
 
 		set_bg(s);
+		s->samples++;
 //		SDL_RenderPresent(s->renderer);
 		// if (s->file != NULL && s->go)
 		// {

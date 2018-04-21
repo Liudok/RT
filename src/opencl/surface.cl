@@ -1,5 +1,5 @@
 
-#include "kernel.h"
+#include "include/kernel.h"
 
 static float3	sphere_normal(global t_sphere *obj, float3 pos)
 {

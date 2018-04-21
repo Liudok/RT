@@ -89,6 +89,7 @@ typedef struct		s_rt
 
 void			ft_error(char *s);
 int 			sdl_init_everything(t_rt *s);
+void	init_default_scene(t_rt *rt);
 SDL_Rect		make_rect(int x, int y, int h, int w);
 int				within_rect(SDL_Rect rect, int x, int y);
 int 			run_ui(t_rt *s);

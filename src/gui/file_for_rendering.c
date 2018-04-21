@@ -2,6 +2,12 @@
 #include "../../include/parser.h"
 #include <sys/stat.h>
 
+void 			delete_old_scene(t_rt *s)
+{
+//	free(&s->scene.objs);
+	printf("old file was = %s\n", s->scene.file);
+}
+
 static char		*read_file(const char *filename, int size)
 {
 	int			fd;
@@ -29,7 +35,7 @@ void				file_choosing(t_rt *s, int i)
 	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
 	struct stat		k;
 	char			*file_str;
-	int 			size;
+	uint			size;
 
 	if (i == 0)
 	{
@@ -42,9 +48,23 @@ void				file_choosing(t_rt *s, int i)
 		else
 		{
 			size = k.st_size;
-			//delete current scene
+			delete_old_scene(s);
 			file_str = read_file(s->scene.file, size);
 			start_parsing(file_str, &s->scene, size);
 		}
 	}
+}
+
+void	init_default_scene(t_rt *rt)
+{
+	struct stat		k;
+	char			*file_str;
+	uint 			size;
+
+	rt->scene.file = "/Users/liudmila/c/0rt_20/scenes/default.json";
+	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
+		ft_error("File not found.");
+	size = k.st_size;
+	file_str = read_file(rt->scene.file, size);
+	start_parsing(file_str, &rt->scene, size);
 }

@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 14:55:53 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/20 20:26:59 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:26:57 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@
 // 	TTF_CloseFont(font);
 // 	TTF_Quit();
 // }
+
+void	create_texture(t_rt *pt, int w, int h)
+{
+	pt->sdl.canvas = SDL_CreateTexture(
+			pt->sdl.renderer,
+			SDL_PIXELFORMAT_ARGB8888,
+			SDL_TEXTUREACCESS_TARGET,
+			w,
+			h);
+//	pt_check_error(!pt->sdl.canvas, SDL_ERROR, (char*)SDL_GetError());
+}
 
 SDL_Rect	make_rect(int x, int y, int h, int w)
 {

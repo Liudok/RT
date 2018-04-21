@@ -6,13 +6,13 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 18:13:23 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 18:13:24 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:26:26 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pt.h"
+#include "rt.h"
 
-void	offEvent(t_pt *pt, SDL_Event *e)
+void	offEvent(t_rt *pt, SDL_Event *e)
 {
 	if (e->key.keysym.sym == SDLK_w)
 		pt->event.w = 0;

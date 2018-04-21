@@ -6,7 +6,7 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/03/19 12:28:39 by ftymchyn         ###   ########.fr        #
+#    Updated: 2018/04/21 12:16:17 by lberezyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,15 @@ SRCS_DIR    = ./src
 OBJS_DIR    = ./obj
 HEADERS_DIR = ./include
 
-HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h
+HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h parser.h kernel.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
 SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c
 SRCS       += parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c camera.c
-SRCS       += cl_wrapper.c init_kernel.c
+SRCS       += cross.c dot.c normalize.c vadd.c vlen.c vmul.c vrotate.c vsub.c createRotationMatrix.c
+SRCS       += cl_wrapper.c init_kernel.c init_opencl.c
+SRCS       += handlingWindowResizable.c isCameraEvent.c isQuit.c isWindowResizable.c
+SRCS       += offEvent.c onEvent.c rotateCamera.c updateCamera.c
 
 OBJS        = $(SRCS:.c=.o)
 
@@ -48,8 +51,8 @@ LIBRARIES  += ./frameworks/SDL2.framework/SDL2
 
 TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES)
 
-VPATH       = $(SRCS_DIR) $(OBJS_DIR) $(SRCS_DIR)/opencl
-VPATH      += $(SRCS_DIR)/gui $(SRCS_DIR)/parsing $(SRCS_DIR)/icons
+VPATH       = $(SRCS_DIR) $(OBJS_DIR) $(SRCS_DIR)/opencl $(SRCS_DIR)/scene $(SRCS_DIR)/math
+VPATH      += $(SRCS_DIR)/gui $(SRCS_DIR)/parsing $(SRCS_DIR)/icons $(SRCS_DIR)/events
 
 all         : $(NAME)
 

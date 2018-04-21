@@ -97,6 +97,7 @@ static void			check_json_value(json_value *value, t_scene *s)
 
 	 json = (json_char*)file_str;
 	 value = json_parse(json, size);
+//	 printf("file_str = %s\n",file_str );
 	 if (value == NULL)
 	 {
 		 free(file_str);

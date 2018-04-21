@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 12:14:39 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/20 20:35:41 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 11:28:25 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int			main(void)
 		printf("Failed SDL initialization");
 		return (1);
 	}
+	init_default_scene(&s);
 	if (!run_ui(&s))
 	{
 		printf("Running failure");

@@ -1,5 +1,5 @@
 
-#include "kernel.h"
+#include "include/kernel.h"
 
 static float get_random(unsigned int *seed0, unsigned int *seed1) {
 

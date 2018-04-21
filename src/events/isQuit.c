@@ -6,11 +6,11 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 15:37:10 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 15:37:11 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:26:26 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pt.h"
+#include "rt.h"
 
 int	isQuit(SDL_Event e)
 {

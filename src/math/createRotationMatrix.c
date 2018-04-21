@@ -6,13 +6,13 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:03:35 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 19:03:37 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 11:42:58 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pt.h"
+#include "rt.h"
 
-void	createRotationMatrix(t_pt *pt, float3 *m)
+void	createRotationMatrix(t_rt *pt, float3 *m)
 {
 	float3	tmp[3];
 	int			i;

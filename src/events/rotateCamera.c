@@ -6,13 +6,13 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:16:09 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 19:16:11 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 12:26:26 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pt.h"
+#include "rt.h"
 
-void	rotateCamera(t_pt *pt)
+void	rotateCamera(t_rt *pt)
 {
 	t_camera	*c;
 	float3 		matrix[3];

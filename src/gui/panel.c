@@ -117,7 +117,7 @@ void			set_bg(t_rt *s)
 //	SDL_RenderClear(s->sdl.renderer);
 //	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
 	SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);
-	SDL_RenderClear(s->sdl.renderer);
+//	SDL_RenderClear(s->sdl.renderer);
 	SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);
 	set_panel(s);
 }

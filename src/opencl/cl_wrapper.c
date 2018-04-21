@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/20 20:26:59 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 23:00:38 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include "libft.h"
 
 const char *get_error_string(cl_int error)
 {
@@ -90,11 +91,12 @@ void		check_error(cl_int status)
 {
 	if (status != CL_SUCCESS)
 	{
-		printf("CL_ERROR %s\n", get_error_string(status));
+		ft_putendl_fd("CL_ERROR:", 2);
+		ft_putendl_fd(get_error_string(status), 2);
 		exit(0);
 	}
-
 }
+
 void		rt_cl_init(t_cl_info *info)
 {
 	cl_int		status;
@@ -223,7 +225,7 @@ cl_int		rt_cl_compile(t_cl_info *info, char *path)
 				&status);
 		check_error(status);
 		status = clBuildProgram(info->program,
-				1, &info->device_id, "-I includes/ -I srcs/opencl/", NULL, NULL);
+				1, &info->device_id, "-I includes/ -I src/opencl/", NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
 			// Determine the size of the log

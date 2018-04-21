@@ -51,6 +51,7 @@ void				file_choosing(t_rt *s, int i)
 			delete_old_scene(s);
 			file_str = read_file(s->scene.file, size);
 			start_parsing(file_str, &s->scene, size);
+//			updateCamera(s);
 		}
 	}
 }
@@ -61,10 +62,11 @@ void	init_default_scene(t_rt *rt)
 	char			*file_str;
 	uint 			size;
 
-	rt->scene.file = "/Users/liudmila/c/0rt_20/scenes/default.json";
+	rt->scene.file = "/Users/liudmila/c/0rt_20/scenes/base2.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 		ft_error("File not found.");
 	size = k.st_size;
 	file_str = read_file(rt->scene.file, size);
 	start_parsing(file_str, &rt->scene, size);
+//	updateCamera(rt);
 }

@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/21 12:17:44 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/21 23:12:11 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int 			sdl_init_everything(t_rt *s)
 	}
 	s->sdl.win = SDL_CreateWindow("RT",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		s->sdl.win_w, s->sdl.win_h, SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN|SDL_WINDOW_ALLOW_HIGHDPI);
+		s->sdl.win_w, s->sdl.win_h, SDL_WINDOW_RESIZABLE);
 	if (s->sdl.win == NULL)
 	{
 		ft_putendl_fd("failed to initiate WIN in SDL", 2);
@@ -53,26 +53,39 @@ int 			sdl_init_everything(t_rt *s)
 		return (0);
 	SDL_RenderSetLogicalSize(s->sdl.renderer, s->sdl.win_w, s->sdl.win_h);
 	SDL_SetRenderDrawColor(s->sdl.renderer, 0, 255, 0, 255);
+	s->sdl.pixels = (int*)malloc(sizeof(int) * (s->sdl.win_w * s->sdl.win_h));
 	create_buttons(s);
 	return (1);
 }
 
+void 				print_cam(t_camera *o);
+void 				print_obj(t_object *o, int n);
 
+//static int	pull_event(SDL_Event *e)
+//{
+//	while (SDL_PollEvent(e))
+//	{
+//		if (e->type == SDL_QUIT ||
+//			(e->type == SDL_WINDOWEVENT && e->window.event == SDL_WINDOWEVENT_RESIZED) ||
+//			(e->type == SDL_KEYDOWN && !e->key.repeat) ||
+//			(e->type == SDL_KEYUP && !e->key.repeat))
+//			return (TRUE);
+//	}
+//	return (FALSE);
+//}
 
 int 			run_ui(t_rt *s)
 {
 	int running = 1;
-	char flag = 0;
 
-	size_t			job_size = s->sdl.win_w * s->sdl.win_h;
 	s->scene.camera.canvas = (int2){{s->sdl.win_w, s->sdl.win_h}};
-//	s->camera.dir = (float3){{0, 0, 1}};
-	s->scene.camera.cx = (float3){{s->scene.camera.canvas.x * .5135 / (float)s->scene.camera.canvas.y, 0, 0}};
+	s->scene.camera.cx = (float3){{s->scene.camera.canvas.x * .5135f / (float)s->scene.camera.canvas.y, 0, 0}};
 	s->scene.camera.cy = vmul(normalize(cross(s->scene.camera.cx, s->scene.camera.dir)), .5135);
-	printf("initioated succesfully");
-//	init_kernel(s);
+
 	init_opencl(s);
-//
+	printf("initiated succesfully\n");
+	print_cam(&s->scene.camera);
+	print_obj(s->scene.objs, s->scene.objnum);
 	while (running)
 	{
 		SDL_Event evt;
@@ -80,78 +93,36 @@ int 			run_ui(t_rt *s)
 		{
 			if (evt.type == SDL_QUIT || (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE))
 				running = 0;
-			else if (evt.type == SDL_KEYDOWN )
-			{
-				if (evt.key.keysym.sym == SDLK_UP)
-					flag = 1;
-				else if (evt.key.keysym.sym == SDLK_DOWN)
-					flag = 2;
-				else if (evt.key.keysym.sym == SDLK_LEFT)
-					flag = 3;
-			}
+			else if (isWindowResizable(evt))
+				handlingWindowResizable(s, evt);
+			else if (evt.type == SDL_KEYDOWN)
+				onEvent(s, &evt);
+			else if (evt.type == SDL_KEYUP)
+				offEvent(s, &evt);
 			else if (evt.type == SDL_MOUSEBUTTONDOWN)
 			{
 				check_pressing(s, evt.button.x, evt.button.y);
 				render_buttons(s);
 			}
+			if (isCameraEvent(s))
+				updateCamera(s);
 		}
-
-//		for (int i = 0; i < 2; i++)
-//			rt_cl_push_task(&s->extended, &job_size);
-//		rt_cl_push_task(&s->smooth, &job_size);
-// 		rt_cl_device_to_host(&s->info, s->out, pixels, job_size * sizeof(int));
-
 		clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
-		rt_cl_push_task(&s->kernel, &job_size);
-		rt_cl_device_to_host(&s->info, s->pixels_mem, s->sdl.pixels, job_size * sizeof(int));
-//
+		rt_cl_push_task(&s->kernel, &s->job_size);
+		rt_cl_device_to_host(&s->info, s->pixels_mem, s->sdl.pixels, s->job_size * sizeof(int));
+//		for(int i = 80000; i < 80010; i++ )
+//			printf("%i \t", s->sdl.pixels[i]);
+		fprintf(stderr, " pixel -> %d\r", s->sdl.pixels[80000]);
+		SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);
+		SDL_RenderClear(s->sdl.renderer);
+		SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);
+//		fprintf(stderr, " samples per pixel -> %d\r", s->samples);
+
+		set_panel(s);
 //		rt_cl_join(&s->info);
 
-		set_bg(s);
+//		set_bg(s);
 		s->samples++;
-//		SDL_RenderPresent(s->renderer);
-		// if (s->file != NULL && s->go)
-		// {
-		// 	s->go = 0;
-		// 	// start_parsing(s);
-		// }
-		// if (flag == 1)
-		// {
-		// 	s->surf = SDL_LoadBMP(tinyfd_openFileDialog("Please choose .bmp file", "", 2, lFilterPatterns, NULL, 0));
-		// 	txt = SDL_CreateTextureFromSurface(s->renderer, s->surf);
-		// 	SDL_FreeSurface(s->surf);
-		// 	SDL_RenderCopy(s->renderer, txt, NULL, NULL);
-		// 	SDL_RenderPresent(s->renderer);
-  //     			// SDL_Delay(2000);
-		// }
-		// else if (flag == 2)
-		// {
-		// 	// s->surf = SDL_LoadBMP("tigr.bmp");
-		// 	// BlueShapes = SDL_CreateTextureFromSurface(s.renderer, s->surf);
-		// 	// SDL_FreeSurface(s->surf);
-		// 	// SDL_RenderCopy(s.renderer, BlueShapes, &SrcR, &DestR);
-		// 	// SDL_RenderPresent(s.renderer);
-		// }
-		// if (flag == 3)
-		// {
-		// 	// SDL_Surface* screenSurface = NULL;
-		// 	// s->surf = IMG_Load(tinyfd_openFileDialog("Please choose .bmp file", "", 2, lFilterPatterns, NULL, 0));
-		// 	// SDL_Texture* BlueShapes = SDL_CreateTextureFromSurface(s->renderer, s->surf);
-		// 	// SDL_FreeSurface(s->surf);
-		// 	// SDL_RenderCopy(s->renderer, load_texture(icons[i], s), NULL, NULL);
-		// 	// SDL_RenderPresent(s.renderer);
-		// }
-		// flag = 0;
-		// SDL_RenderClear(s->renderer);
-		// s->surf = SDL_CreateRGBSurfaceFrom((void*)s->data,
-		// 	a->scene->image_width, a->scene->image_height, 32,
-		// 	a->scene->image_width * 4, 0, 0, 0, 0);
-		// s->surf = SDL_LoadBMP("tigr.bmp");
-		// set_panels(s->renderer, s->surf);
-		// s->surf = SDL_CreateRGBSurface(0, 400, 800, 32, 48, 214, 250, 0);
-		// txt = SDL_CreateTextureFromSurface(s->renderer, s->surf);
-		// txt = load_texture("folder.png", s);
-		// SDL_RenderCopy(s->renderer, load_texture("gal.png", s), NULL, NULL);
 		SDL_RenderPresent(s->sdl.renderer);
 	}
 	SDL_FreeSurface(s->sdl.surf);

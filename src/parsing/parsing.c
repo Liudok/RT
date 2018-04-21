@@ -22,11 +22,11 @@ void				parse_objects(json_value *value, t_scene *s)
 {
 	int				i;
 
-	s->objnum = value->u.object.length + 1;
+	s->objnum = value->u.object.length;
 	s->objs = (t_object*)ft_memalloc(sizeof(t_object) * s->objnum);
 	ft_bzero(s->objs, sizeof(s->objs) * s->objnum);
 	i = -1;
-	while (++i < (int)(s->objnum - 1))
+	while (++i < (int)(s->objnum))
 	{
 		if (value->u.array.values[i]->type != json_object)
 			ft_error("Not valid json object.");
@@ -40,11 +40,14 @@ void 				print_obj(t_object *o, int n)
 	int i = 0;
 	while (i < n)
 	{
-		printf("type : %u\n", o[i].type);
+		printf("=========== type : %u =============\n", o[i].type);
 		printf("material : { %f %f %f %f}\n", o[i].material.s0, o[i].material.s1, o[i].material.s2, o[i].material.s3);
 		printf("color : { %f %f %f }\n", o[i].color.s0, o[i].color.s1, o[i].color.s2);
 		if (o[i].type == 0)
+		{
 			printf("prim origin : { %f %f %f }\n", o[i].prim.sphere.origin.s0, o[i].prim.sphere.origin.s1, o[i].prim.sphere.origin.s2);
+			printf("radius = %f\n", o[i].prim.sphere.radius);
+		}
 		i++;
 	}
 }
@@ -65,9 +68,9 @@ static void			parse_value(json_value *value, t_scene *s)
 		if (!ft_strcmp(value->u.object.values[i].name, "camera"))
 			parse_camera(value->u.object.values[i].value, s);
 	}
-	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i", s->objnum - 1);
-	print_obj(s->objs, s->objnum - 1);
-	print_cam(&s->camera);
+	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i\n", s->objnum);
+//	print_obj(s->objs, s->objnum);
+//	print_cam(&s->camera);
 }
 
 static void			check_json_value(json_value *value, t_scene *s)

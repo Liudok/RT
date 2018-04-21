@@ -67,7 +67,7 @@ void    path_tracing( global t_object  *objs,
                       t_camera         camera,
                       global uint      *inputSeeds,
                       global float3    *colors,
-                      global int       *pixels,
+                      global int       *pixels_mem,
                       uint             currentSample)
 {
     int      i = get_global_id(0);
@@ -90,7 +90,7 @@ void    path_tracing( global t_object  *objs,
         }
     }
     addSample(colors, &rad, currentSample, i);
-    putPixel(pixels, colors, i);
+    putPixel(pixels_mem, colors, i);
 
     inputSeeds[i * 2] = seeds[0];
     inputSeeds[i * 2 + 1] = seeds[1];

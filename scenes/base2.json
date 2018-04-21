@@ -1,0 +1,26 @@
+{
+	"objects": [{
+			"type": "sphere",
+			"material": [0.7, 0.7, 0.7, 1],
+			"color": [0.8 ,0.1, 0.1],
+			"origin": [0, 2, 0],
+			"radius": 0.6,
+			"texture": 0
+		},
+		{
+			"type": "sphere",
+			"material": [0.0, 0.0, 0.0, 1],
+			"color": [0.8 ,0.1, 0.1],
+			"origin": [0, 10, -4],
+			"radius": 3.6,
+			"texture": 0
+		}
+	],
+	"camera": [{
+		"origin": [0, 0, -5],
+		"dir": [0, 0, 1],
+		"cx": [0, 0, 0],
+		"cy": [0, 0, 0],
+		"canvas": [500, 500],
+	}]
+}

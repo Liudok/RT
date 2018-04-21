@@ -21,8 +21,8 @@
 # define SDL_ERROR "./rt: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 3840
-# define MAX_HEIGHT 2160
+# define MAX_WIDTH 500
+# define MAX_HEIGHT 500
 # define BUTTONS_AMOUNT 16
 
 typedef struct		s_event

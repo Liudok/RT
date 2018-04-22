@@ -6,13 +6,12 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/21 12:16:17 by lberezyn         ###   ########.fr        #
+#    Updated: 2018/04/22 11:19:41 by lberezyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = demo
-OS          = $(shell uname)
-CC          = clang
+CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror -O3
 
 SRCS_DIR    = ./src
@@ -31,23 +30,16 @@ SRCS       += offEvent.c onEvent.c rotateCamera.c updateCamera.c
 
 OBJS        = $(SRCS:.c=.o)
 
-# ifneq ($(OS), Linux)
-# INCLUDES    = -I ./include
-# INCLUDES   += -I /Library/Frameworks/SDL2.framework/Headers
-# LIBRARIES   = -L. /Library/Frameworks/SDL2.framework/SDL2
-# else
 INCLUDES    = -I include/
 INCLUDES   += -I libft/
 INCLUDES   += -I /frameworks/SDL2_image.framework/SDL2_image/Headers
 INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
-LIBRARIES   = -lm -lpthread -framework OpenGL -framework OpenCL
+LIBRARIES   = -lm -lpthread -framework OpenCL
 LIBRARIES  += ./libft/libft.a -framework AppKit
 LIBRARIES  += ./libJSON/libJSON.a
 LIBRARIES  += ./frameworks/SDL2_image.framework/Versions/Current/SDL2_image
 LIBRARIES  += ./frameworks/SDL2.framework/SDL2
-# endif
-
 
 TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES)
 
@@ -59,7 +51,7 @@ all         : $(NAME)
 $(NAME)     : $(OBJS_DIR) $(OBJS) $(HEADERS)
 	@make -C libft
 	@$(CC) $(CFLAGS) -o $(NAME) $(TO_LINKING)
-	@printf "\e[38;5;46m./$(NAME) SUCCESSFUL BUILD 🖥\e[0m\n"
+	@printf "\e[38;5;46m./$(NAME)   SUCCESSFUL BUILD 🖥\e[0m\n"
 
 $(OBJS_DIR) :
 	@mkdir $(OBJS_DIR)
@@ -74,7 +66,7 @@ clean       :
 
 fclean      : clean
 	@rm -f $(NAME)
-	@printf "\e[38;5;226m./$(NAME) DELETED\e[0m\n"
+	@printf "\e[38;5;226m./$(NAME)   DELETED\e[0m\n"
 
 re          : fclean all
 

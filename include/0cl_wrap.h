@@ -6,16 +6,13 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:34:10 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/22 11:19:41 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/03/02 18:07:27 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CL_WRAP_H
 # define CL_WRAP_H
-
 # define MAX_SOURCE_SIZE (0x100000)
-# define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-
 # ifdef __APPLE__
 #  include <OpenCL/opencl.h>
 # else
@@ -23,8 +20,7 @@
 # endif
 
 typedef unsigned char	t_byte;
-
-typedef struct			s_cl_info
+typedef struct	s_cl_info
 {
 	cl_uint				num_devices;
 	cl_uint				num_platforms;
@@ -33,14 +29,13 @@ typedef struct			s_cl_info
 	cl_context			context;
 	cl_program			program;
 	cl_platform_id		platform;
-}						t_cl_info;
-
-typedef struct			s_kernel
+}				t_cl_info;
+typedef struct	s_kernel
 {
-	t_cl_info			*info;
-	cl_kernel			kernel;
-	cl_uint				args;
-}						t_kernel;
+	t_cl_info	*info;
+	cl_kernel	kernel;
+	cl_uint		args;
+}				t_kernel;
 
 /*
 ** Funcion to initialize the struct, getting the platform, devices,

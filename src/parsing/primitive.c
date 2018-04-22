@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:00:50 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/19 19:00:53 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/22 11:50:02 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void				get_primitives_details(t_object *o, char *n, struct _json_value *val)
 	{
 		o->prim.sphere.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.sphere.origin;
 		o->prim.sphere.radius = !ft_strncmp(n, "radius", 6) ? get_number(val) : o->prim.sphere.radius;
+		o->prim.sphere.r2 = o->prim.sphere.radius * o->prim.sphere.radius;
 	}
 	else if (o->type == cylinder)
 	{

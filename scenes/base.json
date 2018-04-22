@@ -46,8 +46,7 @@
 			"texture": 0
 		}
 	],
-	"cameras": [{
-		"type": "common",
+	"camera": [{
 		"origin": [0, 0, 0],
 		"dir": [0, 1, 0],
 		"cx": [0, 0, 0],

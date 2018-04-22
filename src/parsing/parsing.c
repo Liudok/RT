@@ -23,8 +23,8 @@ void				parse_objects(json_value *value, t_scene *s)
 	int				i;
 
 	s->objnum = value->u.object.length;
-	s->objs = (t_object*)ft_memalloc(sizeof(t_object) * s->objnum);
-	ft_bzero(s->objs, sizeof(s->objs) * s->objnum);
+	s->objs = (t_object*)malloc(sizeof(t_object) * s->objnum);
+//	ft_bzero(s->objs, sizeof(s->objs) * s->objnum);
 	i = -1;
 	while (++i < (int)(s->objnum))
 	{

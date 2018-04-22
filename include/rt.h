@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/20 20:35:41 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/22 11:32:43 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct		s_sdl
 	SDL_Window		*win;
 	SDL_Renderer	*renderer;
 	SDL_Texture		*canvas;
-	SDL_Surface*	surf;
 	int 			win_w;
 	int 			win_h;
 	cl_int			*pixels;
@@ -80,7 +79,6 @@ typedef struct		s_rt
 	t_scene			scene;
 	t_event			event;
 
-	cl_mem			out;
 	SDL_Texture		*textures[3];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
@@ -145,5 +143,5 @@ void		rotateCamera(t_rt *pt);
 void		pt_check_error(int flag, char *err1, char *err2);
 void		destroy(t_rt *pt);
 
-
+void	reinit_opencl(t_rt *pt);
 #endif

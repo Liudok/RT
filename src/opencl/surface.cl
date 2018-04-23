@@ -26,6 +26,18 @@ static float3	disk_normal(global t_disk *obj)
 	return (normalize(obj->normal));
 }
 
+static float3	torus_normal(global t_torus *obj, float3 pos)
+{
+	float 	k;
+	float3	a;
+	float 	m;
+
+	k = dot(pos - obj->origin, obj->normal);
+	a = pos - obj->normal * k;
+	m = sqrt(obj->small_radius2 - k * k);
+	return (normalize(pos - a - (obj->origin - a) * m / (sqrt(obj->big_radius2) + m)));
+}
+
 static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 {
 	switch (obj->type) {
@@ -39,6 +51,8 @@ static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 			return (cone_normal(&obj->prim.cone, hit_pos, m));
 		case disk:
 			return (disk_normal(&obj->prim.disk));
+		case torus:
+			return (torus_normal(&obj->prim.torus, hit_pos));
 		default:
 			break;
 	}

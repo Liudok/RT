@@ -133,6 +133,64 @@ static float  disk_intersect(global t_disk *obj, t_ray ray)
 	return (-1);
 }
 
+static void	fourth_degree_equation(float4 *t, float A, float B, float C, float D, float E)
+{
+	float a = -3.0f * B * B / 8.0f / A / A + C / A;
+	float b = B * B * B / 8 / A / A / A - B * C / 2 / A / A + D / A;
+	float g = - 3.0f * B * B * B * B / 256.0f / A / A / A / A + C * B * B / 16.0f / A / A / A - B * D / 4.0f / A / A + E / A;
+	float P = -a * a / 12.0f - g;
+	float Q = -a * a * a / 108.0f + a * g / 3.0f - b * b / 8.0f;
+	float R = Q / 2.0f + sqrt(Q * Q / 4.0f + P * P * P / 27.0f);
+	float U = cbrt(R);
+	float U2;
+	U2 = (U == 0.0f) ? 0.0f : P / 3.0f / U;
+	float y = -5.0f / 6.0f * a - U + U2;
+	float W = sqrt(a + 2.0f * y);
+	(*t)[0] = -B / 4.0f / A + (W + sqrt(-(3.0f * a + 2.0f * y + 2.0f * b / W))) / 2.0f;
+	(*t)[1] = -B / 4.0f / A + (W - sqrt(-(3.0f * a + 2.0f * y + 2.0f * b / W))) / 2.0f;
+	(*t)[2] = -B / 4.0f / A + (-W + sqrt(-(3.0f * a + 2.0f * y - 2.0f * b / W))) / 2.0f;
+	(*t)[3] = -B / 4.0f / A + (-W - sqrt(-(3.0f * a + 2.0f * y - 2.0f * b / W))) / 2.0f;
+}
+
+static float  torus_intersect(global t_torus *obj, t_ray ray)
+{
+	float3	oc;
+	float	a;
+	float	b;
+	float	c;
+	float	d;
+	float	e;
+	float	m;
+	float	n;
+	float	o;
+	float	p;
+	float	q;
+	float4	t;
+	int 	i;
+	float 	ret;
+
+	oc = ray.o - obj->origin;
+	m = dot(ray.d, ray.d);
+	n = dot(ray.d, oc);
+	o = dot(oc, oc);
+	p = dot(ray.d, obj->normal);
+	q = dot(oc, obj->normal);
+	a = m * m;
+	b = 4.0f * m * n;
+	c = 4.0f * n * n + 2.0f * m * o - 2.0f * (obj->big_radius2 + obj->small_radius2) * m + 4.0f * obj->big_radius2 * p * p;
+	d = 4.0f * n * o - 4.0f * (obj->big_radius2 + obj->small_radius2) * n + 8.0f * obj->big_radius2 * p * q;
+	e = o * o - 2.0f * (obj->big_radius2 + obj->small_radius2) * o + 4.0f * obj->big_radius2 * q * q + (obj->big_radius2 - obj->small_radius2) * (obj->big_radius2 - obj->small_radius2);
+	fourth_degree_equation(&t, a, b, c, d, e);
+	i = 0;
+	ret = 1000.0f;
+	while (i < 4)
+	{
+		ret = (t[i] >= 0 && t[i] < ret) ? t[i] : ret;
+		i++;
+	}
+	return ((ret < 999.0f) ? ret : -1);
+}
+
 static void		intersect(	global t_object *obj,
 							global t_object **closest,
 							t_ray			ray,
@@ -155,6 +213,9 @@ static void		intersect(	global t_object *obj,
 			break;
 		case disk:
 			dist = disk_intersect(&obj->prim.disk, ray);
+			break;
+		case torus:
+			dist = torus_intersect(&obj->prim.torus, ray);
 			break;
 		default:
 			break;

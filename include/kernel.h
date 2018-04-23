@@ -32,7 +32,14 @@
 
 typedef enum	e_obj_type
 {
-	sphere, plane, cylinder, cone, disk, not_valid
+	sphere, plane, cylinder, cone, disk,
+	torus,
+	triangle,
+	mobius,
+	bool_substraction,
+	bool_intersection,
+	cube,
+	not_valid
 }				t_obj_type;
 
 typedef enum	e_material
@@ -78,6 +85,47 @@ typedef struct	s_disk
 	float 		radius2;
 }				t_disk;
 
+typedef struct	s_torus
+{
+	float3		origin;
+	float3		normal;
+	float 		big_radius2;
+	float 		small_radius2;
+}				t_torus;
+
+typedef struct	s_triangle
+{
+	float3		vertex0;
+	float3		vertex1;
+	float3		vertex2;
+}				t_triangle;
+
+typedef struct	s_mobius
+{
+	float 		radius;
+	float 		half_width;
+}				t_mobius;
+
+//typedef struct	s_bool_substraction
+//{
+//	const __constant	struct s_object	*obj1;
+//	const __constant	struct s_object	*obj2;
+//}				t_bool_substraction;
+//
+//typedef struct	s_bool_intersection
+//{
+//	const __constant	struct s_object	*obj1;
+//	const __constant	struct s_object	*obj2;
+//}				t_bool_intersection;
+//
+//typedef struct	s_cube
+//{
+//	float3		min;
+//	float3		max;
+//	int 		pipes_number;
+//	const __constant	struct s_object	*objs;
+//}				t_cube;
+
 typedef	union	u_primitive
 {
 	t_plane		plane;
@@ -85,6 +133,12 @@ typedef	union	u_primitive
 	t_cylinder	cylinder;
 	t_cone		cone;
 	t_disk		disk;
+	t_torus		torus;
+	t_triangle	triangle;
+	t_mobius	mobius;
+//	t_bool_substraction bool_substraction;
+//	t_bool_intersection bool_intersection;
+//	t_cube		cube;
 }				t_primitive;
 
 typedef struct	s_object

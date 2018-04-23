@@ -72,6 +72,18 @@ t_obj_type		get_type(json_value *value)
 		return (cone);
 	else if (!ft_strncmp(value->u.string.ptr, "disk", 4))
 		return (disk);
+	else if (!ft_strncmp(value->u.string.ptr, "torus", 5))
+		return (torus);
+	else if (!ft_strncmp(value->u.string.ptr, "mobius", 6))
+		return (mobius);
+	else if (!ft_strncmp(value->u.string.ptr, "triangle", 8))
+		return (triangle);
+	else if (!ft_strncmp(value->u.string.ptr, "cube", 4))
+		return (cube);
+	else if (!ft_strncmp(value->u.string.ptr, "bool_substraction", 17))
+		return (bool_substraction);
+	else if (!ft_strncmp(value->u.string.ptr, "bool_intersection", 17))
+		return (bool_intersection);
 	ft_error("Not valid object type.");
 	return (not_valid);
 }

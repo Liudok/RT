@@ -14,7 +14,6 @@
 
 void				get_primitives_details2(t_object *o, char *n, struct _json_value *val)
 {
-	printf("type = %u", o->type);
 	if (o->type == cone)
 	{
 		o->prim.cone.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.cone.origin;
@@ -54,6 +53,24 @@ void				get_primitives_details(t_object *o, char *n, struct _json_value *val)
 	}
 }
 
+void				get_primitives_details3(t_object *o, char *n, struct _json_value *val)
+{
+	printf("type = %u", o->type);
+	if (o->type == torus)
+	{
+		o->prim.torus.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.torus.origin;
+		o->prim.torus.normal = !ft_strncmp(n, "normal", 6) ? get_float3(val) : o->prim.torus.normal;
+		o->prim.torus.big_radius2 = !ft_strncmp(n, "big_radius2", 11) ? get_number(val) : o->prim.torus.big_radius2;
+		o->prim.torus.small_radius2 = !ft_strncmp(n, "small_radius2", 13) ? get_number(val) : o->prim.torus.small_radius2;
+	}
+	if (o->type == mobius)
+	{
+		o->prim.mobius.radius = !ft_strncmp(n, "radius", 6) ? get_number(val) : o->prim.mobius.radius;
+		o->prim.mobius.half_width = !ft_strncmp(n, "half_width", 10) ? get_number(val) : o->prim.mobius.half_width;
+	}
+}
+
+
 void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 {
 	o->type = !ft_strcmp(n, "type") ? get_type(val) : o->type;
@@ -63,5 +80,7 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details(o, n, val);
 	else if (o->type == cone || o->type == disk)
 		get_primitives_details2(o, n, val);
+	else if  (o->type == torus || o->type == mobius)
+		get_primitives_details3(o, n, val);
 	o->texture = !ft_strcmp(n, "texture") ? (uint)get_number(val) : o->texture;
 }

@@ -63,9 +63,9 @@ void	init_default_scene(t_rt *rt)
 	char			*file_str;
 	uint 			size;
 
-	rt->scene.file = "/Users/lberezyn/home/scenes/default.json";
+	rt->scene.file = "scenes/default.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
-		ft_error("Default file not found at /Users/lberezyn/home/scenes/default.json");
+		ft_error("Default file not found at scenes/default.json");
 	size = k.st_size;
 	file_str = read_file(rt->scene.file, size);
 	start_parsing(file_str, &rt->scene, size);

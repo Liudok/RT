@@ -6,7 +6,7 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/22 11:19:41 by lberezyn         ###   ########.fr        #
+#    Updated: 2018/04/23 16:41:24 by skamoza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,12 @@ HEADERS_DIR = ./include
 HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h parser.h kernel.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
-SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c
-SRCS       += parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c camera.c
-SRCS       += cross.c dot.c normalize.c vadd.c vlen.c vmul.c vrotate.c vsub.c createRotationMatrix.c
-SRCS       += cl_wrapper.c init_opencl.c
-SRCS       += handlingWindowResizable.c isCameraEvent.c isQuit.c isWindowResizable.c
-SRCS       += offEvent.c onEvent.c rotateCamera.c updateCamera.c
+SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c \
+              parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c camera.c \
+              cross.c dot.c normalize.c vadd.c vlen.c vmul.c vrotate.c vsub.c createRotationMatrix.c \
+              cl_wrapper.c init_opencl.c \
+              handlingWindowResizable.c isCameraEvent.c isQuit.c isWindowResizable.c \
+              offEvent.c onEvent.c rotateCamera.c updateCamera.c 
 
 OBJS        = $(SRCS:.c=.o)
 
@@ -36,12 +36,13 @@ INCLUDES   += -I /frameworks/SDL2_image.framework/SDL2_image/Headers
 INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
 LIBRARIES   = -lm -lpthread -framework OpenCL
-LIBRARIES  += ./libft/libft.a -framework AppKit
-LIBRARIES  += ./libJSON/libJSON.a
-LIBRARIES  += ./frameworks/SDL2_image.framework/Versions/Current/SDL2_image
-LIBRARIES  += ./frameworks/SDL2.framework/SDL2
+LIBRARIES  += -L libft/ -lft -framework AppKit
+LIBRARIES  += -L libJSON/ -lJSON
+LIBRARIES  += -F frameworks/
+LIBRARIES  += -framework SDL2
+LIBRARIES  += -framework SDL2_image
 
-TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES)
+TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES) -rpath frameworks/
 
 VPATH       = $(SRCS_DIR) $(OBJS_DIR) $(SRCS_DIR)/opencl $(SRCS_DIR)/scene $(SRCS_DIR)/math
 VPATH      += $(SRCS_DIR)/gui $(SRCS_DIR)/parsing $(SRCS_DIR)/icons $(SRCS_DIR)/events

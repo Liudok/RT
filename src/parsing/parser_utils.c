@@ -70,6 +70,8 @@ t_obj_type		get_type(json_value *value)
 		return (cylinder);
 	else if (!ft_strncmp(value->u.string.ptr, "cone", 4))
 		return (cone);
+	else if (!ft_strncmp(value->u.string.ptr, "disk", 4))
+		return (disk);
 	ft_error("Not valid object type.");
 	return (not_valid);
 }

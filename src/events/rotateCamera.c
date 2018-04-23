@@ -18,7 +18,7 @@ void	rotateCamera(t_rt *pt)
 	float3 		matrix[3];
 
 	c = &pt->scene.camera;
-	init_camera(c->origin, pt);
+	init_camera(pt);
 	createRotationMatrix(pt, matrix);
 	c->dir = vrotate(c->dir, matrix);
 	c->cx = vrotate(c->cx, matrix);

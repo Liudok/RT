@@ -20,16 +20,11 @@ int			main(void)
 	s.sdl.win_h = WINDOW_HEIGHT;
 	s.scene.file = NULL;
 	if (!sdl_init_everything(&s))
-	{
-		printf("Failed SDL initialization");
-		return (1);
-	}
+		ft_error("Failed SDL initialization");
 	init_default_scene(&s);
 	if (!run_ui(&s))
-	{
-		printf("Running failure");
-		return (1);
-	}
+		ft_error("Running failure");
+	destroy(&s);
 	return (0);
 }
 
@@ -48,7 +43,7 @@ void		pt_check_error(int flag, char *err1, char *err2)
 void		ft_error(char *s)
 {
 	ft_putendl_fd(s, 2);
-	exit(0);
+	exit(1);
 }
 
 void	destroy(t_rt *pt)

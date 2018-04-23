@@ -40,7 +40,6 @@ void			create_buttons(t_rt *s)
 		i++;
 	}
 	create_subbuttons(s);
-	// free(icons);
 }
 
 void			create_subbuttons(t_rt *s)

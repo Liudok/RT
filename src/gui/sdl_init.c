@@ -60,34 +60,18 @@ int 			sdl_init_everything(t_rt *s)
 	return (1);
 }
 
-//static int	pull_event(SDL_Event *e)
-//{
-//	while (SDL_PollEvent(e))
-//	{
-//		if (e->type == SDL_QUIT ||
-//			(e->type == SDL_WINDOWEVENT && e->window.event == SDL_WINDOWEVENT_RESIZED) ||
-//			(e->type == SDL_KEYDOWN && !e->key.repeat) ||
-//			(e->type == SDL_KEYUP && !e->key.repeat))
-//			return (TRUE);
-//	}
-//	return (FALSE);
-//}
-
 int 			run_ui(t_rt *s)
 {
 	int running;
 
-	s->scene.camera.canvas = (int2){{s->sdl.win_w, s->sdl.win_h}};
-	s->scene.camera.cx = (float3){{s->scene.camera.canvas.x * .5135f / (float)s->scene.camera.canvas.y, 0, 0}};
-	s->scene.camera.cy = vmul(normalize(cross(s->scene.camera.cx, s->scene.camera.dir)), .5135);
 	running = 1;
 	init_opencl(s);
 	SDL_Event evt;
 	while (running)
-	{	
+	{
 		while (SDL_PollEvent(&evt))
 		{
-			if (evt.type == SDL_QUIT || (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE))
+			if (isQuit(evt))
 				running = 0;
 			else if (isWindowResizable(evt))
 				handlingWindowResizable(s, evt);
@@ -100,18 +84,10 @@ int 			run_ui(t_rt *s)
 				check_pressing(s, evt.button.x, evt.button.y);
 				render_buttons(s);
 			}
-			if (isCameraEvent(s))
-				updateCamera(s);
 		}
+		if (isCameraEvent(s))
+			updateCamera(s);
 		set_bg(s);
-		SDL_RenderPresent(s->sdl.renderer);
 	}
-	destroy(s);
 	return (1);
 }
-
-
-
-
-
-

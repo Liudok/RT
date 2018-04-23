@@ -115,4 +115,5 @@ void			set_bg(t_rt *s)
 	SDL_RenderClear(s->sdl.renderer);
 	SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);
 	set_panel(s);
+	SDL_RenderPresent(s->sdl.renderer);
 }

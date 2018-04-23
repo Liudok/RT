@@ -48,6 +48,12 @@ void 				print_obj(t_object *o, int n)
 			printf("prim origin : { %f %f %f }\n", o[i].prim.sphere.origin.s0, o[i].prim.sphere.origin.s1, o[i].prim.sphere.origin.s2);
 			printf("radius = %f\n", o[i].prim.sphere.radius);
 		}
+		else if (o[i].type == 4)
+		{
+			printf("prim origin : { %f %f %f }\n", o[i].prim.disk.origin.s0, o[i].prim.disk.origin.s1, o[i].prim.disk.origin.s2);
+			printf("prim normal : { %f %f %f }\n", o[i].prim.disk.normal.s0, o[i].prim.disk.normal.s1, o[i].prim.disk.normal.s2);
+			printf("radius2 = %f\n", o[i].prim.disk.radius2);
+		}
 		i++;
 	}
 }
@@ -69,7 +75,7 @@ static void			parse_value(json_value *value, t_scene *s)
 			parse_camera(value->u.object.values[i].value, s);
 	}
 	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i\n", s->objnum);
-//	print_obj(s->objs, s->objnum);
+	print_obj(s->objs, s->objnum);
 //	print_cam(&s->camera);
 }
 
@@ -100,7 +106,6 @@ static void			check_json_value(json_value *value, t_scene *s)
 
 	 json = (json_char*)file_str;
 	 value = json_parse(json, size);
-//	 printf("file_str = %s\n",file_str );
 	 if (value == NULL)
 	 {
 		 free(file_str);

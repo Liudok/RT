@@ -12,14 +12,14 @@
 
 #include "pt.h"
 
-void	init_camera(float3 pos, t_pt *pt)
-{
-	t_camera	*cam;
-
-	cam = &pt->scene.camera;
-	cam->canvas = (int2){{pt->sdl.width, pt->sdl.height}};
-	cam->origin = pos;
-	cam->dir = (float3){{0, 0, 1}};
-	cam->cx = (float3){{cam->canvas.x * .5135 / (float)cam->canvas.y, 0, 0}};
-	cam->cy = vmul(normalize(cross(cam->cx, cam->dir)), .5135);
-}
+//void	init_camera(float3 pos, t_pt *pt)
+//{
+//	t_camera	*cam;
+//
+//	cam = &pt->scene.camera;
+//	cam->canvas = (int2){{pt->sdl.width, pt->sdl.height}};
+//	cam->origin = pos;
+//	cam->dir = (float3){{0, 0, 1}};
+//	cam->cx = (float3){{cam->canvas.x * .5135 / (float)cam->canvas.y, 0, 0}};
+//	cam->cy = vmul(normalize(cross(cam->cx, cam->dir)), .5135);
+//}

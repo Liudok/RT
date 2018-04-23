@@ -5,8 +5,6 @@
 void 			delete_old_scene(t_rt *s)
 {
 	free(s->scene.objs);
-	printf("old file was = %s\n", s->scene.file);
-
 }
 
 static char		*read_file(const char *filename, int size)
@@ -36,7 +34,6 @@ void				file_choosing(t_rt *s, int i)
 	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
 	struct stat		k;
 	char			*file_str;
-	uint			size;
 
 	if (i == 0)
 	{
@@ -44,17 +41,16 @@ void				file_choosing(t_rt *s, int i)
 		if (s->scene.file)
 		{
 			printf("file = %s\n",s->scene.file );
-			if (ft_strcmp(".json", (char*)(s->scene.file + ft_strlen(s->scene.file) - 5)))
+			if (ft_strcmp(".json", (s->scene.file + ft_strlen(s->scene.file) - 5)))
 				ft_error("Wrong file format. Please choose file *.json");
 			if ((stat(s->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 				ft_error("File not found.");
 			else
 			{
-				size = k.st_size;
 				delete_old_scene(s);
-				file_str = read_file(s->scene.file, size);
-				start_parsing(file_str, &s->scene, size);
-				init_camera((float3){{0, 0, -10}}, s);
+				file_str = read_file(s->scene.file, k.st_size);
+				start_parsing(file_str, &s->scene, k.st_size);
+				init_camera(s);
 				reinit_opencl(s);
 			}
 		}
@@ -69,8 +65,9 @@ void	init_default_scene(t_rt *rt)
 
 	rt->scene.file = "/Users/lberezyn/home/scenes/default.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
-		ft_error("File not found.");
+		ft_error("Default file not found at /Users/lberezyn/home/scenes/default.json");
 	size = k.st_size;
 	file_str = read_file(rt->scene.file, size);
 	start_parsing(file_str, &rt->scene, size);
+	init_camera(rt);
 }

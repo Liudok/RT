@@ -18,11 +18,13 @@
 # include "panels.h"
 # include "kernel.h"
 
-# define SDL_ERROR "./rt: SDL Error : "
+# define SDL_ERROR "./RT: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 500
-# define MAX_HEIGHT 500
+# define MAX_WIDTH 1000
+# define MAX_HEIGHT 1000
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 1000
 # define BUTTONS_AMOUNT 16
 
 typedef struct		s_event

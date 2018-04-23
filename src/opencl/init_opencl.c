@@ -53,18 +53,6 @@ void	init_opencl(t_rt *pt)
 	free(seeds);
 }
 
-void		pt_check_error(int flag, char *err1, char *err2)
-{
-	if (flag)
-	{
-		if (err2 != NULL)
-			fprintf(stderr, "%s %s\n", err1, err2);
-		else
-			fprintf(stderr, "%s\n", err1);
-		exit(0);
-	}
-}
-
 void	reinit_opencl(t_rt *pt)
 {
 	cl_uint *seeds;
@@ -80,8 +68,7 @@ void	reinit_opencl(t_rt *pt)
 		if (seeds[i] < 2)
 			seeds[i] = 2;
 	}
-//	for (int i=0; i < (int)pt->scene.objnum; i++)
-//		printf("sizeof = %zu\n", sizeof(pt->scene.objs[i]));
+	free(pt->scene.objs_mem);
 	pt->scene.objs_mem =
 			rt_cl_malloc_write(&pt->info, sizeof(t_object) * pt->scene.objnum, pt->scene.objs);
 

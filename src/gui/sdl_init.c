@@ -60,9 +60,6 @@ int 			sdl_init_everything(t_rt *s)
 	return (1);
 }
 
-void 				print_cam(t_camera *o);
-void 				print_obj(t_object *o, int n);
-
 //static int	pull_event(SDL_Event *e)
 //{
 //	while (SDL_PollEvent(e))
@@ -78,16 +75,13 @@ void 				print_obj(t_object *o, int n);
 
 int 			run_ui(t_rt *s)
 {
-	int running = 1;
+	int running;
 
 	s->scene.camera.canvas = (int2){{s->sdl.win_w, s->sdl.win_h}};
 	s->scene.camera.cx = (float3){{s->scene.camera.canvas.x * .5135f / (float)s->scene.camera.canvas.y, 0, 0}};
 	s->scene.camera.cy = vmul(normalize(cross(s->scene.camera.cx, s->scene.camera.dir)), .5135);
-
+	running = 1;
 	init_opencl(s);
-//	printf("initiated succesfully\n");
-//	print_cam(&s->scene.camera);
-//	print_obj(s->scene.objs, s->scene.objnum);
 	SDL_Event evt;
 	while (running)
 	{	
@@ -109,27 +103,10 @@ int 			run_ui(t_rt *s)
 			if (isCameraEvent(s))
 				updateCamera(s);
 		}
-		clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
-		rt_cl_push_task(&s->kernel, &s->job_size);
-		rt_cl_device_to_host(&s->info, s->pixels_mem, s->sdl.pixels, s->job_size * sizeof(int));
-		SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);
-		SDL_RenderClear(s->sdl.renderer);
-		SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);
-		fprintf(stderr, " samples per pixel -> %d\r", s->samples);
-
-		set_panel(s);
-//		rt_cl_join(&s->info);
+		set_bg(s);
 		SDL_RenderPresent(s->sdl.renderer);
-//		set_bg(s);
-		s->samples++;
-		
 	}
-	rt_cl_free_kernel(&s->kernel);
-	rt_cl_free(&s->info);
-	SDL_DestroyTexture(s->sdl.canvas);
-	SDL_DestroyRenderer(s->sdl.renderer);
-	SDL_DestroyWindow(s->sdl.win);
-	SDL_Quit();
+	destroy(s);
 	return (1);
 }
 

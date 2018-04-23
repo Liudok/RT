@@ -26,8 +26,6 @@
 # include "rt.h"
 
 # define BUTTON_SIZE 15
-# define WINDOW_WIDTH 500
-# define WINDOW_HEIGHT 500
 # define SHAPE_SIZE 500
 
 #endif

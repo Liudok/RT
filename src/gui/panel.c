@@ -106,18 +106,13 @@ void			set_panel(t_rt *s)
 
 void			set_bg(t_rt *s)
 {
-//	SDL_Texture* bg;
-//	SDL_Rect backgroundPos;
-//
-//	bg = s->textures[0];
-//	backgroundPos.x = 0;
-//	backgroundPos.y = 0;
-//	backgroundPos.w = WINDOW_WIDTH;
-//	backgroundPos.h = WINDOW_HEIGHT;
-//	SDL_RenderClear(s->sdl.renderer);
-//	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
+	clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
+	fprintf(stderr, " samples per pixel -> %d\r", s->samples);
+	s->samples++;
+	rt_cl_push_task(&s->kernel, &s->job_size);
+	rt_cl_device_to_host(&s->info, s->pixels_mem, s->sdl.pixels, s->job_size * sizeof(int));
 	SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);
-//	SDL_RenderClear(s->sdl.renderer);
+	SDL_RenderClear(s->sdl.renderer);
 	SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);
 	set_panel(s);
 }

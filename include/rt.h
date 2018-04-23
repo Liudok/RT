@@ -108,20 +108,15 @@ void			create_subbuttons(t_rt *s);
 void			render_subbuttons(t_rt *s);
 void			load_buttons_texures(t_rt *s);
 int 			load_all_textures(t_rt *s);
-int				init_kernel(t_rt *s);
 void			start_parsing(char			*file_str, t_scene *s, int size);
 
 void		init_sdl(t_rt *pt, int width, int height);
 void		create_texture(t_rt *pt, int w, int h);
 void		init_scene(t_rt *pt);
-void		init_camera(float3 pos, t_rt *pt);
+void		init_camera(t_rt *pt);
 void		init_opencl(t_rt *pt);
 void		program_loop(t_rt *pt);
 void		draw_picture(t_sdl *sdl);
-
-t_object	new_object
-			(t_obj_type type, t_primitive prim, float4 material, float3 color);
-t_primitive	new_sphere(cl_float3 origin, float radius);
 
 float3		normalize(float3 v);
 double		vlen(float3 v);

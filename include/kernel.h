@@ -187,6 +187,7 @@ typedef struct			s_surface
 	float3				n;
 	float3				nl;
 	float3				f;
+	float3				ref;
 	float 				m;
 }						t_surface;
 

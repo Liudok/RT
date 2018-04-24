@@ -12,9 +12,9 @@ static float3   radiance(global t_object *objs, uint objnum, t_ray r, uint *seed
     global t_object  *obj;           // intersected object
     float            t;              // distance to hit
     float            m;              // half tangent ?
-    float3           cl = {0, 0, 0}; // accumulated color
-    float3           cf = {1, 1, 1}; // accumulated reflectance
-    t_surface        surf;           // surface propertiess
+    float3           accum_col = {0, 0, 0}; // accumulated color
+    float3           accum_ref = {1, 1, 1}; // accumulated reflectance
+    t_surface        surf;           // surface properties
 
     while (depth < 50000)
     {
@@ -27,20 +27,22 @@ static float3   radiance(global t_object *objs, uint objnum, t_ray r, uint *seed
             break ;
 
         surf = get_surface_properties(obj, r, t, m);
-        cl += (surf.material == emission) ? cf * obj->color : 0;
+        accum_col += (surf.material == emission) ? accum_ref * obj->color : 0;
 
         if (++depth > 5)
         {
             if (get_random(&seeds[0], &seeds[1]) >= surf.maxref)
                 break ;
-            surf.f /= surf.maxref;
+            surf.ref /= surf.maxref;
         }
-        cf = cf * surf.f;
+        accum_ref *= surf.ref;
         if (surf.material == diffuse || surf.material == emission)
             r = diffuse_reflection(surf, seeds);
+        else if (surf.material == specular)
+            r = specular_reflection(surf, r);
 
     }
-    return (clamp(cl, 0.f, 1.0f));
+    return (clamp(accum_col, 0.f, 1.0f));
 }
 
 static t_ray    initRay(uint2 coords, uint2 sub, t_camera cam, uint *seeds)
@@ -55,9 +57,9 @@ static t_ray    initRay(uint2 coords, uint2 sub, t_camera cam, uint *seeds)
     dx = ((sub.x + 0.5f + dx) / 2.0f + coords.x) / (float)cam.canvas.x - 0.5f;
     dy = ((sub.y + 0.5f + dy) / 2.0f + coords.y) / (float)cam.canvas.y - 0.5f;
     dir = cam.cx * dx + cam.cy * dy + cam.dir;
+
     ray.d = normalize(dir);
     ray.o = cam.origin + dir;
-
     return (ray);
 }
 
@@ -67,7 +69,7 @@ void    path_tracing( global t_object  *objs,
                       t_camera         camera,
                       global uint      *inputSeeds,
                       global float3    *colors,
-                      global int       *pixels_mem,
+                      global int       *pixels,
                       uint             currentSample)
 {
     int      i = get_global_id(0);
@@ -90,7 +92,7 @@ void    path_tracing( global t_object  *objs,
         }
     }
     addSample(colors, &rad, currentSample, i);
-    putPixel(pixels_mem, colors, i);
+    putPixel(pixels, colors, i);
 
     inputSeeds[i * 2] = seeds[0];
     inputSeeds[i * 2 + 1] = seeds[1];

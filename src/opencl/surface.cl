@@ -59,6 +59,18 @@ static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 	return ((float3)(0,0,0));
 }
 
+static t_material  get_material(global t_object *obj)
+{
+    if (obj->material.x)
+        return (diffuse);
+    if (obj->material.y)
+        return (specular);
+    if (obj->material.z)
+        return (refraction);
+    if (obj->material.w)
+        return (emission);
+}
+
 static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t, float m)
 {
     t_surface   s;
@@ -67,11 +79,11 @@ static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t
     s.pos = r.o + r.d * t;
     s.m = m;
     s.n = find_normal(obj, s.pos, s.m);
-    s.nl = dot(s.n, r.d) < 0 ? s.n : s.n * -1;
-    s.material = (obj->material.w) ? emission : diffuse;
-    s.f = (s.material != emission) ? s.obj->color : (float3){0,0,0};
-    s.maxref = (s.material != emission) ? fmax(fmax(s.f.x, s.f.y), s.f.z) : 0;
-    
+    s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
+    s.material = get_material(obj);
+    s.ref = (s.material == emission) ? (float3){0,0,0} : s.obj->color;
+    s.maxref = fmax(fmax(s.ref.x, s.ref.y), s.ref.z);
+    s.maxref = (s.maxref > 0.75) ? s.maxref * 0.75 : s.maxref;
     return (s);
 }
 
@@ -87,7 +99,12 @@ static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
     r2s = sqrt(r2);
 
     w = surf.nl;
-    u = normalize(cross((fabs(w[0]) > .1f ? (float3){0, 1, 0} : (float3){1, 0, 0}), w));
+    u = normalize(
+            cross(
+                fabs(w[0]) > .1f ?(float3){0, 1, 0} : (float3){1, 0, 0},
+                w
+            )
+        );
     v = cross(w, u);
 
     cos_a = cos(r1);
@@ -102,4 +119,13 @@ static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
     rand_ray.o = surf.pos;
     rand_ray.d = d;
     return (rand_ray);
+}
+
+static t_ray   specular_reflection(t_surface surf, t_ray r)
+{
+    t_ray spec;
+
+    spec.o = surf.pos;
+    spec.d = r.d - surf.n * 2 * dot(r.d, surf.n);
+    return (spec);
 }

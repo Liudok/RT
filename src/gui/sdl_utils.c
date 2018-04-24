@@ -6,32 +6,32 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 14:55:53 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/21 12:26:57 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/24 21:17:23 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
 
-// void	texture_from_text(char *text, t_sdl *sdl, t_ui_bg *p)
-// {
-// 	SDL_Surface	*surface;
-// 	SDL_Color	color;
-// 	TTF_Font	*font;
+void	texture_from_text(char *text, t_sdl *sdl, t_rec *rec)
+{
+	SDL_Surface	*surface;
+	SDL_Color	color;
+	TTF_Font	*font;
 
-// 	TTF_Init();
-// 	font = TTF_OpenFont("open-sans/OpenSans-Regular.ttf", 25);
-// 	if (font == NULL)
-// 		return ;
-// 	color.r = 200;
-// 	color.g = 200;
-// 	color.b = 200;
-// 	surface = TTF_RenderText_Solid(font, text, color);
-// 	p->rect = sdl_rect(0, 0, surface->h / 2, surface->w / 2);
-// 	p->textr = SDL_CreateTextureFromSurface(sdl->ren, surface);
-// 	SDL_FreeSurface(surface);
-// 	TTF_CloseFont(font);
-// 	TTF_Quit();
-// }
+	TTF_Init();
+	font = TTF_OpenFont("open-sans/OpenSans-Regular.ttf", 20);
+	if (font == NULL)
+		return ;
+	color.r = 200;
+	color.g = 200;
+	color.b = 200;
+	surface = TTF_RenderText_Solid(font, text, color);
+	rec->rect = make_rect(0, 0, surface->h / 2, surface->w / 2);
+	rec->texture = SDL_CreateTextureFromSurface(sdl->renderer, surface);
+	SDL_FreeSurface(surface);
+	TTF_CloseFont(font);
+	TTF_Quit();
+}
 
 void	create_texture(t_rt *pt, int w, int h)
 {

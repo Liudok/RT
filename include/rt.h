@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/22 11:32:43 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/24 21:15:55 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # define SDL_ERROR "./RT: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 1000
-# define MAX_HEIGHT 1000
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define MAX_WIDTH 500
+# define MAX_HEIGHT 500
+# define WINDOW_WIDTH 500
+# define WINDOW_HEIGHT 500
 # define BUTTONS_AMOUNT 16
 
 typedef struct		s_event
@@ -40,6 +40,12 @@ typedef struct		s_event
 	int				left : 1;
 	int				right : 1;
 }					t_event;
+
+typedef struct		s_rec
+{
+	SDL_Rect		rect;
+	SDL_Texture		*texture;
+}					t_rec;
 
 typedef struct		s_btn
 {

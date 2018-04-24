@@ -6,7 +6,7 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/23 16:41:24 by skamoza          ###   ########.fr        #
+#    Updated: 2018/04/24 20:59:59 by lberezyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ OBJS        = $(SRCS:.c=.o)
 INCLUDES    = -I include/
 INCLUDES   += -I libft/
 INCLUDES   += -I /frameworks/SDL2_image.framework/SDL2_image/Headers
+INCLUDES   += -I /frameworks/SDL2_ttf.framework/Headers
 INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
 LIBRARIES   = -lm -lpthread -framework OpenCL
@@ -41,6 +42,7 @@ LIBRARIES  += -L libJSON/ -lJSON
 LIBRARIES  += -F frameworks/
 LIBRARIES  += -framework SDL2
 LIBRARIES  += -framework SDL2_image
+LIBRARIES  += -framework SDL2_ttf
 
 TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES) -rpath frameworks/
 

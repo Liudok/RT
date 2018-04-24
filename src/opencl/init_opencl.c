@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/22 12:05:24 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/24 16:49:57 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,5 @@ void	reinit_opencl(t_rt *pt)
 	clSetKernelArg(pt->kernel.kernel, 1, sizeof(cl_uint), &pt->scene.objnum);
 	clSetKernelArg(pt->kernel.kernel, 2, sizeof(t_camera), &pt->scene.camera);
 	free(seeds);
+	pt->buttons[0].pressed = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:00:13 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/20 20:27:59 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/24 21:03:27 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "SDL.h"
 # include "SDL_opengl.h"
+# include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 # include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
 # include "tinyfiledialogs.h"
 # include "../libft/libft.h"

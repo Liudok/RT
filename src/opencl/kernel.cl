@@ -37,6 +37,7 @@ static float3 radiance(global t_object* objs,
             surf.ref /= surf.maxref;
         }
         accum_ref *= surf.ref;
+		accum_ref *= get_texel(textures, obj, &surf);
         if (surf.material == diffuse || surf.material == emission)
             r = diffuse_reflection(surf, seeds);
         else if (surf.material == specular)

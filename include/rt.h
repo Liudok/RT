@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 09:19:04 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 12:06:50 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct		s_rt
 	t_kernel		kernel;
 	size_t			job_size;
 	cl_mem			pixels_mem;
+	cl_mem			textures_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
 	cl_mem			textures_mem;
@@ -121,6 +122,7 @@ void 				save_scene_to_file(t_rt *s);
 char 				*type_to_str(int n);
 void				print_prim_info(int fd, t_object *o, int i);
 void				print_prim_info2(int fd, t_object *o, int i);
+void 				save_scene_to_png(t_rt *s);
 
 void				init_sdl(t_rt *pt, int width, int height);
 void				create_texture(t_rt *pt, int w, int h);

@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:12:26 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 12:33:55 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	init_opencl(t_rt *pt)
 			&pt->info, sizeof(cl_uint) * pt->sdl.win_w * pt->sdl.win_h * 2, seeds);
 	pt->colors = rt_cl_malloc_read(
 			&pt->info, sizeof(cl_float3) * pt->sdl.win_w * pt->sdl.win_h * 2);
-//	pt->textures_mem = rt_cl_create_image_tex(&pt->info, &pt->textures_img[2], 1);
+	pt->textures_mem = rt_cl_create_image_tex(&pt->info, &pt->textures_img[2], 1);
 	pt->pixels_mem = rt_cl_malloc_read(&pt->info, sizeof(cl_int) * pt->job_size);
 	clSetKernelArg(pt->kernel.kernel, 0, sizeof(cl_mem), &pt->scene.objs_mem);
 	clSetKernelArg(pt->kernel.kernel, 1, sizeof(cl_uint), &pt->scene.objnum);

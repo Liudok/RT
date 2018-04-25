@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 12:14:39 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/24 16:46:38 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 12:34:32 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	destroy(t_rt *pt)
 	clReleaseMemObject(pt->seeds);
 	clReleaseMemObject(pt->colors);
 	clReleaseMemObject(pt->pixels_mem);
-	clReleaseMemObject(pt->textures_mem);
 	free(pt->sdl.pixels);
 	SDL_Quit();
 }

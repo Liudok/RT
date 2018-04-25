@@ -14,8 +14,8 @@ static float3 radiance(global t_object* objs,
 	global t_object* obj;   // intersected object
 	float t;		    // distance to hit
 	float m;		    // half tangent ?
-	float3 cl = {0, 0, 0};  // accumulated color
-	float3 cf = {1, 1, 1};  // accumulated reflectance
+	float3 accum_col = {0, 0, 0};  // accumulated color
+	float3 accum_ref = {1, 1, 1};  // accumulated reflectance
 	t_surface surf;	 // surface propertiess
 
 	while (depth < 5000) {
@@ -88,11 +88,11 @@ __kernel __attribute__((vec_type_hint(float3))) void path_tracing(
             // Init ray dir on 'table tent' term
             ray = initRay(coords, (uint2){sx, sy}, camera, seeds);
             // Compute sub-pixel radiance and save, divide by 4
-            rad += radiance(objs, objnum, ray, seeds) * 0.25f;
+            rad += radiance(objs, objnum, ray, seeds, textures) * 0.25f;
         }
     }
     addSample(colors, &rad, currentSample, i);
-    putPixel(pixels, colors, i);
+    putPixel(pixels_mem, colors, i);
 
 	inputSeeds[i * 2] = seeds[0];
 	inputSeeds[i * 2 + 1] = seeds[1];

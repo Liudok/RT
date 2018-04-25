@@ -63,12 +63,13 @@ static t_material  get_material(global t_object *obj)
 {
     if (obj->material.x)
         return (diffuse);
-    if (obj->material.y)
+	else if (obj->material.y)
         return (specular);
-    if (obj->material.z)
+    else if (obj->material.z)
         return (refraction);
-    if (obj->material.w)
+    else if (obj->material.w)
         return (emission);
+	return (diffuse);
 }
 
 static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t, float m)

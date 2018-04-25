@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/22 11:32:43 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 10:44:34 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ typedef struct		s_rt
 	cl_mem			pixels_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
+	cl_mem			textures_mem;
 	cl_uint			samples;
 	t_scene			scene;
 	t_event			event;
 
 	SDL_Texture		*textures[3];
+	SDL_Surface		*textures_img[3];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
 }					t_rt;
@@ -89,7 +91,7 @@ typedef struct		s_rt
 
 void			ft_error(char *s);
 int 			sdl_init_everything(t_rt *s);
-void	init_default_scene(t_rt *rt);
+void			init_default_scene(t_rt *rt);
 SDL_Rect		make_rect(int x, int y, int h, int w);
 int				within_rect(SDL_Rect rect, int x, int y);
 int 			run_ui(t_rt *s);
@@ -140,5 +142,5 @@ void		rotateCamera(t_rt *pt);
 void		pt_check_error(int flag, char *err1, char *err2);
 void		destroy(t_rt *pt);
 
-void	reinit_opencl(t_rt *pt);
+void		reinit_opencl(t_rt *pt);
 #endif

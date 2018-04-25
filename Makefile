@@ -6,13 +6,13 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/23 16:41:24 by skamoza          ###   ########.fr        #
+#    Updated: 2018/04/24 14:58:24 by skamoza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = demo
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -O3
+CFLAGS      = -Wall -Wextra -Werror -Og -g
 
 SRCS_DIR    = ./src
 OBJS_DIR    = ./obj
@@ -32,7 +32,8 @@ OBJS        = $(SRCS:.c=.o)
 
 INCLUDES    = -I include/
 INCLUDES   += -I libft/
-INCLUDES   += -I /frameworks/SDL2_image.framework/SDL2_image/Headers
+INCLUDES   += -I frameworks/SDL2.framework/Headers/
+INCLUDES   += -I frameworks/SDL2_image.framework/SDL2_image/Headers
 INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
 LIBRARIES   = -lm -lpthread -framework OpenCL

@@ -10,10 +10,10 @@
 		{
 			"type": "sphere",
 			"material": [1.0, 0.0, 0.0, 0.0],
-			"color": [0.1, 0.1, 0.9],
+			"color": [0.9, 0.9, 0.9],
 			"origin": [2, 0, 4],
 			"radius": 1.0,
-			"texture": 0
+			"texture": 1
 		},
 		{
 			"type": "sphere",
@@ -34,17 +34,17 @@
 		{
 			"type": "sphere",
 			"material": [1.0, 0.0, 0.0, 0.0],
-			"color": [0.9, 0.9, 0.1],
-			"origin": [0, -1001, 0],
-			"radius": 1000.0,
-			"texture": 0
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, -101, 0],
+			"radius": 100.0,
+			"texture": 1
 		},
 		{
 			"type": "sphere",
 			"material": [0.0, 0.0, 0.0, 1.0],
 			"color": [0.9, 0.9, 0.9],
-			"origin": [2, 10, 0],
-			"radius": 3.0,
+			"origin": [2, 1000, 0],
+			"radius": 500.0,
 			"texture": 0
 		}
 	],

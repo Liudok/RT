@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/22 12:13:32 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 11:43:41 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int 			load_all_textures(t_rt *s)
 	s->textures[0] = load_texture("src/img/dark_pixel2.png", s);
 	s->textures[1] = load_texture("src/img/dark_pixel.png", s);
 	s->textures[2] = load_texture("src/img/rama.png", s);
+	s->textures_img[0] = IMG_Load("src/img/brickwall.jpg");
+	s->textures_img[1] = IMG_Load("src/img/brickwall_normal.jpg");
+	s->textures_img[2] = IMG_Load("src/img/earth.jpg");
 	return (1);
 }
 

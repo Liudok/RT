@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 12:06:50 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 12:27:38 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ typedef struct		s_rt
 	cl_mem			textures_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
-	cl_mem			textures_mem;
 	cl_uint			samples;
 	t_scene			scene;
 	t_event			event;

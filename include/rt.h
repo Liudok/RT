@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 12:30:37 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/25 12:44:59 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # define SDL_ERROR "./RT: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 1000
-# define MAX_HEIGHT 1000
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define MAX_WIDTH 500
+# define MAX_HEIGHT 500
+# define WINDOW_WIDTH 500
+# define WINDOW_HEIGHT 500
 # define BUTTONS_AMOUNT 16
 
 typedef struct		s_event
@@ -108,7 +108,7 @@ SDL_Texture*		load_texture(const char *str, t_rt *s);
 void				set_bg(t_rt *s);
 void				create_buttons(t_rt *s);
 void				check_pressing(t_rt *s, int x, int y);
-void				file_choosing(t_rt *s, int i);
+void				file_choosing(t_rt *s);
 void				show_settings(t_rt *s);
 void				create_new_scene(t_rt *s);
 void				set_icons(t_rt *s);

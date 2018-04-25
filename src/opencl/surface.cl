@@ -8,22 +8,22 @@ static float3	sphere_normal(global t_sphere *obj, float3 pos)
 
 static float3	plane_normal(global t_plane *obj)
 {
-	return (normalize(obj->normal));
+	return (obj->normal);
 }
 
 static float3	cylinder_normal(global t_cylinder *obj, float3 pos, float m)
 {
-	return (normalize(pos - obj->origin - fast_normalize(obj->normal) * m));
+	return (normalize(pos - obj->origin - obj->normal * m));
 }
 
 static float3	cone_normal(global t_cone *obj, float3 pos, float m)
 {
-	return (normalize(pos - obj->origin - normalize(obj->normal) * m * (1 + obj->half_tangent * obj->half_tangent)));
+	return (normalize(pos - obj->origin - (1 + obj->half_tangent * obj->half_tangent)) * obj->normal * m);
 }
 
 static float3	disk_normal(global t_disk *obj)
 {
-	return (normalize(obj->normal));
+	return (obj->normal);
 }
 
 static float3	torus_normal(global t_torus *obj, float3 pos)

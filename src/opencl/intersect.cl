@@ -75,8 +75,8 @@ static float cone_intersect(global t_cone* obj, t_ray ray, float* m) {
 	float2 t;
 
 	oc = ray.o - obj->origin;
-	t.x = dot(ray.d, normalize(obj->normal));
-	t.y = dot(oc, normalize(obj->normal));
+	t.x = dot(ray.d, obj->normal);
+	t.y = dot(oc, obj->normal);
 	d = 1 + obj->half_tangent * obj->half_tangent;
 	a = dot(ray.d, ray.d) - d * t.x * t.x;
 	b = 2 * (dot(ray.d, oc) - d * t.x * t.y);
@@ -84,20 +84,20 @@ static float cone_intersect(global t_cone* obj, t_ray ray, float* m) {
 	ft_roots(&t, a, b, c);
 	if (t.x < 0.0f && t.y < 0.0f)
 		return (INFINITY);
-	if ((t.x < 0.0f) || (t.y < 0.0f)) {
+	if (t.x < 0.0f || t.y < 0.0f) {
 		a = (t.x > t.y) ? t.x : t.y;
-		*m = dot(ray.d, normalize(obj->normal)) * a +
-			dot(oc, fast_normalize(obj->normal));
-		return ((*m <= obj->m2) && (*m >= obj->m1) ? t.x : INFINITY);
+		*m = dot(ray.d, obj->normal) * a +
+			dot(oc, obj->normal);
+		return ((*m <= obj->m2) && (*m >= obj->m1) ? a : INFINITY);
 	}
 	a = (t.x < t.y) ? t.x : t.y;
-	*m = dot(ray.d, normalize(obj->normal)) * a +
-		dot(oc, fast_normalize(obj->normal));
+	*m = dot(ray.d, obj->normal) * a +
+		dot(oc, obj->normal);
 	if ((*m <= obj->m2) && (*m >= obj->m1))
 		return (a);
 	a = (t.x >= t.y) ? t.x : t.y;
-	*m = dot(ray.d, normalize(obj->normal)) * a +
-		dot(oc, fast_normalize(obj->normal));
+	*m = dot(ray.d, obj->normal) * a +
+		dot(oc, obj->normal);
 	if ((*m <= obj->m2) && (*m >= obj->m1))
 		return (a);
 	return (INFINITY);

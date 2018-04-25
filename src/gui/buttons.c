@@ -5,8 +5,8 @@ void set_icons(t_rt *s)
 {
 	s->icon = (char **)malloc(sizeof(char *) * BUTTONS_AMOUNT);
 	s->icon[0] = "src/icons/find.png";
-	s->icon[1] = "src/icons/create_file.png";
-	s->icon[2] = "src/icons/settings.png";
+	s->icon[1] = "src/icons/settings.png";
+	s->icon[2] = "src/icons/path.png";
 	s->icon[3] = "src/icons/render.png";
 	s->icon[4] = "src/icons/sphere.png";
 	s->icon[5] = "src/icons/planes.png";
@@ -18,7 +18,7 @@ void set_icons(t_rt *s)
 	s->icon[11] = "src/icons/cubes.png";
 	s->icon[12] = "src/icons/spotlight.png";
 	s->icon[13] = "src/icons/sun-2.png";
-	s->icon[14] = "src/icons/path.png";
+	s->icon[14] = "src/icons/create_file.png";
 	s->icon[15] = "src/icons/find_in.png";
 //	s->icon[16] = "src/icons/settings.png";
 
@@ -89,9 +89,7 @@ void			check_pressing(t_rt *s, int x, int y)
 					s->buttons[i].pressed = 1;
 			}
 			else
-			{
 				s->buttons[i].pressed = 0;
-			}
 			printf("pressed in check i = %i\n", i);
 		}
 		i++;

@@ -55,6 +55,7 @@ void	destroy(t_rt *pt)
 	rt_cl_free_kernel(&pt->kernel);
 	rt_cl_free(&pt->info);
 	clReleaseMemObject(pt->scene.objs_mem);
+	clReleaseMemObject(pt->textures_mem);
 	clReleaseMemObject(pt->seeds);
 	clReleaseMemObject(pt->colors);
 	clReleaseMemObject(pt->pixels_mem);

@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 09:19:08 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 12:06:50 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct		s_rt
 	t_kernel		kernel;
 	size_t			job_size;
 	cl_mem			pixels_mem;
+	cl_mem			textures_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
 	cl_uint			samples;
@@ -88,6 +89,7 @@ typedef struct		s_rt
 	t_event			event;
 
 	SDL_Texture		*textures[3];
+	SDL_Surface		*textures_img[3];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
 }					t_rt;

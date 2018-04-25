@@ -2,9 +2,9 @@
 #include "../../include/parser.h"
 #include <sys/stat.h>
 
-void 			delete_old_scene(t_rt *s)
+void 			delete_old_scene(t_rt *rt)
 {
-	free(s->scene.objs);
+	free(rt->scene.objs);
 }
 
 static char		*read_file(const char *filename, int size)
@@ -29,26 +29,26 @@ static char		*read_file(const char *filename, int size)
 	return (file_content);
 }
 
-void				file_choosing(t_rt *s)
+void				file_choosing(t_rt *rt)
 {
 	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
 	struct stat		k;
 	char			*file_str;
 
-	s->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
-	if (s->scene.file)
+	rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
+	if (rt->scene.file)
 	{
-		if (ft_strcmp(".json", (s->scene.file + ft_strlen(s->scene.file) - 5)))
+		if (ft_strcmp(".json", (rt->scene.file + ft_strlen(rt->scene.file) - 5)))
 			ft_error("Wrong file format. Please choose file *.json");
-		if ((stat(s->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
+		if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 			ft_error("File not found.");
 		else
 		{
-			delete_old_scene(s);
-			file_str = read_file(s->scene.file, k.st_size);
-			start_parsing(file_str, &s->scene, k.st_size);
-			init_camera(s);
-			reinit_opencl(s);
+			delete_old_scene(rt);
+			file_str = read_file(rt->scene.file, k.st_size);
+			start_parsing(file_str, &rt->scene, k.st_size);
+			init_camera(rt, rt->scene.camera.base_dir);
+			reinit_opencl(rt);
 		}
 	}
 }
@@ -65,5 +65,5 @@ void	init_default_scene(t_rt *rt)
 	size = k.st_size;
 	file_str = read_file(rt->scene.file, size);
 	start_parsing(file_str, &rt->scene, size);
-	init_camera(rt);
+	init_camera(rt, rt->scene.camera.base_dir);
 }

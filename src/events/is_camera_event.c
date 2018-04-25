@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isQuit.c                                           :+:      :+:    :+:   */
+/*   is_camera_event.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/19 15:37:10 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Created: 2018/04/19 18:21:36 by ftymchyn          #+#    #+#             */
+/*   Updated: 2018/04/19 18:21:36 by ftymchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	isQuit(SDL_Event e)
+int is_camera_event(t_rt *rt)
 {
-	return (e.type == SDL_QUIT ||
-			(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE));
+	if (rt->event.w || rt->event.s || rt->event.a || rt->event.d ||
+		rt->event.q || rt->event.e || rt->event.up || rt->event.down ||
+		rt->event.left || rt->event.right)
+		return (TRUE);
+	return (FALSE);
 }

@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rotateCamera.c                                     :+:      :+:    :+:   */
+/*   is_window_resizable.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/19 19:16:09 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Created: 2018/04/19 15:38:27 by ftymchyn          #+#    #+#             */
+/*   Updated: 2018/04/19 15:38:28 by ftymchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	rotateCamera(t_rt *pt)
+int	is_window_resizable(SDL_Event e)
 {
-	t_camera	*c;
-	float3 		matrix[3];
-
-	c = &pt->scene.camera;
-	init_camera(pt);
-	createRotationMatrix(pt, matrix);
-	c->dir = vrotate(c->dir, matrix);
-	c->cx = vrotate(c->cx, matrix);
-	c->cy = vrotate(c->cy, matrix);
+	return (e.type == SDL_WINDOWEVENT &&
+			e.window.event == SDL_WINDOWEVENT_RESIZED);
 }

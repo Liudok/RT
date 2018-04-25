@@ -28,7 +28,7 @@ int			main(void)
 	return (0);
 }
 
-void		pt_check_error(int flag, char *err1, char *err2)
+void		rt_check_error(int flag, char *err1, char *err2)
 {
 	if (flag)
 	{

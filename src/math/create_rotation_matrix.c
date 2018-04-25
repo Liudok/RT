@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   createRotationMatrix.c                             :+:      :+:    :+:   */
+/*   create_rotation_matrix.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:03:35 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/19 19:03:37 by ftymchyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	createRotationMatrix(t_rt *pt, float3 *m)
+void	create_rotation_matrix(t_rt *rt, float3 *m)
 {
 	float3	tmp[3];
 	int			i;
@@ -23,8 +23,8 @@ void	createRotationMatrix(t_rt *pt, float3 *m)
 	tmp[1] = (float3){{0, 1, 0}};
 	tmp[2] = (float3){{0, 0, 1}};
 	i = 0;
-	x = pt->scene.camera.rotate.x * M_PI / 180.0;
-	y = pt->scene.camera.rotate.y * M_PI / 180.0;
+	x = rt->scene.camera.rotate.x * M_PI / 180.0;
+	y = rt->scene.camera.rotate.y * M_PI / 180.0;
 	while (i < 3)
 	{
 		m[i].x =

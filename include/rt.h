@@ -124,9 +124,9 @@ void				print_prim_info2(int fd, t_object *o, int i);
 void 				save_scene_to_png(t_rt *s);
 
 void				init_sdl(t_rt *pt, int width, int height);
-void				create_texture(t_rt *pt, int w, int h);
+void				create_canvas(t_rt *pt, int w, int h);
 void				init_scene(t_rt *pt);
-void				init_camera(t_rt *pt);
+void				init_camera(t_rt *pt, float3 origin);
 void				init_opencl(t_rt *pt);
 void				program_loop(t_rt *pt);
 void				draw_picture(t_sdl *sdl);
@@ -138,19 +138,19 @@ float3				vadd(float3 a, float3 b);
 float3				vsub(float3 a, float3 b);
 double				dot(float3 a, float3 b);
 float3				cross(float3 a, float3 b);
-void				createRotationMatrix(t_rt *pt, float3 *m);
+void				create_rotation_matrix(t_rt *pt, float3 *m);
 float3				vrotate(float3 v, float3 *matrix);
 
-int					isQuit(SDL_Event e);
-int					isWindowResizable(SDL_Event e);
-void				handlingWindowResizable(t_rt *pt, SDL_Event e);
-void				onEvent(t_rt *pt, SDL_Event *e);
-void				offEvent(t_rt *pt, SDL_Event *e);
-int 				isCameraEvent(t_rt *pt);
-void				updateCamera(t_rt *pt);
-void				rotateCamera(t_rt *pt);
+int					is_quit(SDL_Event e);
+int					is_window_resizable(SDL_Event e);
+int 				is_camera_event(t_rt *rt);
+void				handling_window_resizable(t_rt *rt, SDL_Event e);
+void				on_event(t_rt *rt, SDL_Event *e);
+void				off_event(t_rt *rt, SDL_Event *e);
+void				update_camera(t_rt *rt);
+void				rotate_camera(t_rt *rt);
 
-void				pt_check_error(int flag, char *err1, char *err2);
+void				rt_check_error(int flag, char *err1, char *err2);
 void				destroy(t_rt *pt);
 
 void				reinit_opencl(t_rt *pt);

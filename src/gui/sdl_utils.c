@@ -33,7 +33,7 @@ void	texture_from_text(char *text, t_sdl *sdl, t_rec *rec)
 	TTF_Quit();
 }
 
-void	create_texture(t_rt *pt, int w, int h)
+void	create_canvas(t_rt *pt, int w, int h)
 {
 	pt->sdl.canvas = SDL_CreateTexture(
 			pt->sdl.renderer,
@@ -41,7 +41,7 @@ void	create_texture(t_rt *pt, int w, int h)
 			SDL_TEXTUREACCESS_TARGET,
 			w,
 			h);
-	pt_check_error(!pt->sdl.canvas, SDL_ERROR, (char*)SDL_GetError());
+	rt_check_error(!pt->sdl.canvas, SDL_ERROR, (char*)SDL_GetError());
 }
 
 SDL_Rect	make_rect(int x, int y, int h, int w)

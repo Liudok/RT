@@ -152,6 +152,8 @@ typedef struct	s_object
 
 typedef struct	s_camera
 {
+	float3		base_origin;
+	float3 		base_dir;
 	float3		origin;
 	float3		dir;
 	float3		cx;

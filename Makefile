@@ -23,12 +23,14 @@ LIBJSON_DIR = ./libJSON
 HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h parser.h kernel.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
-SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c \
-              parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c camera.c \
-              cross.c dot.c normalize.c vadd.c vlen.c vmul.c vrotate.c vsub.c createRotationMatrix.c \
-              cl_wrapper.c init_opencl.c save_to_json.c saving_utils.c save_to_png.c\
-              handlingWindowResizable.c isCameraEvent.c isQuit.c isWindowResizable.c \
-              offEvent.c onEvent.c rotateCamera.c updateCamera.c 
+SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c \
+              new_scene.c parsing.c parser_utils.c create.c tinyfiledialogs.c \
+              primitive.c camera.c cross.c dot.c normalize.c vadd.c vlen.c \
+              vrotate.c vsub.c create_rotation_matrix.c cl_wrapper.c \
+              save_to_json.c saving_utils.c save_to_png.c sdl_utils.c \
+              handling_window_resizable.c is_camera_event.c is_quit.c vmul.c\
+              is_window_resizable.c off_event.c on_event.c rotate_camera.c \
+              update_camera.c init_opencl.c 
 
 OBJS        = $(SRCS:.c=.o)
 

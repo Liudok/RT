@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 14:55:53 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/24 21:17:23 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 11:30:50 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ SDL_Rect	make_rect(int x, int y, int h, int w)
 
 int			within_rect(SDL_Rect rect, int x, int y)
 {
-	x = x * 2;
-	y = y * 2;
+	x = x * 1;
+	y = y * 1;
 	if (x >= rect.x && y >= rect.y &&
 			x <= rect.x + rect.w && y <= rect.y + rect.h)
 		return (1);

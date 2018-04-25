@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:00:50 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/22 11:50:02 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/24 16:49:57 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void				get_primitives_details(t_object *o, char *n, struct _json_value *val)
 
 void				get_primitives_details3(t_object *o, char *n, struct _json_value *val)
 {
-	printf("type = %u", o->type);
 	if (o->type == torus)
 	{
 		o->prim.torus.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.torus.origin;

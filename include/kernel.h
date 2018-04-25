@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/23 21:20:34 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/25 07:55:43 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ typedef struct			s_surface
 	float3				n;
 	float3				nl;
 	float3				f;
+	float3				ref;
 	float 				m;
 }						t_surface;
 

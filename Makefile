@@ -6,7 +6,7 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/24 14:58:24 by skamoza          ###   ########.fr        #
+#    Updated: 2018/04/24 21:01:05 by lberezyn         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c sdl_utils.c new_scene.c \
               parsing.c parser_utils.c create.c tinyfiledialogs.c primitive.c camera.c \
               cross.c dot.c normalize.c vadd.c vlen.c vmul.c vrotate.c vsub.c createRotationMatrix.c \
-              cl_wrapper.c init_opencl.c \
+              cl_wrapper.c init_opencl.c save_to_json.c saving_utils.c \
               handlingWindowResizable.c isCameraEvent.c isQuit.c isWindowResizable.c \
               offEvent.c onEvent.c rotateCamera.c updateCamera.c 
 
@@ -42,6 +42,7 @@ LIBRARIES  += -L libJSON/ -lJSON
 LIBRARIES  += -F frameworks/
 LIBRARIES  += -framework SDL2
 LIBRARIES  += -framework SDL2_image
+LIBRARIES  += -framework SDL2_ttf
 
 TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES) -rpath frameworks/
 

@@ -27,21 +27,23 @@ static float3 radiance(global t_object* objs,
 		if (!obj || t >= MAXFLOAT || t < EPSILON)
 			break;
 
-		surf = get_surface_properties(obj, r, t, m);
-		if (surf.material == emission)
-			cl += cf * obj->color;
-		if (++depth > 5) {
-			if (get_random(&seeds[0], &seeds[1]) >= surf.maxref)
-				break;
-			surf.f /= surf.maxref;
-		}
-		cf = cf * surf.f;
-//		if (obj->texture)
-			cf *= get_texel(textures, obj, &surf);
-		if (surf.material == diffuse || surf.material == emission)
-			r = diffuse_reflection(surf, seeds);
-	}
-	return (clamp(cl, 0.f, 1.0f));
+        surf = get_surface_properties(obj, r, t, m);
+        accum_col += (surf.material == emission) ? accum_ref * obj->color : 0;
+
+        if (++depth > 5)
+        {
+            if (get_random(&seeds[0], &seeds[1]) >= surf.maxref)
+                break ;
+            surf.ref /= surf.maxref;
+        }
+        accum_ref *= surf.ref;
+        if (surf.material == diffuse || surf.material == emission)
+            r = diffuse_reflection(surf, seeds);
+        else if (surf.material == specular)
+            r = specular_reflection(surf, r);
+
+    }
+    return (clamp(accum_col, 0.f, 1.0f));
 }
 
 static t_ray initRay(uint2 coords, uint2 sub, t_camera cam, uint* seeds) {
@@ -52,13 +54,13 @@ static t_ray initRay(uint2 coords, uint2 sub, t_camera cam, uint* seeds) {
 	float dx = (r1 < 1) ? sqrt(r1) - 1 : 1 - sqrt(2 - r1);
 	float dy = (r2 < 1) ? sqrt(r2) - 1 : 1 - sqrt(2 - r2);
 
-	dx = ((sub.x + 0.5f + dx) / 2.0f + coords.x) / (float)cam.canvas.x - 0.5f;
-	dy = ((sub.y + 0.5f + dy) / 2.0f + coords.y) / (float)cam.canvas.y - 0.5f;
-	dir = cam.cx * dx + cam.cy * dy + cam.dir;
-	ray.d = normalize(dir);
-	ray.o = cam.origin + dir;
+    dx = ((sub.x + 0.5f + dx) / 2.0f + coords.x) / (float)cam.canvas.x - 0.5f;
+    dy = ((sub.y + 0.5f + dy) / 2.0f + coords.y) / (float)cam.canvas.y - 0.5f;
+    dir = cam.cx * dx + cam.cy * dy + cam.dir;
 
-	return (ray);
+    ray.d = normalize(dir);
+    ray.o = cam.origin + dir;
+    return (ray);
 }
 
 __kernel __attribute__((vec_type_hint(float3))) void path_tracing(
@@ -76,19 +78,21 @@ __kernel __attribute__((vec_type_hint(float3))) void path_tracing(
 	float3 rad = {0, 0, 0};
 	t_ray ray;
 
-	seeds[0] = inputSeeds[i * 2];
-	seeds[1] = inputSeeds[i * 2 + 1];
-	// Each pixel divide by 4 sub-pixels
-	for (uint sy = 0; sy < 2; sy++) {
-		for (uint sx = 0; sx < 2; sx++) {
-			// Init ray dir on 'table tent' term
-			ray = initRay(coords, (uint2)(sx, sy), camera, seeds);
-			// Compute sub-pixel radiance and save, divide by 4
-			rad += radiance(objs, objnum, ray, seeds, textures) * 0.25f;
-		}
-	}
-	addSample(colors, &rad, currentSample, i);
-	putPixel(pixels_mem, colors, i);
+    seeds[0] = inputSeeds[i * 2];
+    seeds[1] = inputSeeds[i * 2 + 1];
+    // Each pixel divide by 4 sub-pixels
+    for (uint sy = 0; sy < 2; sy++)
+    {
+        for (uint sx = 0; sx < 2; sx++)
+        {
+            // Init ray dir on 'table tent' term
+            ray = initRay(coords, (uint2){sx, sy}, camera, seeds);
+            // Compute sub-pixel radiance and save, divide by 4
+            rad += radiance(objs, objnum, ray, seeds) * 0.25f;
+        }
+    }
+    addSample(colors, &rad, currentSample, i);
+    putPixel(pixels, colors, i);
 
 	inputSeeds[i * 2] = seeds[0];
 	inputSeeds[i * 2 + 1] = seeds[1];

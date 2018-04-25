@@ -1,0 +1,111 @@
+{
+	"objects": [
+		{
+			"type": "SPHERE",
+			"sphere": {
+				"pos": {"x": 200, "y": -200, "z": 700},
+				"r": 200,
+				"color": {"r": 1, "g": 1, "b": 1}
+			},
+			"material": "DIFF",
+			"emission": {"r": 15, "g": 15, "b": 15},
+			"texture": "None",
+			"Speed": {"x": 0, "y": 0, "z": 0}
+		},
+		{
+			"type": "SPHERE",
+			"sphere": {
+				"pos": {"x": 0, "y": 0, "z": 250},
+				"r": 150,
+				"color": {"r": 0.7, "g": 0.2, "b": 0.2}
+			},
+			"material": "DIFF",
+			"emission": {"r": 0, "g": 0, "b": 0},
+			"texture": "None",
+			"Speed": {"x": 0, "y": 0, "z": 0}
+		},
+		{
+			"type": "SPHERE",
+			"sphere": {
+				"pos": {"x": -300, "y": 0, "z": 250},
+				"r": 150,
+				"color": {"r": 0.7, "g": 0.2, "b": 0.2}
+			},
+			"material": "DIFF",
+			"emission": {"r": 0, "g": 0, "b": 0},
+			"texture": "None",
+			"Speed": {"x": 0, "y": 0, "z": 0}
+		},
+		{
+			"type": "PLANE",
+			"plane": {
+				"point": {"x": 0, "y": 0, "z": 0},
+				"norm": {"x": 0, "y": 0, "z": 1},
+				"color": {"r": 1, "g": 1, "b": 1}
+			},
+			"material": "GLOSSY",
+			"glossiness": 0.001,
+			"kd": 0.5,
+			"texture": "None",
+			"Scale coefficient": 1,
+			"Shift coefficient": 0.3,
+			"Speed": {"x": 0, "y": 0, "z": 0}
+		},
+		{
+			"type": "CYLINDER",
+			"cylinder": {
+				"pos": {"x": -450, "y": 0, "z": 300},
+				"dir": {"x": 1, "y": 0, "z": 0},
+				"r": 150,
+				"height": 800,
+				"color": {"r": 0.3, "g": 0.3, "b": 0.7}
+			},
+			"material": "DIFF",
+			"refractive index": 2.5,
+			"glossiness": 0.005,
+			"kd": 0,
+
+			"texture": "173.png",
+			"Scale coefficient": 1,
+			"Shift coefficient": 0,
+			"Speed": {"x": 0, "y": 0, "z": 0}
+		}
+	],
+	"spotlights": [
+		{
+			"pos": {"x": -100, "y": -650, "z": 550},
+			"dir": {"x": 50, "y": 310, "z": -120},
+			"emission": {"r": 20, "g": 20, "b": 20},
+			"radius": 75,
+			"alpha": 5
+		}
+	],
+	"cam": {
+		"pos": {"x": 450, "y": 450, "z": 450},
+		"fov": 66.6,
+		"dir": {"x": 0, "y": 0, "z": 1000},
+		"exposition time": 1,
+		"focal length": 400.0,
+		"aperture": 10.0
+	},
+	"environment": {
+		"image height": 768,
+		"image width": 1024,
+		"spp per call": 1,
+		"indirect light": false,
+		"parallel light": false,
+		"spot light": false,
+		"depth of field": false,
+		"ambient light": {"r": 0, "g": 0, "b": 0},
+		"tone mapper": "standard",
+		"gamma": 2.2,
+		"map": "None"
+	},
+	"Video sequence": {
+		"On/Off": false,
+		"fps": 30,
+		"time": 4,
+		"axis": {"x": 0, "y": 0, "z": 1}
+	}
+}
+

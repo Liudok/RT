@@ -74,8 +74,8 @@ static void			parse_value(json_value *value, t_scene *s)
 		if (!ft_strcmp(value->u.object.values[i].name, "camera"))
 			parse_camera(value->u.object.values[i].value, s);
 	}
-	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i\n", s->objnum);
-	print_obj(s->objs, s->objnum);
+//	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i\n", s->objnum);
+//	print_obj(s->objs, s->objnum);
 //	print_cam(&s->camera);
 }
 

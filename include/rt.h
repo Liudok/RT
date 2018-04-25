@@ -62,6 +62,7 @@ typedef	struct		s_scene
 	cl_uint 		objnum;
 	t_camera		camera;
 	cl_mem			objs_mem;
+	t_btn			*figures;
 }					t_scene;
 
 typedef struct		s_sdl

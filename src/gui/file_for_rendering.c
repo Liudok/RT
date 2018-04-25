@@ -47,7 +47,7 @@ void				file_choosing(t_rt *rt)
 			delete_old_scene(rt);
 			file_str = read_file(rt->scene.file, k.st_size);
 			start_parsing(file_str, &rt->scene, k.st_size);
-			init_camera(rt, rt->scene.camera.base_dir);
+			init_camera(rt, rt->scene.camera.base_origin);
 			reinit_opencl(rt);
 		}
 	}
@@ -65,5 +65,5 @@ void	init_default_scene(t_rt *rt)
 	size = k.st_size;
 	file_str = read_file(rt->scene.file, size);
 	start_parsing(file_str, &rt->scene, size);
-	init_camera(rt, rt->scene.camera.base_dir);
+	init_camera(rt, rt->scene.camera.base_origin);
 }

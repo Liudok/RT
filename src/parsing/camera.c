@@ -12,9 +12,9 @@ static void			get_camera_info(json_value *value, t_camera *c)
 	{
 		n = value->u.object.values[i].name;
 		c->base_origin = !ft_strncmp(n, "origin", 6) ?
-					get_float3(value->u.object.values[i].value) : c->origin;
-		c->base_dir = !ft_strncmp(n, "dir", 3) ?
-				 get_float3(value->u.object.values[i].value) : c->dir;
+					get_float3(value->u.object.values[i].value) : c->base_origin;
+		c->base_dir = normalize(!ft_strncmp(n, "dir", 3) ?
+				 get_float3(value->u.object.values[i].value) : c->base_dir);
 		i++;
 	}
 }

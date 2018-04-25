@@ -15,6 +15,7 @@
 
 # define MAX_SOURCE_SIZE (0x100000)
 # define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+# include "SDL.h"
 
 #  include "SDL.h"
 # ifdef __APPLE__

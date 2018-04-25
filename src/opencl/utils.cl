@@ -71,5 +71,5 @@ static float3 get_texel(read_only image3d_t textures,
 	return (read_imagef(textures, sampler_tex,
 	(int4)((atan2(surf->nl.z, surf->nl.x) / (2.f * (float)M_PI) + 0.5f) * 2048.f,
 	(0.5f - asin(surf->nl.y) / (float)M_PI ) * 1024.f,
-	(float)obj->texture, 1.f)).zyx);
+	(float)obj->texture, 1.f)).xyz);
 }

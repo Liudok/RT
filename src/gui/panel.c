@@ -6,24 +6,13 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 22:55:15 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
 
-void				show_settings(t_rt *s)
-{
-	SDL_Texture* bg;
-	SDL_Rect backgroundPos;
 
-	bg = s->textures[1];
-	backgroundPos.y = 0;
-	backgroundPos.w = 200;
-	backgroundPos.h = s->sdl.win_w;
-	backgroundPos.x = s->sdl.win_w - backgroundPos.w;
-	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
-}
 
 //void				render_subbuttons(t_sdl *s)
 //{
@@ -53,6 +42,51 @@ void				show_settings(t_rt *s)
 //	}
 ////	SDL_DestroyTexture(rama);
 //}
+void 				create_figures(t_rt *s)
+{
+	int i = 0;
+
+	s->scene.figures = (t_btn*)malloc(sizeof(t_btn) * s->scene.objnum + 1);
+	while (i < (int)s->scene.objnum)
+	{
+		s->scene.figures[i].pressed = 0;
+		s->scene.figures[i].name = i;
+		s->scene.figures[i].rect = make_rect(230, i * 20 + 10, BUTTON_SIZE, BUTTON_SIZE);
+		s->scene.figures[i].txt = load_texture(s->icon[s->scene.objs[i].type + 4], s);
+		i++;
+	}
+//	s->scene.figures[i].pressed = 0;
+//	s->scene.figures[i].name = i;
+//	s->scene.figures[i].rect = make_rect(230, i * 20 + 10, BUTTON_SIZE, BUTTON_SIZE);
+//	s->scene.figures[i].txt = load_texture(s->icon[13], s);
+
+}
+void 				put_figures(t_rt *s)
+{
+	int i = 0;
+	while (i < (int)s->scene.objnum)
+	{
+		SDL_RenderCopy(s->sdl.renderer,
+					   s->scene.figures[i].txt,
+					   NULL, &s->scene.figures[i].rect);
+		i++;
+	}
+}
+
+void				show_settings(t_rt *s)
+{
+	SDL_Texture* bg;
+	SDL_Rect backgroundPos;
+
+	bg = s->textures[1];
+	backgroundPos.y = 0;
+	backgroundPos.w = 50;
+	backgroundPos.h = s->sdl.win_w;
+	backgroundPos.x = s->sdl.win_w - backgroundPos.w;
+	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
+
+	put_figures(s);
+}
 
 void				render_buttons(t_rt *s)
 {
@@ -70,10 +104,13 @@ void				render_buttons(t_rt *s)
 		{
 			if (i == 2)
 			{
-				show_settings(s);
+				//start path tracing
 			}
 			else if (i == 1)
+			{
 				create_new_scene(s);
+				show_settings(s);
+			}
 			ram.x = s->buttons[i].rect.x - 5;
 			ram.y = s->buttons[i].rect.y - 5;
 			ram.w = s->buttons[i].rect.w + 10;

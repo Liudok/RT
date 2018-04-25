@@ -12,9 +12,9 @@ void set_icons(t_rt *s)
 	s->icon[5] = "src/icons/planes.png";
 	s->icon[6] = "src/icons/cyli.png";
 	s->icon[7] = "src/icons/cones.png";
-	s->icon[8] = "src/icons/tria.png";
-	s->icon[9] = "src/icons/stop.png";
-	s->icon[10] = "src/icons/icon.png";
+	s->icon[8] = "src/icons/disk.png";
+	s->icon[9] = "src/icons/icon.png";
+	s->icon[10] = "src/icons/tria.png";
 	s->icon[11] = "src/icons/cubes.png";
 	s->icon[12] = "src/icons/spotlight.png";
 	s->icon[13] = "src/icons/sun-2.png";
@@ -51,15 +51,12 @@ void			create_subbuttons(t_rt *s)
 	k = 0;
 	while (i < 16)
 	{
-		s->buttons[i].pressed = 0;
-		s->buttons[i].name = i;
 		if (i < 8)
 			s->buttons[i].rect = make_rect((10 + k * 20), 50, BUTTON_SIZE, BUTTON_SIZE);
 		else if (i < 12)
 			s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
 		else if (i < 16)
 			s->buttons[i].rect = make_rect((10 + k * 20), 120, BUTTON_SIZE, BUTTON_SIZE);
-		s->buttons[i].txt = load_texture(s->icon[i], s);
 		i++;
 		k++;
 		if (i >= 8 && k == 4)
@@ -71,9 +68,9 @@ void			check_pressing(t_rt *s, int x, int y)
 {
 	int i;
 
-	i = 0;
+	i = -1;
 	printf("x = %i, y = %i\n", x, y);
-	while (i < BUTTONS_AMOUNT)
+	while (++i < BUTTONS_AMOUNT)
 	{
 		if (within_rect(s->buttons[i].rect, x, y))
 		{
@@ -92,6 +89,5 @@ void			check_pressing(t_rt *s, int x, int y)
 				s->buttons[i].pressed = 0;
 			printf("pressed in check i = %i\n", i);
 		}
-		i++;
 	}
 }

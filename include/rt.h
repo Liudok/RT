@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:59 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 22:35:37 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void				check_pressing(t_rt *s, int x, int y);
 void				file_choosing(t_rt *s);
 void				show_settings(t_rt *s);
 void				create_new_scene(t_rt *s);
+void 				create_figures(t_rt *s);
 void				set_icons(t_rt *s);
 void				create_subbuttons(t_rt *s);
 void				render_subbuttons(t_rt *s);

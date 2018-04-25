@@ -162,7 +162,7 @@ void rt_cl_init(t_cl_info* info)
 	check_error(clGetPlatformIDs(1, &info->platform, &info->num_platforms));
 	check_error(clGetDeviceIDs(info->platform,
 #ifdef __APPLE__
-				CL_DEVICE_TYPE_CPU,
+				CL_DEVICE_TYPE_GPU,
 #else
 				CL_DEVICE_TYPE_CPU,
 #endif

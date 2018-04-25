@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 22:35:37 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void			init_opencl(t_rt *rt)
 	clSetKernelArg(rt->kernel.kernel, 6, sizeof(cl_uint), &rt->samples);
 	clSetKernelArg(rt->kernel.kernel, 7, sizeof(cl_mem), &rt->textures_mem);
 	free(seeds);
-
+	create_figures(rt);
 }
 
 void			reinit_opencl(t_rt *rt)
@@ -72,5 +72,6 @@ void			reinit_opencl(t_rt *rt)
 	clSetKernelArg(rt->kernel.kernel, 1, sizeof(cl_uint), &rt->scene.objnum);
 	clSetKernelArg(rt->kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);
 	free(seeds);
-	rt->buttons[0].pressed = 0;
+	free(rt->scene.figures);
+	create_figures(rt);
 }

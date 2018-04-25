@@ -10,13 +10,15 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME        = demo
+NAME        = rt
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror -Og -g
 
 SRCS_DIR    = ./src
 OBJS_DIR    = ./obj
 HEADERS_DIR = ./include
+LIBFT_DIR   = ./libft
+LIBJSON_DIR = ./libJSON
 
 HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h parser.h kernel.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
@@ -36,6 +38,9 @@ INCLUDES   += -I frameworks/SDL2.framework/Headers/
 INCLUDES   += -I frameworks/SDL2_image.framework/SDL2_image/Headers
 INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
+LIBFT       = $(LIBFT_DIR)/libft.a
+LIBJSON     = $(LIBJSON_DIR)/libJSON.a
+
 LIBRARIES   = -lm -lpthread -framework OpenCL
 LIBRARIES  += -L libft/ -lft -framework AppKit
 LIBRARIES  += -L libJSON/ -lJSON
@@ -51,10 +56,15 @@ VPATH      += $(SRCS_DIR)/gui $(SRCS_DIR)/parsing $(SRCS_DIR)/icons $(SRCS_DIR)/
 
 all         : $(NAME)
 
-$(NAME)     : $(OBJS_DIR) $(OBJS) $(HEADERS)
-	@make -C libft
+$(NAME)     : $(LIBFT) $(LIBJSON) $(OBJS_DIR) $(OBJS) $(HEADERS)
 	@$(CC) $(CFLAGS) -o $(NAME) $(TO_LINKING)
 	@printf "\e[38;5;46m./$(NAME)   SUCCESSFUL BUILD 🖥\e[0m\n"
+
+$(LIBFT)    :
+	@make -C $(LIBFT_DIR)
+
+$(LIBJSON)  :
+	@make -C $(LIBJSON_DIR)
 
 $(OBJS_DIR) :
 	@mkdir $(OBJS_DIR)
@@ -65,10 +75,14 @@ $(OBJS)     : %.o : %.c $(HEADERS)
 
 clean       :
 	@rm -rf $(OBJS_DIR)
+	@make -C $(LIBFT_DIR) clean
+	@make -C $(LIBJSON_DIR) clean
 	@printf "\e[38;5;226m$(OBJS_DIR)    FOLDER DELETED\e[0m\n"
 
 fclean      : clean
 	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@make -C $(LIBJSON_DIR) fclean
 	@printf "\e[38;5;226m./$(NAME)   DELETED\e[0m\n"
 
 re          : fclean all

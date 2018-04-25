@@ -14,17 +14,17 @@
 
 int			main(void)
 {
-	t_rt	s;
+	t_rt	rt;
 
-	s.sdl.win_w = WINDOW_WIDTH;
-	s.sdl.win_h = WINDOW_HEIGHT;
-	s.scene.file = NULL;
-	if (!sdl_init_everything(&s))
+	rt.sdl.win_w = WINDOW_WIDTH;
+	rt.sdl.win_h = WINDOW_HEIGHT;
+	rt.scene.file = NULL;
+	if (!sdl_init_everything(&rt))
 		ft_error("Failed SDL initialization");
-	init_default_scene(&s);
-	if (!run_ui(&s))
+	init_default_scene(&rt);
+	if (!run_ui(&rt))
 		ft_error("Running failure");
-	destroy(&s);
+	destroy(&rt);
 	return (0);
 }
 

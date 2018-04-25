@@ -21,10 +21,10 @@
 # define SDL_ERROR "./RT: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 500
-# define MAX_HEIGHT 500
-# define WINDOW_WIDTH 500
-# define WINDOW_HEIGHT 500
+# define MAX_WIDTH 1000
+# define MAX_HEIGHT 1000
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 1000
 # define BUTTONS_AMOUNT 16
 
 typedef struct		s_event
@@ -84,6 +84,7 @@ typedef struct		s_rt
 	cl_mem			textures_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
+	cl_mem			textures_mem;
 	cl_uint			samples;
 	t_scene			scene;
 	t_event			event;

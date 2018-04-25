@@ -12,7 +12,7 @@
 
 NAME        = demo
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -O3
+CFLAGS      = -Wall -Wextra -Werror -Og -g
 
 SRCS_DIR    = ./src
 OBJS_DIR    = ./obj
@@ -32,8 +32,8 @@ OBJS        = $(SRCS:.c=.o)
 
 INCLUDES    = -I include/
 INCLUDES   += -I libft/
-INCLUDES   += -I /frameworks/SDL2_image.framework/SDL2_image/Headers
-INCLUDES   += -I /frameworks/SDL2_ttf.framework/Headers
+INCLUDES   += -I frameworks/SDL2.framework/Headers/
+INCLUDES   += -I frameworks/SDL2_image.framework/SDL2_image/Headers
 INCLUDES   += -I /Library/Frameworks/SDL2.framework/Versions/Current/Headers
 
 LIBRARIES   = -lm -lpthread -framework OpenCL

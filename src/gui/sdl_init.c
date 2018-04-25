@@ -28,7 +28,6 @@ int 			load_all_textures(t_rt *s)
 	s->textures_img[0] = IMG_Load("src/img/brickwall.jpg");
 	s->textures_img[1] = IMG_Load("src/img/brickwall_normal.jpg");
 	s->textures_img[2] = IMG_Load("src/img/earth.jpg");
-
 	return (1);
 }
 

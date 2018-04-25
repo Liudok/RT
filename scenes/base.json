@@ -42,7 +42,7 @@
 			"color": [0.9, 0.9, 0.1],
 			"origin": [0, 3, 2],
 			"big_radius2": 3.8,
-			"small_radius2": 0.8,
+			"small_radius2": 1,
 			"normal": [1, 0, 0],
 			"texture": 0
 		},

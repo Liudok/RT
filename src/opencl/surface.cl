@@ -8,22 +8,22 @@ static float3	sphere_normal(global t_sphere *obj, float3 pos)
 
 static float3	plane_normal(global t_plane *obj)
 {
-	return (normalize(obj->normal));
+	return (obj->normal);
 }
 
 static float3	cylinder_normal(global t_cylinder *obj, float3 pos, float m)
 {
-	return (normalize(pos - obj->origin - fast_normalize(obj->normal) * m));
+	return (normalize(pos - obj->origin - obj->normal * m));
 }
 
 static float3	cone_normal(global t_cone *obj, float3 pos, float m)
 {
-	return (normalize(pos - obj->origin - normalize(obj->normal) * m * (1 + obj->half_tangent * obj->half_tangent)));
+	return (normalize(pos - obj->origin - (1 + obj->half_tangent * obj->half_tangent)) * obj->normal * m);
 }
 
 static float3	disk_normal(global t_disk *obj)
 {
-	return (normalize(obj->normal));
+	return (obj->normal);
 }
 
 static float3	torus_normal(global t_torus *obj, float3 pos)
@@ -63,12 +63,13 @@ static t_material  get_material(global t_object *obj)
 {
     if (obj->material.x)
         return (diffuse);
-    if (obj->material.y)
+	else if (obj->material.y)
         return (specular);
-    if (obj->material.z)
+    else if (obj->material.z)
         return (refraction);
-    if (obj->material.w)
+    else if (obj->material.w)
         return (emission);
+	return (diffuse);
 }
 
 static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t, float m)
@@ -98,27 +99,23 @@ static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
     r2 = get_random(&seeds[0], &seeds[1]);
     r2s = sqrt(r2);
 
-    w = surf.nl;
-    u = normalize(
-            cross(
-                fabs(w[0]) > .1f ?(float3){0, 1, 0} : (float3){1, 0, 0},
-                w
-            )
-        );
-    v = cross(w, u);
+	w = surf.nl;
+	u = normalize(
+			cross((fabs(w[0]) > .1f ? (float3)(0, 1, 0) : (float3)(1, 0, 0)), w));
+	v = cross(w, u);
 
-    cos_a = cos(r1);
-    sin_a = sin(r1);
+	cos_a = cos(r1);
+	sin_a = sin(r1);
 	k = sqrt(1 - r2);
 
-    u = u * cos_a * r2s;
-    v = v * sin_a * r2s;
-    w = w * k;
+	u = u * cos_a * r2s;
+	v = v * sin_a * r2s;
+	w = w * k;
 
-    d = normalize(u + v + w);
-    rand_ray.o = surf.pos;
-    rand_ray.d = d;
-    return (rand_ray);
+	d = normalize(u + v + w);
+	rand_ray.o = surf.pos;
+	rand_ray.d = d;
+	return (rand_ray);
 }
 
 static t_ray   specular_reflection(t_surface surf, t_ray r)

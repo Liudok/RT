@@ -59,6 +59,7 @@ void	destroy(t_rt *pt)
 	clReleaseMemObject(pt->seeds);
 	clReleaseMemObject(pt->colors);
 	clReleaseMemObject(pt->pixels_mem);
+	clReleaseMemObject(pt->textures_mem);
 	free(pt->sdl.pixels);
 	SDL_Quit();
 }

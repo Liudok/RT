@@ -75,7 +75,7 @@ static t_material  get_material(global t_object *obj)
 static void map_normal(read_only image3d_t textures,
 						 t_surface *surf, uint2 size)
 {
-	float3 map_n = normalize(get_texel(textures, surf, surf->obj->tex.y, size));
+	float3 map_n = normalize(get_texel(textures, surf, surf->obj->texture.y, size));
 	float3 t = cross(surf->n, (float3)(0.f, 1.f, 0.f));
 	if (fast_length(t) == 0.f)
 		t = cross(surf->n, (float3)(0.f, 0.f, 1.f));
@@ -88,29 +88,29 @@ static void map_normal(read_only image3d_t textures,
 static void map_light(read_only image3d_t textures,
 						 t_surface *surf, uint2 size)
 {
-	float3 map_n = get_texel(textures, surf, surf->obj->tex.y, size);
+	float3 map_n = get_texel(textures, surf, surf->obj->texture.y, size);
 	if (fast_length(map_n) > 0.2)
 		surf->material = emission;
 }
 
-static float3 apply_textures(t_surface *surf, read_only image3d_t textures, uint2 *sizes)
+static float3 apply_textures(t_surface *surf, read_only image3d_t textures, global uint2 *sizes)
 {
-	uint4 tex = surf->obj->textures;
-	surf.uv = get_tex_coords(surf);
+	uchar4 tex = surf->obj->texture;
+	surf->uv = get_tex_coords(surf);
 
 	if (tex.y && tex.y <= NUM_TEX) //normal_map
 		map_normal(textures, surf, sizes[tex.y]);
 	if (tex.z && tex.z <= NUM_TEX) //light map
 		map_light(textures, surf, sizes[tex.z]);
 	if (tex.x == 255)
-		return (return (surf.nl * .49f + .5f));
+		return (surf->nl * .49f + .5f);
 	if (tex.x && tex.x <= NUM_TEX)
-		return (get_texel(textures, surf, tex.x, size[tex.x]));
+		return (get_texel(textures, surf, tex.x, sizes[tex.x]));
 	return ((float3)(.9f, .9f, .9f));
 }
 
 static t_surface   get_surface_properties(global t_object *obj,
-		t_ray r, float t, float m, read_only image3d_t textures, uint2 *sizes)
+		t_ray r, float t, float m, read_only image3d_t textures, global uint2 *sizes)
 {
     t_surface   s;
 

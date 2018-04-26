@@ -9,7 +9,8 @@ static float3 radiance(global t_object* objs,
 		uint objnum,
 		t_ray r,
 		uint* seeds,
-		read_only image3d_t textures) {
+		read_only image3d_t textures,
+		global uint2 *sizes) {
 	int depth = 0;	  // bounces counter
 	global t_object* obj;   // intersected object
 	float t;		    // distance to hit
@@ -28,7 +29,7 @@ static float3 radiance(global t_object* objs,
 		if (!obj || t >= MAXFLOAT || t < EPSILON)
 			break;
 
-        surf = get_surface_properties(obj, r, t, m, textures);
+        surf = get_surface_properties(obj, r, t, m, textures, sizes);
         accum_col += (surf.material == emission) ? accum_ref * obj->color : 0;
 
         if (++depth > 5)
@@ -73,7 +74,8 @@ void path_tracing(
 		global float3* colors,
 		global int* pixels_mem,
 		uint currentSample,
-		read_only image3d_t textures) {
+		read_only image3d_t textures,
+		global uint2 *sizes) {
 	int i = get_global_id(0);
 	uint2 coords = {i % camera.canvas.x, i / camera.canvas.x};
 	uint seeds[2];
@@ -90,7 +92,7 @@ void path_tracing(
             // Init ray dir on 'table tent' term
             ray = initRay(coords, (uint2)(sx, sy), camera, seeds);
             // Compute sub-pixel radiance and save, divide by 4
-            rad += radiance(objs, objnum, ray, seeds, textures) * 0.25f;
+            rad += radiance(objs, objnum, ray, seeds, textures, sizes) * 0.25f;
         }
     }
     addSample(colors, &rad, currentSample, i);

@@ -6,10 +6,11 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 12:10:57 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 13:49:13 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rt.h"
 #include "cl_wrap.h"
 #include "libft.h"
 #include <fcntl.h>
@@ -238,7 +239,7 @@ cl_int rt_cl_compile(t_cl_info* info, char* path)
 				(const size_t*)&size, &status);
 		check_error(status);
 		status = clBuildProgram(info->program, 1, &info->device_id,
-				"-I includes/ -I src/opencl/ -D NUM_TEX " #NUM_TEX,
+				"-I includes/ -I src/opencl/ -D NUM_TEX=4",
 				NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
@@ -330,26 +331,26 @@ void rt_cl_push_task(t_kernel* kernel, size_t* size)
 	check_error(status);
 }
 
-cl_mem rt_cl_create_image_tex(t_cl_info* info, SDL_Surface** textures,
-		int depth)
+cl_mem rt_cl_create_image_tex(t_cl_info *info, SDL_Surface **textures,
+		cl_uint2 *texture_sizes)
 {
 	const cl_image_format fmt = { CL_BGRA, CL_UNORM_INT8 };
 	const cl_image_desc desc = { CL_MEM_OBJECT_IMAGE3D,
-		textures[0]->w, textures[0]->h, depth + 2,
+		textures[0]->w, textures[0]->h, NUM_TEX + 2,
 		1, 0, 0, 0, 0, NULL };
 	cl_int status;
 	cl_mem result;
 
 	status = CL_SUCCESS;
-	result = clCreateImage(info->context, CL_MEM_READ_WRITE, &fmt, &desc, NULL,
-			&status);
+	result = clCreateImage(info->context, CL_MEM_READ_WRITE,
+			&fmt, &desc, NULL, &status);
 	check_error(status);
-	rt_cl_bind_textures(info, result, textures, depth);
+	rt_cl_bind_textures(info, result, textures, texture_sizes);
 	return (result);
 }
 
-void rt_cl_bind_textures(t_cl_info* info, cl_mem mem, SDL_Surface** textures,
-		int depth)
+void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
+		cl_uint2 *texture_sizes)
 {
 	int i;
 	const float color[4] = {1.f, 1.f, 1.f, 0.f};
@@ -365,7 +366,9 @@ void rt_cl_bind_textures(t_cl_info* info, cl_mem mem, SDL_Surface** textures,
 	region[2] = 1;
 	check_error(clEnqueueFillImage(info->command_queue, mem, color, origin,
 			region, 0, NULL, NULL));
-	while (i < depth) {
+	while (i < NUM_TEX) {
+		texture_sizes[i + 1].x = textures[i]->w;
+		texture_sizes[i + 1].y = textures[i]->h;
 		origin[2] = i + 1;
 		check_error(clEnqueueWriteImage(info->command_queue, mem, CL_TRUE,
 				origin, region, 0, 0, textures[i]->pixels, 0, NULL, NULL));

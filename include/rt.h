@@ -13,6 +13,8 @@
 #ifndef RT_H
 # define RT_H
 
+extern int g_error_flag;
+
 typedef struct s_rt t_rt;
 # include "cl_wrap.h"
 # include "kernel.h"
@@ -30,6 +32,7 @@ typedef struct s_rt t_rt;
 # define NUM_TEX 3
 
 # include "panels.h"
+
 typedef struct		s_event
 {
 	int				w : 1;

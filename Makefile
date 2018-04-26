@@ -6,13 +6,13 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/26 09:40:21 by skamoza          ###   ########.fr        #
+#    Updated: 2018/04/26 14:53:02 by skamoza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = RT
 CC          = gcc
-CFLAGS      = -Wall -Wextra -Werror -Og -g
+CFLAGS      = -Wall -Wextra -Werror -g
 
 SRCS_DIR    = ./src
 OBJS_DIR    = ./obj

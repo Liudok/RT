@@ -76,13 +76,13 @@ static void map_normal(read_only image3d_t textures,
 						 t_surface *surf, uint2 size)
 {
 	float3 map_n = normalize(get_texel(textures, surf, surf->obj->texture.y, size));
-	float3 t = cross(surf->n, (float3)(0.f, 1.f, 0.f));
+	float3 t = cross(surf->nl, (float3)(0.f, 1.f, 0.f));
 	if (fast_length(t) == 0.f)
-		t = cross(surf->n, (float3)(0.f, 0.f, 1.f));
+		t = cross(surf->nl, (float3)(0.f, 0.f, 1.f));
 	t = normalize(t);
 	float3 b = cross(surf->n, t);
-	surf->n = normalize(t * map_n.x
-					+ b * map_n.y + surf->n * map_n.z);
+	surf->nl = normalize(t * map_n.x
+					+ b * map_n.y + surf->nl * map_n.z);
 }
 
 static void map_light(read_only image3d_t textures,
@@ -106,7 +106,7 @@ static float3 apply_textures(t_surface *surf, read_only image3d_t textures, glob
 		return (surf->nl * .49f + .5f);
 	if (tex.x && tex.x <= NUM_TEX)
 		return (get_texel(textures, surf, tex.x, sizes[tex.x]));
-	return ((float3)(.9f, .9f, .9f));
+	return (surf->obj->color);
 }
 
 static t_surface   get_surface_properties(global t_object *obj,
@@ -166,6 +166,6 @@ static t_ray   specular_reflection(t_surface surf, t_ray r)
     t_ray spec;
 
     spec.o = surf.pos;
-    spec.d = r.d - surf.n * 2 * dot(r.d, surf.n);
+    spec.d = r.d - surf.nl * 2 * dot(r.d, surf.nl);
     return (spec);
 }

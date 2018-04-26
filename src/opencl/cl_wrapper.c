@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 15:48:01 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 17:58:23 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ cl_int rt_cl_compile(t_cl_info* info, char* path)
 				(const size_t*)&size, &status);
 		check_error(status);
 		status = clBuildProgram(info->program, 1, &info->device_id,
-				"-I includes/ -I src/opencl/ -D NUM_TEX=8",
+				"-I includes/ -I src/opencl/ -D NUM_TEX=10",
 				NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
@@ -353,7 +353,6 @@ void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
 		cl_uint2 *texture_sizes)
 {
 	int i;
-	//const float color[4] = {1.f, 1.f, 1.f, 0.f};
 	size_t origin[3];
 	size_t region[3];
 
@@ -375,6 +374,4 @@ void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
 		i++;
 	}
 	origin[2] = i + 1;
-	//check_error(clEnqueueFillImage(info->command_queue, mem, &color, origin,
-	//		region, 0, NULL, NULL));
 }

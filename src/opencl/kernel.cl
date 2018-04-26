@@ -27,7 +27,7 @@ static float3 radiance(global t_object* objs,
 		if (!obj || t >= MAXFLOAT || t < EPSILON)
 			break;
 
-        surf = get_surface_properties(obj, r, t, m);
+        surf = get_surface_properties(obj, r, t, m, textures);
         accum_col += (surf.material == emission) ? accum_ref * obj->color : 0;
 
         if (++depth > 5)
@@ -36,8 +36,13 @@ static float3 radiance(global t_object* objs,
                 break ;
             surf.ref /= surf.maxref;
         }
-        accum_ref *= surf.ref;
-		accum_ref *= get_texel(textures, obj, &surf);
+		accum_ref *= surf.ref;
+		/*
+		if (obj->texture)
+			accum_ref *= get_texel(textures, &surf);
+		else
+        accum_ref *= surf.nl * 2.f + 0.5f;
+		*/
         if (surf.material == diffuse || surf.material == emission)
             r = diffuse_reflection(surf, seeds);
         else if (surf.material == specular)
@@ -64,7 +69,8 @@ static t_ray initRay(uint2 coords, uint2 sub, t_camera cam, uint* seeds) {
     return (ray);
 }
 
-__kernel __attribute__((vec_type_hint(float3))) void path_tracing(
+__kernel __attribute__((vec_type_hint(float3)))
+void path_tracing(
 		global t_object* objs,
 		uint objnum,
 		t_camera camera,
@@ -87,7 +93,7 @@ __kernel __attribute__((vec_type_hint(float3))) void path_tracing(
         for (uint sx = 0; sx < 2; sx++)
         {
             // Init ray dir on 'table tent' term
-            ray = initRay(coords, (uint2){sx, sy}, camera, seeds);
+            ray = initRay(coords, (uint2)(sx, sy), camera, seeds);
             // Compute sub-pixel radiance and save, divide by 4
             rad += radiance(objs, objnum, ray, seeds, textures) * 0.25f;
         }

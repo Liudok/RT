@@ -72,7 +72,21 @@ static t_material  get_material(global t_object *obj)
 	return (diffuse);
 }
 
-static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t, float m)
+static float3 map_normal(float3 *world_normal,
+						 read_only image3d_t textures,
+						 t_surface *surf)
+{
+	float4 map_n = (float4)(normalize(get_texel(textures, surf)), 0);
+	float3 t = cross(*world_normal, (float3)(0.0, 1.0, 0.0));
+	if (!fast_length(t))
+		t = cross(*world_normal, (float3)(0.0, 0.0, 1.0));
+	t = normalize(t);
+	float3 b = cross(*world_normal, t);
+	*world_normal = normalize(t * map_n.x
+					+ b * map_n.y + *world_normal * map_n.z);
+}
+
+static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t, float m, read_only image3d_t textures)
 {
     t_surface   s;
 
@@ -80,11 +94,14 @@ static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t
     s.pos = r.o + r.d * t;
     s.m = m;
     s.n = find_normal(obj, s.pos, s.m);
-    s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
+	s.nl = s.n;
+    //s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
+	if (obj->texture)
+		map_normal(&s.n, textures, &s);
     s.material = get_material(obj);
     s.ref = (s.material == emission) ? (float3){0,0,0} : s.obj->color;
     s.maxref = fmax(fmax(s.ref.x, s.ref.y), s.ref.z);
-    s.maxref = (s.maxref > 0.75) ? s.maxref * 0.75 : s.maxref;
+    s.maxref -= (s.maxref > 0.75) ? (s.maxref - 0.75) * 0.75 : 0;
     return (s);
 }
 
@@ -100,8 +117,8 @@ static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
     r2s = sqrt(r2);
 
 	w = surf.nl;
-	u = normalize(
-			cross((fabs(w[0]) > .1f ? (float3)(0, 1, 0) : (float3)(1, 0, 0)), w));
+	u = normalize(cross((fabs(w[0]) > .1f ?
+					(float3)(0, 1, 0) : (float3)(1, 0, 0)), w));
 	v = cross(w, u);
 
 	cos_a = cos(r1);

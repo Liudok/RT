@@ -41,6 +41,23 @@ float3			get_float3(json_value *value)
 	return (ret);
 }
 
+uchar4			get_uchar4(json_value *value)
+{
+	uchar4		ret;
+
+	ret = (uchar4){{0, 0, 0, 0}};
+	if (value == NULL)
+		ft_error("No value for float4.");
+	ret.s0 = get_number(value->u.array.values[0]);
+	ret.s1 = get_number(value->u.array.values[1]);
+	ret.s2 = get_number(value->u.array.values[2]);
+	ret.s3 = get_number(value->u.array.values[3]);
+//	if (ret.s0 > 1 || ret.s0 < 0 || ret.s1 > 1 || ret.s1 < 0 ||
+//		ret.s2 > 1 || ret.s2 < 0 || ret.s3 > 1 || ret.s3 < 0)
+//		ft_error("The value in material can not be more than 1 or less than 0.");
+	return (ret);
+}
+
 float4			get_float4(json_value *value)
 {
 	float4		ret;

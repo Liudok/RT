@@ -21,6 +21,7 @@ float4			get_float4(json_value *value);
 float			get_number(json_value *value);
 float3			get_float3(json_value *value);
 int2			get_int2(json_value *value);
+uchar4			get_uchar4(json_value *value);
 t_obj_type		get_type(json_value *value);
 void			get_objects_details(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details(t_object *o, char *n, struct _json_value *val);

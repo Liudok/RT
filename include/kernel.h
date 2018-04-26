@@ -148,7 +148,7 @@ typedef struct	s_object
 	t_primitive	prim;
 	float4		material;
 	float3		color;
-	uchar4 		textures;
+	uchar4 		texture;
 }				t_object;
 
 typedef struct	s_camera

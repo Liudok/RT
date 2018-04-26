@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:34:10 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/26 13:48:24 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define CL_USE_DEPRECATED_OPENCL_1_2_APIS
 # include "SDL.h"
 
-#  include "SDL.h"
 # ifdef __APPLE__
 #  include <OpenCL/opencl.h>
 # else
@@ -118,9 +117,9 @@ void			rt_cl_drop_arg(t_kernel *kernel);
 */
 void			rt_cl_push_task(t_kernel *kernel, size_t *size);
 
-cl_mem			rt_cl_create_image_tex(t_cl_info* info,
-					SDL_Surface **textures, int depth);
+cl_mem			rt_cl_create_image_tex(t_cl_info *info,
+					SDL_Surface **textures, cl_uint2 *);
 
-void			rt_cl_bind_textures(t_cl_info* info, cl_mem mem,
-					SDL_Surface **textures, int depth);
+void			rt_cl_bind_textures(t_cl_info *info, cl_mem mem,
+					SDL_Surface **textures, cl_uint2 *);
 #endif

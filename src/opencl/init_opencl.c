@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/25 22:35:37 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/26 13:49:12 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			init_opencl(t_rt *rt)
 
 	seeds = make_seeds(rt);
 	rt_cl_init(&rt->info);
-	rt_cl_compile(&rt->info, "./src/opencl/kernel.cl");
+	rt_cl_compile(&rt->info, "src/opencl/kernel.cl");
 	rt->kernel = rt_cl_create_kernel(&rt->info, "path_tracing");
 
 	rt->mouse_kernel = rt_cl_create_kernel(&rt->info, "mouse_hook");
@@ -52,8 +52,11 @@ void			init_opencl(t_rt *rt)
 			&rt->info, sizeof(cl_uint) * rt->sdl.win_w * rt->sdl.win_h * 2, seeds);
 	rt->colors = rt_cl_malloc_read(
 			&rt->info, sizeof(cl_float3) * rt->sdl.win_w * rt->sdl.win_h * 2);
-	rt->textures_mem = rt_cl_create_image_tex(&rt->info, &rt->textures_img[2], 1);
+	rt->textures_mem = rt_cl_create_image_tex(&rt->info, &rt->textures_img[0],
+			rt->texture_sizes);
 	rt->pixels_mem = rt_cl_malloc_read(&rt->info, sizeof(cl_int) * rt->job_size);
+	rt->tex_size_mem = rt_cl_malloc_write(&rt->info, sizeof(cl_uint2) * (2 + NUM_TEX), 
+			&rt->texture_sizes);
 	clSetKernelArg(rt->kernel.kernel, 0, sizeof(cl_mem), &rt->scene.objs_mem);
 	clSetKernelArg(rt->kernel.kernel, 1, sizeof(cl_uint), &rt->scene.objnum);
 	clSetKernelArg(rt->kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);
@@ -62,6 +65,7 @@ void			init_opencl(t_rt *rt)
 	clSetKernelArg(rt->kernel.kernel, 5, sizeof(cl_mem), &rt->pixels_mem);
 	clSetKernelArg(rt->kernel.kernel, 6, sizeof(cl_uint), &rt->samples);
 	clSetKernelArg(rt->kernel.kernel, 7, sizeof(cl_mem), &rt->textures_mem);
+	clSetKernelArg(rt->kernel.kernel, 8, sizeof(cl_mem), &rt->tex_size_mem);
 	free(seeds);
 	create_figures(rt);
 }
@@ -72,8 +76,8 @@ void			reinit_opencl(t_rt *rt)
 
 	seeds = make_seeds(rt);
 	free(rt->scene.objs_mem);
-	rt->scene.objs_mem =
-			rt_cl_malloc_write(&rt->info, sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
+	rt->scene.objs_mem = rt_cl_malloc_write(&rt->info,
+			sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
 	clSetKernelArg(rt->kernel.kernel, 0, sizeof(cl_mem), &rt->scene.objs_mem);
 	clSetKernelArg(rt->kernel.kernel, 1, sizeof(cl_uint), &rt->scene.objnum);
 	clSetKernelArg(rt->kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);

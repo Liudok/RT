@@ -6,17 +6,18 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 22:35:37 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/26 13:53:43 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
 
+typedef struct s_rt t_rt;
+# include "cl_wrap.h"
+# include "kernel.h"
 # include <stdio.h>
 # include <errno.h>
-# include "panels.h"
-# include "kernel.h"
 
 # define SDL_ERROR "./rt: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
@@ -26,7 +27,9 @@
 # define WINDOW_WIDTH 500
 # define WINDOW_HEIGHT 500
 # define BUTTONS_AMOUNT 16
+# define NUM_TEX 3
 
+# include "panels.h"
 typedef struct		s_event
 {
 	int				w : 1;
@@ -84,6 +87,7 @@ typedef struct		s_rt
 	size_t			job_size;
 	cl_mem			pixels_mem;
 	cl_mem			textures_mem;
+	cl_mem			tex_size_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
 	cl_uint			samples;
@@ -91,8 +95,9 @@ typedef struct		s_rt
 	t_scene			scene;
 	t_event			event;
 
-	SDL_Texture		*textures[3];
-	SDL_Surface		*textures_img[3];
+	SDL_Texture		*textures[NUM_TEX];
+	SDL_Surface		*textures_img[NUM_TEX];
+	cl_uint2		texture_sizes[NUM_TEX + 2];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
 }					t_rt;
@@ -158,6 +163,6 @@ void				rt_check_error(int flag, char *err1, char *err2);
 void				destroy(t_rt *pt);
 
 void				reinit_opencl(t_rt *pt);
-int			mouse_ray(t_rt *rt, int x, int y);
+int					mouse_ray(t_rt *rt, int x, int y);
 
 #endif

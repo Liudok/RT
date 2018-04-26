@@ -62,14 +62,32 @@ static void putPixel(global int* pixels, global float3* colors, int id) {
 	pixels[id] = toInt(colors[id]);
 }
 
+static float2 sphere_tex_coords(t_surface *surf)
+{
+	return (float2)(
+			(atan2(surf->nl.z, surf->nl.x) / (2.f * (float)M_PI) + 0.5f),
+			(0.5f - asin(surf->nl.y) / (float)M_PI) );
+}
+
+static float2 get_tex_coords(t_surface *surf)
+{
+	switch (surf->obj->type) {
+		case sphere:
+			return (sphere_tex_coords(surf));
+		default:
+			break;
+	}
+	return ((float2)(0,0));
+}
+
 constant sampler_t sampler_tex =
 CLK_ADDRESS_CLAMP_TO_EDGE | CLK_FILTER_NEAREST | CLK_NORMALIZED_COORDS_FALSE;
 
 static float3 get_texel(read_only image3d_t textures,
-		global t_object* obj,
-		t_surface* surf) {
+		t_surface *surf, int tex_num, uint2 size)
+{
 	return (read_imagef(textures, sampler_tex,
-	(int4)((atan2(surf->nl.z, surf->nl.x) / (2.f * (float)M_PI) + 0.5f) * 2048.f,
-	(0.5f - asin(surf->nl.y) / (float)M_PI ) * 1024.f,
-	(float)obj->texture, 1.f)).xyz);
+	(int4)(surf->uv.x * size.x,
+	surf->uv.y * size.y,
+	tex_num, 1.f)).xyz);
 }

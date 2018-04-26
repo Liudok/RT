@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/26 15:48:04 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 16:20:01 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int 			load_all_textures(t_rt *s)
 	s->textures_img[5] = IMG_Load("src/img/earth_clouds.jpg");
 	s->textures_img[6] = IMG_Load("src/img/TennisBallColor.jpg");
 	s->textures_img[7] = IMG_Load("src/img/TennisBallNormal.jpg");
+	s->textures_img[8] = IMG_Load("src/img/BeachBallColor.jpg");
+	s->textures_img[9] = IMG_Load("src/img/BeachBalltransp.jpg");
 	return (1);
 }
 
@@ -72,7 +74,8 @@ int 			sdl_init_everything(t_rt *s)
 int 			run_ui(t_rt *s)
 {
 	int running;
-int fig;
+	int fig;
+
 	running = 1;
 	init_opencl(s);
 	SDL_Event evt;

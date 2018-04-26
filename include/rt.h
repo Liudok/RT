@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 15:47:37 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 17:59:39 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ typedef struct s_rt t_rt;
 # define SDL_ERROR "./rt: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 500 /*3840*/
-# define MAX_HEIGHT 500 /*2160*/
-# define WINDOW_WIDTH 500
-# define WINDOW_HEIGHT 500
+# define MAX_WIDTH 3840
+# define MAX_HEIGHT 2160
+# define WINDOW_WIDTH 1000
+# define WINDOW_HEIGHT 1000
 # define BUTTONS_AMOUNT 16
-# define NUM_TEX 8
+# define NUM_TEX 10
 
 # include "panels.h"
 

@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 13:49:13 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 15:48:01 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ cl_int rt_cl_compile(t_cl_info* info, char* path)
 				(const size_t*)&size, &status);
 		check_error(status);
 		status = clBuildProgram(info->program, 1, &info->device_id,
-				"-I includes/ -I src/opencl/ -D NUM_TEX=4",
+				"-I includes/ -I src/opencl/ -D NUM_TEX=8",
 				NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
@@ -353,7 +353,7 @@ void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
 		cl_uint2 *texture_sizes)
 {
 	int i;
-	const float color[4] = {1.f, 1.f, 1.f, 0.f};
+	//const float color[4] = {1.f, 1.f, 1.f, 0.f};
 	size_t origin[3];
 	size_t region[3];
 
@@ -361,20 +361,20 @@ void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
 	origin[0] = 0;
 	origin[1] = 0;
 	origin[2] = 0;
-	region[0] = textures[i]->w;
-	region[1] = textures[i]->h;
+	region[0] = 1;
+	region[1] = 1;
 	region[2] = 1;
-	check_error(clEnqueueFillImage(info->command_queue, mem, color, origin,
-			region, 0, NULL, NULL));
 	while (i < NUM_TEX) {
-		texture_sizes[i + 1].x = textures[i]->w;
-		texture_sizes[i + 1].y = textures[i]->h;
+		region[0] = textures[i]->w;
+		region[1] = textures[i]->h;
+		texture_sizes[i + 1].x = region[0];
+		texture_sizes[i + 1].y = region[1];
 		origin[2] = i + 1;
 		check_error(clEnqueueWriteImage(info->command_queue, mem, CL_TRUE,
 				origin, region, 0, 0, textures[i]->pixels, 0, NULL, NULL));
 		i++;
 	}
 	origin[2] = i + 1;
-	check_error(clEnqueueFillImage(info->command_queue, mem, &color, origin,
-			region, 0, NULL, NULL));
+	//check_error(clEnqueueFillImage(info->command_queue, mem, &color, origin,
+	//		region, 0, NULL, NULL));
 }

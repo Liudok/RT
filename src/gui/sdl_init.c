@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/26 13:53:43 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 15:48:04 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,15 @@ int 			load_all_textures(t_rt *s)
 	s->textures[0] = load_texture("src/img/dark_pixel2.png", s);
 	s->textures[1] = load_texture("src/img/dark_pixel.png", s);
 	s->textures[2] = load_texture("src/img/rama.png", s);
+	// ADD PROTECTION TO CHECK IF FILES ARE OK
 	s->textures_img[0] = IMG_Load("src/img/earth.jpg");
 	s->textures_img[1] = IMG_Load("src/img/earth_normal.jpg");
 	s->textures_img[2] = IMG_Load("src/img/earth_light.jpg");
+	s->textures_img[3] = IMG_Load("src/img/brickwall.jpg");
+	s->textures_img[4] = IMG_Load("src/img/brickwall_normal.jpg");
+	s->textures_img[5] = IMG_Load("src/img/earth_clouds.jpg");
+	s->textures_img[6] = IMG_Load("src/img/TennisBallColor.jpg");
+	s->textures_img[7] = IMG_Load("src/img/TennisBallNormal.jpg");
 	return (1);
 }
 

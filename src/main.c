@@ -12,6 +12,8 @@
 
 #include "../include/rt.h"
 
+int g_error_flag = 0;
+
 int			main(void)
 {
 	t_rt	rt;
@@ -53,12 +55,15 @@ void	destroy(t_rt *pt)
 	SDL_DestroyRenderer(pt->sdl.renderer);
 	SDL_DestroyWindow(pt->sdl.win);
 	rt_cl_free_kernel(&pt->kernel);
+	rt_cl_free_kernel(&pt->mouse_kernel);
 	rt_cl_free(&pt->info);
 	clReleaseMemObject(pt->scene.objs_mem);
 	clReleaseMemObject(pt->textures_mem);
 	clReleaseMemObject(pt->seeds);
 	clReleaseMemObject(pt->colors);
 	clReleaseMemObject(pt->pixels_mem);
+	clReleaseMemObject(pt->tex_size_mem);
+	clReleaseMemObject(pt->mouse_intersect);
 	free(pt->sdl.pixels);
 	SDL_Quit();
 }

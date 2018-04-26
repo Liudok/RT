@@ -34,6 +34,7 @@ void				file_choosing(t_rt *rt)
 	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
 	struct stat		k;
 	char			*file_str;
+	t_scene			tmp_scene;
 
 	rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
 	if (rt->scene.file)
@@ -44,11 +45,23 @@ void				file_choosing(t_rt *rt)
 			ft_error("File not found.");
 		else
 		{
-			delete_old_scene(rt);
+//			delete_old_scene(rt);
+//			file_str = read_file(rt->scene.file, k.st_size);
+//			start_parsing(file_str, &rt->scene, k.st_size);
+//			init_camera(rt, rt->scene.camera.base_origin);
+//			reinit_opencl(rt);
+			tmp_scene = rt->scene;
 			file_str = read_file(rt->scene.file, k.st_size);
-			start_parsing(file_str, &rt->scene, k.st_size);
-			init_camera(rt, rt->scene.camera.base_origin);
-			reinit_opencl(rt);
+			start_parsing(file_str, &tmp_scene, k.st_size);
+			if (g_error_flag)
+				ft_putendl_fd("Not valid map.", 2);
+			else
+			{
+				delete_old_scene(rt);
+				rt->scene = tmp_scene;
+				init_camera(rt, tmp_scene.camera.base_origin);
+				reinit_opencl(rt);
+			}
 		}
 	}
 }

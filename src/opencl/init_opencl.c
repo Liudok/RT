@@ -75,7 +75,7 @@ void			reinit_opencl(t_rt *rt)
 	cl_uint *seeds;
 
 	seeds = make_seeds(rt);
-	free(rt->scene.objs_mem);
+	clReleaseMemObject(rt->scene.objs_mem);
 	rt->scene.objs_mem = rt_cl_malloc_write(&rt->info,
 			sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
 	clSetKernelArg(rt->kernel.kernel, 0, sizeof(cl_mem), &rt->scene.objs_mem);

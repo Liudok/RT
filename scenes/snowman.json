@@ -5,7 +5,7 @@
 			"color": [0.7, 0.7, 0.7],
 			"origin": [0, -4, 0],
 			"normal": [0, 1, 0],
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -13,7 +13,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [2, 3.5, 0],
 			"radius": 1.0,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -21,7 +21,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [2, 1.2, 0],
 			"radius": 1.5,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -29,7 +29,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [2, -2, 0],
 			"radius": 2.7,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -37,7 +37,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [1.65, 3.6, -0.95],
 			"radius": 0.10,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -45,7 +45,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [2.35, 3.6, -0.95],
 			"radius": 0.10,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -53,7 +53,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [0.5, 1.8, -0.5],
 			"radius": 0.50,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -61,7 +61,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [3.5, 1.8, -0.5],
 			"radius": 0.50,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "cone",
@@ -72,7 +72,7 @@
 			"half_tangent": 0.27,
 			"m1": 1.8,
 			"m2": 3.2,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "cone",
@@ -83,7 +83,7 @@
 			"half_tangent": 0.1,
 			"m1": 0,
 			"m2": 1.1,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "disk",
@@ -92,7 +92,7 @@
 			"origin": [2, 3, -0.6],
 			"radius2": 0.2,
 			"normal": [0, 1, -0.5],
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "cylinder",
@@ -102,7 +102,7 @@
 			"normal": [0, 1, 0.8],
 			"radius": 0.06,
 			"height": 9.3,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -110,7 +110,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [2, 10, 0],
 			"radius": 3.5,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -118,7 +118,7 @@
 			"color": [0.9, 0.9, 0.9],
 			"origin": [15, 5, 0],
 			"radius": 6.0,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		}
 	],
 	"camera": [{

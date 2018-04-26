@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 12:14:39 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:34:32 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 int			main(void)
 {
-	t_rt	s;
+	t_rt	rt;
 
-	s.sdl.win_w = WINDOW_WIDTH;
-	s.sdl.win_h = WINDOW_HEIGHT;
-	s.scene.file = NULL;
-	if (!sdl_init_everything(&s))
+	rt.sdl.win_w = WINDOW_WIDTH;
+	rt.sdl.win_h = WINDOW_HEIGHT;
+	rt.scene.file = NULL;
+	if (!sdl_init_everything(&rt))
 		ft_error("Failed SDL initialization");
-	init_default_scene(&s);
-	if (!run_ui(&s))
+	init_default_scene(&rt);
+	if (!run_ui(&rt))
 		ft_error("Running failure");
-	destroy(&s);
+	destroy(&rt);
 	return (0);
 }
 
-void		pt_check_error(int flag, char *err1, char *err2)
+void		rt_check_error(int flag, char *err1, char *err2)
 {
 	if (flag)
 	{

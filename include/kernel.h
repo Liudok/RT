@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 07:55:43 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ typedef struct	s_object
 
 typedef struct	s_camera
 {
+	float3		base_origin;
+	float3 		base_dir;
 	float3		origin;
 	float3		dir;
 	float3		cx;

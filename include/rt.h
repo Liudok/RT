@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 12:30:37 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/25 22:35:37 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include "panels.h"
 # include "kernel.h"
 
-# define SDL_ERROR "./RT: SDL Error : "
+# define SDL_ERROR "./rt: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 
-# define MAX_WIDTH 1000
-# define MAX_HEIGHT 1000
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define MAX_WIDTH 500 /*3840*/
+# define MAX_HEIGHT 500 /*2160*/
+# define WINDOW_WIDTH 500
+# define WINDOW_HEIGHT 500
 # define BUTTONS_AMOUNT 16
 
 typedef struct		s_event
@@ -59,9 +59,10 @@ typedef	struct		s_scene
 {
 	char			*file;
 	t_object		*objs;
-	 cl_uint 		objnum;
+	cl_uint 		objnum;
 	t_camera		camera;
 	cl_mem			objs_mem;
+	t_btn			*figures;
 }					t_scene;
 
 typedef struct		s_sdl
@@ -108,9 +109,10 @@ SDL_Texture*		load_texture(const char *str, t_rt *s);
 void				set_bg(t_rt *s);
 void				create_buttons(t_rt *s);
 void				check_pressing(t_rt *s, int x, int y);
-void				file_choosing(t_rt *s, int i);
+void				file_choosing(t_rt *s);
 void				show_settings(t_rt *s);
 void				create_new_scene(t_rt *s);
+void 				create_figures(t_rt *s);
 void				set_icons(t_rt *s);
 void				create_subbuttons(t_rt *s);
 void				render_subbuttons(t_rt *s);
@@ -124,9 +126,9 @@ void				print_prim_info2(int fd, t_object *o, int i);
 void 				save_scene_to_png(t_rt *s);
 
 void				init_sdl(t_rt *pt, int width, int height);
-void				create_texture(t_rt *pt, int w, int h);
+void				create_canvas(t_rt *pt, int w, int h);
 void				init_scene(t_rt *pt);
-void				init_camera(t_rt *pt);
+void				init_camera(t_rt *pt, float3 origin);
 void				init_opencl(t_rt *pt);
 void				program_loop(t_rt *pt);
 void				draw_picture(t_sdl *sdl);
@@ -138,19 +140,19 @@ float3				vadd(float3 a, float3 b);
 float3				vsub(float3 a, float3 b);
 double				dot(float3 a, float3 b);
 float3				cross(float3 a, float3 b);
-void				createRotationMatrix(t_rt *pt, float3 *m);
+void				create_rotation_matrix(t_rt *pt, float3 *m);
 float3				vrotate(float3 v, float3 *matrix);
 
-int					isQuit(SDL_Event e);
-int					isWindowResizable(SDL_Event e);
-void				handlingWindowResizable(t_rt *pt, SDL_Event e);
-void				onEvent(t_rt *pt, SDL_Event *e);
-void				offEvent(t_rt *pt, SDL_Event *e);
-int 				isCameraEvent(t_rt *pt);
-void				updateCamera(t_rt *pt);
-void				rotateCamera(t_rt *pt);
+int					is_quit(SDL_Event e);
+int					is_window_resizable(SDL_Event e);
+int 				is_camera_event(t_rt *rt);
+void				handling_window_resizable(t_rt *rt, SDL_Event e);
+void				on_event(t_rt *rt, SDL_Event *e);
+void				off_event(t_rt *rt, SDL_Event *e);
+void				update_camera(t_rt *rt);
+void				rotate_camera(t_rt *rt);
 
-void				pt_check_error(int flag, char *err1, char *err2);
+void				rt_check_error(int flag, char *err1, char *err2);
 void				destroy(t_rt *pt);
 
 void				reinit_opencl(t_rt *pt);

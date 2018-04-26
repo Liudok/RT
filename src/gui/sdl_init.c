@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 18:34:48 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,22 @@ int 			run_ui(t_rt *s)
 	{
 		while (SDL_PollEvent(&evt))
 		{
-			if (isQuit(evt))
+			if (is_quit(evt))
 				running = 0;
-			else if (isWindowResizable(evt))
-				handlingWindowResizable(s, evt);
+			else if (is_window_resizable(evt))
+				handling_window_resizable(s, evt);
 			else if (evt.type == SDL_KEYDOWN)
-				onEvent(s, &evt);
+				on_event(s, &evt);
 			else if (evt.type == SDL_KEYUP)
-				offEvent(s, &evt);
+				off_event(s, &evt);
 			else if (evt.type == SDL_MOUSEBUTTONDOWN)
 			{
 				check_pressing(s, evt.button.x, evt.button.y);
 				render_buttons(s);
 			}
 		}
-		if (isCameraEvent(s))
-			updateCamera(s);
+		if (is_camera_event(s))
+			update_camera(s);
 		set_bg(s);
 	}
 	return (1);

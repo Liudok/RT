@@ -81,5 +81,5 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details2(o, n, val);
 	else if  (o->type == torus || o->type == mobius)
 		get_primitives_details3(o, n, val);
-	o->texture = !ft_strcmp(n, "texture") ? (uint)get_number(val) : o->texture;
+	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;
 }

@@ -26,6 +26,7 @@
 #  define float2 cl_float2
 #  define float3 cl_float3
 #  define float4 cl_float4
+#  define uchar4 cl_uchar4
 #  define uint	cl_uint
 #  define int2	cl_int2
 # endif
@@ -147,7 +148,7 @@ typedef struct	s_object
 	t_primitive	prim;
 	float4		material;
 	float3		color;
-	uint 		texture;
+	uchar4 		texture;
 }				t_object;
 
 typedef struct	s_camera

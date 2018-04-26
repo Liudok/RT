@@ -38,6 +38,7 @@ static float3 radiance(global t_object* objs,
         }
         accum_ref *= surf.ref;
 		accum_ref *= get_texel(textures, obj, &surf);
+//		accum_ref *= -surf.nl * 0.5f + 0.5f;
         if (surf.material == diffuse || surf.material == emission)
             r = diffuse_reflection(surf, seeds);
         else if (surf.material == specular)
@@ -97,4 +98,34 @@ __kernel __attribute__((vec_type_hint(float3))) void path_tracing(
 
 	inputSeeds[i * 2] = seeds[0];
 	inputSeeds[i * 2 + 1] = seeds[1];
+}
+
+
+__kernel __attribute__((vec_type_hint(float3))) void mouse_hook(
+		global t_object* objs,
+		uint objnum,
+		t_camera camera,
+		uint2 coords,
+		global int *ret)
+{
+	t_ray ray;
+
+	float dx = (0.5f + coords.x) / (float)camera.canvas.x - 0.5f;
+	float dy = (0.5f + coords.y) / (float)camera.canvas.y - 0.5f;
+	float3 dir = camera.cx * dx + camera.cy * dy + camera.dir;
+
+	ray.d = normalize(dir);
+	ray.o = camera.origin + dir;
+
+	global t_object* obj = NULL;
+
+	float m;
+	float t = INFINITY;
+	for (uint i = 0; i < objnum; i++)
+		intersect(&objs[i], &obj, ray, &m, &t);
+
+	if (obj && t < INFINITY)
+		*ret = obj - objs;
+	else
+		*ret = -1;
 }

@@ -48,7 +48,7 @@ int 			sdl_init_everything(t_rt *s)
 		ft_putendl_fd("failed to initiate WIN in SDL", 2);
 		return (0);
 	}
-	s->sdl.renderer = SDL_CreateRenderer(s->sdl.win, -1, SDL_RENDERER_ACCELERATED);
+	s->sdl.renderer = SDL_CreateRenderer(s->sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (s->sdl.renderer == NULL)
 	{
 		ft_putendl_fd("failed to initiate renderer in SDL", 2);
@@ -66,7 +66,7 @@ int 			sdl_init_everything(t_rt *s)
 int 			run_ui(t_rt *s)
 {
 	int running;
-
+int fig;
 	running = 1;
 	init_opencl(s);
 	SDL_Event evt;
@@ -86,6 +86,12 @@ int 			run_ui(t_rt *s)
 			{
 				check_pressing(s, evt.button.x, evt.button.y);
 				render_buttons(s);
+				fig = mouse_ray(s, evt.button.x, evt.button.y);
+				if (fig > 0)
+				{
+					printf("figure2 = %i\n", fig);
+//					show_settings(s);
+				}
 			}
 		}
 		if (is_camera_event(s))

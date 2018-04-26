@@ -80,12 +80,14 @@ typedef struct		s_rt
 	t_sdl			sdl;
 	t_cl_info		info;
 	t_kernel		kernel;
+	t_kernel		mouse_kernel;
 	size_t			job_size;
 	cl_mem			pixels_mem;
 	cl_mem			textures_mem;
 	cl_mem			colors;
 	cl_mem			seeds;
 	cl_uint			samples;
+	cl_mem			mouse_intersect;
 	t_scene			scene;
 	t_event			event;
 
@@ -156,5 +158,6 @@ void				rt_check_error(int flag, char *err1, char *err2);
 void				destroy(t_rt *pt);
 
 void				reinit_opencl(t_rt *pt);
+int			mouse_ray(t_rt *rt, int x, int y);
 
 #endif

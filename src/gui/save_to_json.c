@@ -13,7 +13,7 @@ static void	save_objs(int fd, t_object *o, int n)
 		dprintf(fd,"\t\t\t\"material\": [%f, %f, %f, %f],\n", o[i].material.s0, o[i].material.s1, o[i].material.s2, o[i].material.s3);
 		dprintf(fd,"\t\t\t\"color\": [%f, %f, %f],\n", o[i].color.s0, o[i].color.s1, o[i].color.s2);
 		print_prim_info(fd, o, i);
-		dprintf(fd,"\t\t\t\"texture\": %u\n", o[i].texture);
+//		dprintf(fd,"\t\t\t\"texture\": %i\n", o[i].texture);
 		if (i != n - 1)
 			dprintf(fd, "\t\t},\n");
 		else

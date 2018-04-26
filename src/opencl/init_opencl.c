@@ -40,6 +40,12 @@ void			init_opencl(t_rt *rt)
 	rt_cl_init(&rt->info);
 	rt_cl_compile(&rt->info, "./src/opencl/kernel.cl");
 	rt->kernel = rt_cl_create_kernel(&rt->info, "path_tracing");
+
+	rt->mouse_kernel = rt_cl_create_kernel(&rt->info, "mouse_hook");
+
+	rt->mouse_intersect = rt_cl_malloc_read(
+			&rt->info, sizeof(cl_int));
+
 	rt->scene.objs_mem = rt_cl_malloc_write(
 			&rt->info, sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
 	rt->seeds = rt_cl_malloc_write(
@@ -74,4 +80,22 @@ void			reinit_opencl(t_rt *rt)
 	free(seeds);
 	free(rt->scene.figures);
 	create_figures(rt);
+}
+
+int			mouse_ray(t_rt *rt, int x, int y)
+{
+	cl_uint2 coords;
+	cl_int i;
+
+	coords.x = x;
+	coords.y = y;
+	clSetKernelArg(rt->mouse_kernel.kernel, 0, sizeof(cl_mem), &rt->scene.objs_mem);
+	clSetKernelArg(rt->mouse_kernel.kernel, 1, sizeof(cl_uint), &rt->scene.objnum);
+	clSetKernelArg(rt->mouse_kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);
+	clSetKernelArg(rt->mouse_kernel.kernel, 3, sizeof(cl_uint2), &coords);
+	clSetKernelArg(rt->mouse_kernel.kernel, 4, sizeof(cl_mem), &rt->mouse_intersect);
+	size_t job_size = 1;
+	rt_cl_push_task(&rt->mouse_kernel, &job_size);
+	rt_cl_device_to_host(&rt->info, rt->mouse_intersect, &i, sizeof(cl_int));
+	return (i);
 }

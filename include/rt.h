@@ -167,5 +167,6 @@ void				destroy(t_rt *pt);
 
 void				reinit_opencl(t_rt *pt);
 int					mouse_ray(t_rt *rt, int x, int y);
+void				choosing_dialog(t_rt *rt);
 
 #endif

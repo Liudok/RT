@@ -85,47 +85,55 @@ static void map_normal(read_only image3d_t textures,
 					+ b * map_n.y + surf->nl * map_n.z);
 }
 
-static void map_light(read_only image3d_t textures,
+static float3 map_light(read_only image3d_t textures,
 						 t_surface *surf, uint2 size)
 {
-	float3 map_n = get_texel(textures, surf, surf->obj->texture.y, size);
-	if (fast_length(map_n) > 1.4)
-		surf->material = emission;
+	return get_texel(textures, surf, surf->obj->texture.z, size);
 }
 
-static float3 apply_textures(t_surface *surf, read_only image3d_t textures, global uint2 *sizes)
+static float3 map_transparent(read_only image3d_t textures,
+						 t_surface *surf, uint2 size, uint *seeds)
+{
+	float3 texel = get_texel(textures, surf, surf->obj->texture.w, size);
+	if (get_random(seeds, seeds + 1) > texel.x * texel.y * texel.z)
+		surf->material = transparent;
+	return (float3)(0.9f, 0.9f, 0.9f);
+}
+
+static float3 apply_textures(t_surface *surf, read_only image3d_t textures,
+		global uint2 *sizes, uint *seeds)
 {
 	uchar4 tex = surf->obj->texture;
+	float3 color = surf->obj->color;
 	surf->uv = get_tex_coords(surf);
+
 
 	if (tex.y && tex.y <= NUM_TEX) //normal_map
 		map_normal(textures, surf, sizes[tex.y]);
 	if (tex.z && tex.z <= NUM_TEX) //light map
-		map_light(textures, surf, sizes[tex.z]);
+		surf->emission = map_light(textures, surf, sizes[tex.z]);
 	if (tex.x == 255)
-		return (surf->nl * .49f + .5f);
-	if (tex.x && tex.x <= NUM_TEX)
-		return (get_texel(textures, surf, tex.x, sizes[tex.x]));
-	return (surf->obj->color);
+		color = surf->nl * .49f + .5f;
+	else if (tex.x && tex.x <= NUM_TEX)
+		color = get_texel(textures, surf, tex.x, sizes[tex.x]);
+	if (tex.w && tex.w <= NUM_TEX) //light map
+		color *= map_transparent(textures, surf, sizes[tex.w], seeds);
+	return (color);
 }
 
-static t_surface   get_surface_properties(global t_object *obj,
-		t_ray r, float t, float m, read_only image3d_t textures, global uint2 *sizes)
+static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t,
+		float m, read_only image3d_t textures, global uint2 *sizes, uint* seeds)
 {
     t_surface   s;
 
+	s.emission = 0;
     s.obj = obj;
     s.pos = r.o + r.d * t;
     s.m = m;
     s.n = find_normal(obj, s.pos, s.m);
     s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
     s.material = get_material(obj);
-	s.ref = (s.material == emission) ?
-		(float3){0,0,0} : apply_textures(&s, textures, sizes);
-	/*
-	// Using normal as texture. Really pretty.
-	s.ref = s.nl * 2.f + 0.5f;
-	 */
+	s.ref = apply_textures(&s, textures, sizes, seeds);
     s.maxref = fmax(fmax(s.ref.x, s.ref.y), s.ref.z);
     s.maxref -= (s.maxref > 0.75) ? (s.maxref - 0.75) * 0.75 : 0;
     return (s);

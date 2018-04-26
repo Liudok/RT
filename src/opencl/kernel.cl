@@ -29,8 +29,10 @@ static float3 radiance(global t_object* objs,
 		if (!obj || t >= MAXFLOAT || t < EPSILON)
 			break;
 
-        surf = get_surface_properties(obj, r, t, m, textures, sizes);
-        accum_col += (surf.material == emission) ? accum_ref * obj->color : 0;
+        surf = get_surface_properties(obj, r, t, m, textures, sizes, seeds);
+        if (surf.material == emission)
+			surf.emission = surf.ref;
+        accum_col += accum_ref * surf.emission;
 
         if (++depth > 5)
         {
@@ -39,11 +41,12 @@ static float3 radiance(global t_object* objs,
             surf.ref /= surf.maxref;
         }
 		accum_ref *= surf.ref;
-        if (surf.material == diffuse || surf.material == emission)
-            r = diffuse_reflection(surf, seeds);
-        else if (surf.material == specular)
+        if (surf.material == specular)
             r = specular_reflection(surf, r);
-
+		else if (surf.material == transparent)
+			r.o = surf.pos;
+		else
+            r = diffuse_reflection(surf, seeds);
     }
     return (clamp(accum_col, 0.f, 1.0f));
 }

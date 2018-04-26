@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 14:55:31 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 18:20:42 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum	e_obj_type
 
 typedef enum	e_material
 {
-	diffuse, specular, refraction, emission
+	diffuse, specular, refraction, emission, transparent
 }				t_material;
 
 typedef struct	s_sphere
@@ -187,6 +187,7 @@ typedef struct			s_surface
 	t_material			material;
 	float				maxref;
 	float3				pos;
+	float3				emission;
 	float3				n;
 	float3				nl;
 	float3				f;

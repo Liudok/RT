@@ -36,11 +36,11 @@ static float3 radiance(global t_object* objs,
                 break ;
             surf.ref /= surf.maxref;
         }
-		accum_ref *= surf.ref;
-		/*
 		if (obj->texture)
 			accum_ref *= get_texel(textures, &surf);
 		else
+			accum_ref *= surf.ref;
+		/*
         accum_ref *= surf.nl * 2.f + 0.5f;
 		*/
         if (surf.material == diffuse || surf.material == emission)

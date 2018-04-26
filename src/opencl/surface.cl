@@ -94,10 +94,11 @@ static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t
     s.pos = r.o + r.d * t;
     s.m = m;
     s.n = find_normal(obj, s.pos, s.m);
-	s.nl = s.n;
-    //s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
+    s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
+	/*
 	if (obj->texture)
 		map_normal(&s.n, textures, &s);
+		*/
     s.material = get_material(obj);
     s.ref = (s.material == emission) ? (float3){0,0,0} : s.obj->color;
     s.maxref = fmax(fmax(s.ref.x, s.ref.y), s.ref.z);

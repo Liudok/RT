@@ -6,11 +6,11 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/25 09:14:26 by lberezyn         ###   ########.fr        #
+#    Updated: 2018/04/26 09:40:21 by skamoza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME        = rt
+NAME        = RT
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror -Og -g
 

@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/26 12:55:35 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #  define float2 cl_float2
 #  define float3 cl_float3
 #  define float4 cl_float4
+#  define uchar4 cl_uchar4
 #  define uint	cl_uint
 #  define int2	cl_int2
 # endif
@@ -147,7 +148,7 @@ typedef struct	s_object
 	t_primitive	prim;
 	float4		material;
 	float3		color;
-	uint 		texture;
+	uchar4 		textures;
 }				t_object;
 
 typedef struct	s_camera
@@ -190,6 +191,7 @@ typedef struct			s_surface
 	float3				nl;
 	float3				f;
 	float3				ref;
+	float2				uv;
 	float 				m;
 }						t_surface;
 

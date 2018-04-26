@@ -84,11 +84,10 @@ constant sampler_t sampler_tex =
 CLK_ADDRESS_CLAMP_TO_EDGE | CLK_FILTER_NEAREST | CLK_NORMALIZED_COORDS_FALSE;
 
 static float3 get_texel(read_only image3d_t textures,
-		t_surface *surf)
+		t_surface *surf, int tex_num, uint2 size)
 {
-	float2 uv = get_tex_coords(surf);
 	return (read_imagef(textures, sampler_tex,
-	(int4)(uv.x * 2048.f,
-	 uv.y * 1024.f,
-	(float)surf->obj->texture, 1.f)).xyz);
+	(int4)(surf->uv.x * size.x,
+	surf->uv.y * size.y,
+	tex_num, 1.f)).xyz);
 }

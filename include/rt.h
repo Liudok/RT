@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/25 22:35:37 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/04/26 12:10:56 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define WINDOW_WIDTH 500
 # define WINDOW_HEIGHT 500
 # define BUTTONS_AMOUNT 16
+# define NUM_TEX 4
 
 typedef struct		s_event
 {

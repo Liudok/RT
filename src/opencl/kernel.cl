@@ -18,7 +18,8 @@ static float3 radiance(global t_object* objs,
 	float3 accum_ref = {1, 1, 1};  // accumulated reflectance
 	t_surface surf;	 // surface propertiess
 
-	while (depth < 5000) {
+	while (depth < 5000)
+	{
 		obj = NULL;
 		t = MAXFLOAT;
 
@@ -33,16 +34,10 @@ static float3 radiance(global t_object* objs,
         if (++depth > 5)
         {
             if (get_random(&seeds[0], &seeds[1]) >= surf.maxref)
-                break ;
+                break;
             surf.ref /= surf.maxref;
         }
-		if (obj->texture)
-			accum_ref *= get_texel(textures, &surf);
-		else
-			accum_ref *= surf.ref;
-		/*
-        accum_ref *= surf.nl * 2.f + 0.5f;
-		*/
+		accum_ref *= surf.ref;
         if (surf.material == diffuse || surf.material == emission)
             r = diffuse_reflection(surf, seeds);
         else if (surf.material == specular)

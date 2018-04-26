@@ -89,7 +89,7 @@ static void map_light(read_only image3d_t textures,
 						 t_surface *surf, uint2 size)
 {
 	float3 map_n = get_texel(textures, surf, surf->obj->texture.y, size);
-	if (fast_length(map_n) > 0.2)
+	if (fast_length(map_n) > 1.4)
 		surf->material = emission;
 }
 

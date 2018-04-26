@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 13:35:11 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/26 13:53:43 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_rt t_rt;
 # define WINDOW_WIDTH 500
 # define WINDOW_HEIGHT 500
 # define BUTTONS_AMOUNT 16
-# define NUM_TEX 4
+# define NUM_TEX 3
 
 # include "panels.h"
 typedef struct		s_event
@@ -95,8 +95,8 @@ typedef struct		s_rt
 	t_scene			scene;
 	t_event			event;
 
-	SDL_Texture		*textures[3];
-	SDL_Surface		*textures_img[3];
+	SDL_Texture		*textures[NUM_TEX];
+	SDL_Surface		*textures_img[NUM_TEX];
 	cl_uint2		texture_sizes[NUM_TEX + 2];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;

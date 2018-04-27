@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/27 16:23:07 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/27 16:25:56 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int load_all_textures(t_rt* s)
 	TP"BasketballColor"TE
 	};
 
-    int i = 0;
+    int i = -1;
     if (!(s->sdl.canvas = SDL_CreateTexture(s->sdl.renderer,
 	      SDL_PIXELFORMAT_ARGB8888,
 	      SDL_TEXTUREACCESS_TARGET,
@@ -37,7 +37,7 @@ int load_all_textures(t_rt* s)
     s->textures[0] = load_texture("src/img/dark_pixel2.png", s);
     s->textures[1] = load_texture("src/img/dark_pixel.png", s);
     s->textures[2] = load_texture("src/img/rama.png", s);
-    while (i < NUM_TEX)
+    while (++i < NUM_TEX)
 		if(!(s->textures_img[i] = IMG_Load(tex_names[i])))
 			return (0);
     return (1);

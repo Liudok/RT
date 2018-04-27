@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/26 16:20:01 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/27 15:17:20 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,32 @@ int 			load_all_textures(t_rt *s)
 	s->textures_img[0] = IMG_Load("src/img/earth.jpg");
 	s->textures_img[1] = IMG_Load("src/img/earth_normal.jpg");
 	s->textures_img[2] = IMG_Load("src/img/earth_light.jpg");
-	s->textures_img[3] = IMG_Load("src/img/brickwall.jpg");
-	s->textures_img[4] = IMG_Load("src/img/brickwall_normal.jpg");
-	s->textures_img[5] = IMG_Load("src/img/earth_clouds.jpg");
+	s->textures_img[3] = IMG_Load("src/img/earth_clouds.jpg");
+	s->textures_img[4] = IMG_Load("src/img/brickwall.jpg");
+	s->textures_img[5] = IMG_Load("src/img/brickwall_normal.jpg");
 	s->textures_img[6] = IMG_Load("src/img/TennisBallColor.jpg");
 	s->textures_img[7] = IMG_Load("src/img/TennisBallNormal.jpg");
 	s->textures_img[8] = IMG_Load("src/img/BeachBallColor.jpg");
-	s->textures_img[9] = IMG_Load("src/img/BeachBalltransp.jpg");
+	s->textures_img[9] = IMG_Load("src/img/BeachBallTransp.jpg");
+	s->textures_img[10] = IMG_Load("src/img/SoftballColor.jpg");
+	s->textures_img[11] = IMG_Load("src/img/SoftballNormal.jpg");
+	s->textures_img[12] = IMG_Load("src/img/processor.jpg");
+	s->textures_img[13] = IMG_Load("src/img/BallCue.jpg");
+	s->textures_img[14] = IMG_Load("src/img/Ball1.jpg");
+	s->textures_img[15] = IMG_Load("src/img/Ball2.jpg");
+	s->textures_img[16] = IMG_Load("src/img/Ball3.jpg");
+	s->textures_img[17] = IMG_Load("src/img/Ball4.jpg");
+	s->textures_img[18] = IMG_Load("src/img/Ball5.jpg");
+	s->textures_img[19] = IMG_Load("src/img/Ball6.jpg");
+	s->textures_img[20] = IMG_Load("src/img/Ball7.jpg");
+	s->textures_img[21] = IMG_Load("src/img/Ball8.jpg");
+	s->textures_img[22] = IMG_Load("src/img/Ball9.jpg");
+	s->textures_img[23] = IMG_Load("src/img/Ball10.jpg");
+	s->textures_img[24] = IMG_Load("src/img/Ball11.jpg");
+	s->textures_img[25] = IMG_Load("src/img/Ball12.jpg");
+	s->textures_img[26] = IMG_Load("src/img/Ball13.jpg");
+	s->textures_img[27] = IMG_Load("src/img/Ball14.jpg");
+	s->textures_img[28] = IMG_Load("src/img/BasketballColor.jpg");
 	return (1);
 }
 

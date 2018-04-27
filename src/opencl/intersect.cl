@@ -112,7 +112,7 @@ static float disk_intersect(global t_disk* obj, t_ray ray) {
 	if ((denom = dot(ray.d, obj->normal)) == 0)
 		return (INFINITY);
 	oc = ray.o - obj->origin;
-	t = -dot(oc, obj->normal) / denom;
+	t = native_divide(-dot(oc, obj->normal), denom);
 	if (t < 0)
 		return (INFINITY);
 	pos = ray.o + t * ray.d;

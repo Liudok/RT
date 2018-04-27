@@ -198,19 +198,101 @@ static float  triangle_intersect(global t_triangle *obj, t_ray ray)
 	normal = normalize(cross(edge0, edge1));
 
 	if ((denom = dot(ray.d, normal)) == 0)
-	return (-1);
+	    return (-1);
 	oc = ray.o - obj->vertex0;
 	t = -dot(oc, normal) / denom;
 	if (t < 0)
-	return (-1);
+	    return (-1);
 	p = ray.o + ray.d * t;
 	c0 = p - obj->vertex0;
 	c1 = p - obj->vertex1;
 	c2 = p - obj->vertex2;
 	if (dot(normal, cross(edge0, c0)) > 0 && dot(normal, cross(edge1, c1)) > 0 && dot(normal, cross(edge2, c2)) > 0)
-	return (t);
+	    return (t);
 	return (-1);
 }
+
+static float	third_degree_equation(float A, float B, float C, float D)
+{
+    float p = (3.0f * A * C - B * B) / 3.0f/ A / A;
+    float q = (2 * B * B * B - 9 * A * B * C + 27.0f * A * A * D) / 27.0f / A / A / A;
+    float d = pow(p / 3.0f, 3) + pow(q / 2.0f, 2);
+    if (d < 0.0f)
+        return (-1);
+    float a = cbrt(-q / 2.0f + sqrt(d));
+    float b = cbrt(-q / 2.0f - sqrt(d));
+    float y = a + b;
+    float x = y - B / 3.0f / A;
+    return (x);
+}
+
+static int dblsgn(float x)
+{
+    float epsilon = 1e-8;
+    return (x < -epsilon) ? (-1) : (x > epsilon);
+}
+
+static bool inside(float3 pt, global t_mobius *obj)
+{
+float epsilon = 1e-8;
+	float x = pt.x;
+	float y = pt.y;
+	float z = pt.z;
+	float t = atan2(y, x);
+	float s;
+	if (dblsgn(sin(t / 2)) != 0)
+	{
+		s = z / sin(t / 2);
+	}
+	else
+	{
+		if (dblsgn(cos(t)) != 0)
+		{
+			s = (x / cos(t) - obj->radius) / cos(t / 2);
+		}
+		else
+		{
+			s = (y / sin(t) - obj->radius) / cos(t / 2);
+		}
+	}
+	x -= (obj->radius + s * cos(t / 2)) * cos(t);
+	y -= (obj->radius + s * cos(t / 2)) * sin(t);
+	z -= s * sin(t / 2);
+	if (dblsgn(x * x + y * y + z * z) != 0)
+	{
+		return false;
+	}
+	return (s >= -obj->half_width - epsilon  && s <= obj->half_width + epsilon);
+}
+
+static float  mobius_intersect(global t_mobius *obj, t_ray ray)
+{
+    float epsilon = 1e-8;
+    float ox = ray.o.x;
+    float oy = ray.o.y;
+    float oz = ray.o.z;
+    float dx = ray.d.x;
+    float dy = ray.d.y;
+    float dz = ray.d.z;
+    float R = obj->radius;
+
+    float coef_0 = 0;
+    float coef_1 = 0;
+    float coef_2 = 0;
+    float coef_3 = 0;
+
+    coef_0 = ox * ox * oy + oy * oy * oy - 2 * ox * ox * oz - 2 * oy * oy * oz + oy * oz * oz - 2 * ox * oz * R - oy * R * R;
+    coef_1 = dy * ox * ox - 2 * dz * ox * ox + 2 * dx * ox * oy + 3 * dy * oy * oy - 2 * dz * oy * oy - 4 * dx * ox * oz - 4 * dy * oy * oz + 2 * dz * oy * oz + dy * oz * oz - 2 * dz * ox * R - 2 * dx * oz * R - dy * R * R;
+    coef_2 = 2 * dx * dy * ox - 4 * dx * dz * ox + dx * dx * oy + 3 * dy * dy * oy - 4 * dy * dz * oy + dz * dz * oy - 2 * dx * dx * oz - 2 * dy * dy * oz + 2 * dy * dz * oz - 2 * dx * dz * R;
+    coef_3 = dx * dx * dy + dy * dy * dy - 2 * dx * dx * dz - 2 * dy * dy * dz + dy * dz * dz;
+    float t = third_degree_equation(coef_3, coef_2, coef_1, coef_0);
+    float3 pos = ray.o + t * ray.d;
+    if (t > epsilon && inside(pos, obj))
+        return (t);
+    return (-1);
+}
+
+
 
 static void intersect(global t_object* obj,
 		global t_object** closest,
@@ -240,6 +322,9 @@ static void intersect(global t_object* obj,
 		case triangle:
 			dist = triangle_intersect(&obj->prim.triangle, ray);
 			break;
+        case mobius:
+            dist = mobius_intersect(&obj->prim.mobius, ray);
+            break;
 		default:
 			break;
 	}

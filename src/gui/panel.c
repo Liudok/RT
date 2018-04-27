@@ -109,8 +109,9 @@ void				render_buttons(t_rt *s)
 			else if (i == 1)
 			{
 				create_new_scene(s);
-				show_settings(s);
+//				show_settings(s);
 			}
+//			else if (i > 3 && s->buttons[i].pressed)
 			ram.x = s->buttons[i].rect.x - 5;
 			ram.y = s->buttons[i].rect.y - 5;
 			ram.w = s->buttons[i].rect.w + 10;

@@ -29,4 +29,6 @@
 # define BUTTON_SIZE 15
 # define SHAPE_SIZE 500
 
+void        modify_scene(t_rt *rt, int i);
+
 #endif

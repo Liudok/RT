@@ -30,7 +30,7 @@ SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c \
               save_to_json.c saving_utils.c save_to_png.c sdl_utils.c \
               handling_window_resizable.c is_camera_event.c is_quit.c vmul.c\
               is_window_resizable.c off_event.c on_event.c rotate_camera.c \
-              update_camera.c init_opencl.c 
+              update_camera.c init_opencl.c modify_scene.c
 
 OBJS        = $(SRCS:.c=.o)
 

@@ -38,6 +38,11 @@ static float3	torus_normal(global t_torus *obj, float3 pos)
 	return (normalize(pos - a - (obj->origin - a) * m / (sqrt(obj->big_radius2) + m)));
 }
 
+static float3	triangle_normal(global t_triangle *obj)
+{
+	return (normalize(cross(obj->vertex1 - obj->vertex0, obj->vertex2 - obj->vertex1)));
+}
+
 static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 {
 	switch (obj->type) {

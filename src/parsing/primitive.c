@@ -62,13 +62,23 @@ void				get_primitives_details3(t_object *o, char *n, struct _json_value *val)
 		o->prim.torus.big_radius2 = !ft_strncmp(n, "big_radius2", 11) ? get_number(val) : o->prim.torus.big_radius2;
 		o->prim.torus.small_radius2 = !ft_strncmp(n, "small_radius2", 13) ? get_number(val) : o->prim.torus.small_radius2;
 	}
-	if (o->type == mobius)
+	else if (o->type == mobius)
 	{
 		o->prim.mobius.radius = !ft_strncmp(n, "radius", 6) ? get_number(val) : o->prim.mobius.radius;
 		o->prim.mobius.half_width = !ft_strncmp(n, "half_width", 10) ? get_number(val) : o->prim.mobius.half_width;
 	}
 }
 
+void				get_primitives_details4(t_object *o, char *n, struct _json_value *val)
+{
+	if (o->type == triangle)
+	{
+		o->prim.triangle.vertex0 = !ft_strncmp(n, "vertex0", 7) ? get_float3(val) : o->prim.triangle.vertex0;
+		o->prim.triangle.vertex1 = !ft_strncmp(n, "vertex1", 7) ? get_float3(val) : o->prim.triangle.vertex1;
+		o->prim.triangle.vertex2 = !ft_strncmp(n, "vertex2", 7) ? get_float3(val) : o->prim.triangle.vertex2;
+	}
+
+}
 
 void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 {
@@ -81,5 +91,7 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details2(o, n, val);
 	else if  (o->type == torus || o->type == mobius)
 		get_primitives_details3(o, n, val);
+	else if  (o->type == triangle)
+		get_primitives_details4(o, n, val);
 	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;
 }

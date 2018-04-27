@@ -178,6 +178,40 @@ static float torus_intersect(global t_torus* obj, t_ray ray) {
 	return (ret);
 }
 
+static float  triangle_intersect(global t_triangle *obj, t_ray ray)
+{
+	float	denom;
+	float3	oc;
+	float3	normal;
+	float 	t;
+	float3	p;
+	float3	edge0;
+	float3	edge1;
+	float3	edge2;
+	float3	c0;
+	float3	c1;
+	float3	c2;
+
+	edge0 = obj->vertex1 - obj->vertex0;
+	edge1 = obj->vertex2 - obj->vertex1;
+	edge2 = obj->vertex0 - obj->vertex2;
+	normal = normalize(cross(edge0, edge1));
+
+	if ((denom = dot(ray.d, normal)) == 0)
+	return (-1);
+	oc = ray.o - obj->vertex0;
+	t = -dot(oc, normal) / denom;
+	if (t < 0)
+	return (-1);
+	p = ray.o + ray.d * t;
+	c0 = p - obj->vertex0;
+	c1 = p - obj->vertex1;
+	c2 = p - obj->vertex2;
+	if (dot(normal, cross(edge0, c0)) > 0 && dot(normal, cross(edge1, c1)) > 0 && dot(normal, cross(edge2, c2)) > 0)
+	return (t);
+	return (-1);
+}
+
 static void intersect(global t_object* obj,
 		global t_object** closest,
 		t_ray ray,
@@ -202,6 +236,9 @@ static void intersect(global t_object* obj,
 			break;
 		case torus:
 			dist = torus_intersect(&obj->prim.torus, ray);
+			break;
+		case triangle:
+			dist = triangle_intersect(&obj->prim.triangle, ray);
 			break;
 		default:
 			break;

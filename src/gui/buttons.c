@@ -78,12 +78,19 @@ void			check_pressing(t_rt *s, int x, int y)
 			{
 				if (i == 0)
 					file_choosing(s);
-				else if (i == 15)
-					save_scene_to_file(s);
 				else if (i == 3)
 					save_scene_to_png(s);
+				else if (i == 15 && s->buttons[1].pressed)
+					save_scene_to_file(s);
+
 				else
+				{
 					s->buttons[i].pressed = 1;
+					if (i == 1)
+						create_new_scene(s);
+                    else if (i > 3 && s->buttons[1].pressed && s->buttons[i].pressed)
+                        modify_scene(s, i);
+				}
 			}
 			else
 				s->buttons[i].pressed = 0;

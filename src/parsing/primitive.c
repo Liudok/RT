@@ -77,6 +77,13 @@ void				get_primitives_details4(t_object *o, char *n, struct _json_value *val)
 		o->prim.triangle.vertex1 = !ft_strncmp(n, "vertex1", 7) ? get_float3(val) : o->prim.triangle.vertex1;
 		o->prim.triangle.vertex2 = !ft_strncmp(n, "vertex2", 7) ? get_float3(val) : o->prim.triangle.vertex2;
 	}
+    else if (o->type == cube)
+    {
+        o->prim.cube.max = !ft_strncmp(n, "max", 3) ? get_float3(val) : o->prim.cube.max;
+        o->prim.cube.min = !ft_strncmp(n, "min", 3) ? get_float3(val) : o->prim.cube.min;
+        o->prim.cube.pipes_number = !ft_strncmp(n, "pipes_number", 12) ? get_number(val) : o->prim.cube.pipes_number;
+        o->prim.cube.objs = NULL;
+    }
 
 }
 
@@ -91,7 +98,7 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details2(o, n, val);
 	else if  (o->type == torus || o->type == mobius)
 		get_primitives_details3(o, n, val);
-	else if  (o->type == triangle)
+	else if  (o->type == triangle || o->type == cube)
 		get_primitives_details4(o, n, val);
 	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;
 }

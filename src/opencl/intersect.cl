@@ -292,7 +292,111 @@ static float  mobius_intersect(global t_mobius *obj, t_ray ray)
     return (-1);
 }
 
+static void swap(float* a, float* b)
+{
+	float c;
+	c = *a;
+	*a = *b;
+	*b = c;
+}
 
+float3	find_normal(global t_object *obj, float3 hit_pos, float m);
+static float  cube_intersect(constant t_cube *obj, t_ray ray, float* m, global t_object **closest)
+{
+    float 	t_min;
+    float 	t_max;
+    float 	t_y_min;
+    float 	t_y_max;
+    float 	t_z_min;
+    float 	t_z_max;
+    float2	side = {0, 0};
+    float 	t_pipe = MAXFLOAT;
+
+    t_min = (obj->min.x  - ray.o.x) / ray.d.x;
+    t_max = (obj->max.x  - ray.o.x) / ray.d.x;
+    if (t_min > t_max)
+        swap(&t_min, &t_max);
+    t_y_min = (obj->min.y  - ray.o.y) / ray.d.y;
+    t_y_max = (obj->max.y  - ray.o.y) / ray.d.y;
+    if (t_y_min > t_y_max)
+        swap(&t_y_min, &t_y_max);
+    if (t_min > t_y_max || t_y_min > t_max)
+     return (-1);
+    if (t_y_min > t_min)
+    {
+        side.x = 1;
+        t_min = t_y_min;
+    }
+    if (t_y_max < t_max)
+    {
+        side.y = 1;
+        t_max = t_y_max;
+    }
+    t_z_min = (obj->min.z - ray.o.z) / ray.d.z;
+    t_z_max = (obj->max.z - ray.o.z) / ray.d.z;
+    if (t_z_min > t_z_max)
+        swap(&t_z_min, &t_z_max);
+    if (t_min > t_z_max || t_z_min > t_max)
+        return (-1);
+    if (t_z_min > t_min)
+    {
+        side.x = 2;
+        t_min = t_z_min;
+    }
+    if (t_z_max < t_max)
+    {
+        side.y = 2;
+        t_max = t_z_max;
+    }
+
+    if (obj->objs)
+    {
+        int 	i = 0;
+        int 	i_closet;
+        float 	m_current;
+        while (i < obj->pipes_number)
+        {
+            float current = cylinder_intersect((__global t_cylinder *)&obj->objs[i].prim.cylinder, ray, &m_current);
+            if (current > 0 && current < t_pipe)
+            {
+                *m = m_current;
+                i_closet = i;
+                t_pipe = current;
+            }
+            i++;
+        }
+        if (t_pipe < MAXFLOAT)
+        {
+            float3 pos = ray.o + ray.d * t_pipe;
+            float3 normal = find_normal((__global t_object *)&obj->objs[i_closet], pos, *m);
+            if (dot(ray.d, normal) > 0.0f)
+            {
+                *closest = (__global t_object *)&obj->objs[i_closet];
+                return (t_pipe);
+            }
+        }
+    }
+    *closest = NULL;
+    if (t_min <= 0)
+    {
+        *m = side.y;
+        t_min = t_max;
+    }
+    if (t_min > 0)
+    {
+        int i = 0;
+        float3 pos = ray.o + ray.d * t_min;
+        while (i < obj->pipes_number)
+        {
+            float3 temp = obj->objs[i].prim.cylinder.origin - pos;
+            if (length(temp - dot(temp, obj->objs[i].prim.cylinder.normal) * obj->objs[i].prim.cylinder.normal) < obj->objs[i].prim.cylinder.radius)
+            return (-1);
+            i++;
+        }
+    }
+    *m = side.x;
+    return (t_min);
+}
 
 static void intersect(global t_object* obj,
 		global t_object** closest,

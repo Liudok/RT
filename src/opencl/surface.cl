@@ -43,6 +43,16 @@ static float3	triangle_normal(global t_triangle *obj)
 	return (normalize(cross(obj->vertex1 - obj->vertex0, obj->vertex2 - obj->vertex1)));
 }
 
+static float3	mobius_normal(global t_mobius *obj, float3 pos)
+{
+    float x = pos.x;
+    float y = pos.y;
+    float z = pos.z;
+    float R = obj->radius;
+    float3 ret =  {2 * x * y - 2 * R * z - 4 * x * z, -R * R + x * x + 3 * y * y - 4 * y * z + z * z, -2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z};
+    return (normalize(ret));
+}
+
 static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 {
 	switch (obj->type) {
@@ -56,8 +66,12 @@ static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 			return (cone_normal(&obj->prim.cone, hit_pos, m));
 		case disk:
 			return (disk_normal(&obj->prim.disk));
-		case torus:
-			return (torus_normal(&obj->prim.torus, hit_pos));
+        case torus:
+            return (torus_normal(&obj->prim.torus, hit_pos));
+		case triangle:
+			return (triangle_normal(&obj->prim.triangle));
+        case mobius:
+            return (mobius_normal(&obj->prim.mobius, hit_pos));
 		default:
 			break;
 	}

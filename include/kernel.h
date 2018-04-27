@@ -119,13 +119,13 @@ typedef struct	s_mobius
 //	const __constant	struct s_object	*obj2;
 //}				t_bool_intersection;
 //
-//typedef struct	s_cube
-//{
-//	float3		min;
-//	float3		max;
+typedef struct	s_cube
+{
+	float3		min;
+	float3		max;
 //	int 		pipes_number;
 //	const __constant	struct s_object	*objs;
-//}				t_cube;
+}				t_cube;
 
 typedef	union	u_primitive
 {

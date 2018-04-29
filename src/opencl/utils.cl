@@ -187,13 +187,24 @@ static float2 get_tex_coords(t_surface* surf)
 	return ((float2)(0, 0));
 }
 
-constant sampler_t sampler_tex = CLK_FILTER_LINEAR | CLK_NORMALIZED_COORDS_FALSE;
+constant sampler_t sampler_tex = CLK_FILTER_NEAREST | CLK_NORMALIZED_COORDS_FALSE;
 
 static float3 get_texel(read_only image2d_array_t textures,
 		t_surface* surf, int tex_num, uint2 size)
 {
-	return (read_imagef(textures, sampler_tex,
-			(int4)(surf->uv.x * size.x + 0.5f,
-				   surf->uv.y * size.y + 0.5f,
-				   tex_num, 1)).zyx);
+	float2 uv = surf->uv * convert_float2(size);
+	float2 fl;
+	float2 fraction = fract(uv, &fl);
+	int2 t[] = {
+		{fl.x, fl.y},
+		{fl.x + 1, fl.y},
+		{fl.x + 1, fl.y + 1},
+		{fl.x, fl.y + 1}
+	};
+	float3 pixels[4];
+	for (int i = 0; i < 4; ++i)
+		pixels[i] = read_imagef(textures, sampler_tex, (int4)(t[i], tex_num, 0)).zyx;
+	float3 result = mix(mix(pixels[0], pixels[1], fraction.x), mix(pixels[3], pixels[2], fraction.x), fraction.y);
+	return result;
+//	return (read_imagef(textures, sampler_tex, (int4)(convert_int2(uv), tex_num, 0)).zyx);
 }

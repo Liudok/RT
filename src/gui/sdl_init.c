@@ -45,23 +45,25 @@ int load_all_textures(t_rt* s)
 
 int sdl_init_everything(t_rt* s)
 {
-    if (SDL_Init(SDL_INIT_VIDEO) == -1) {
-	ft_putendl_fd("failed to initiate SDL", 2);
-	return (0);
+    if (SDL_Init(SDL_INIT_VIDEO) == -1)
+	{
+		ft_putendl_fd("failed to initiate SDL", 2);
+		return (0);
     }
     s->sdl.win = SDL_CreateWindow("RT",
-	SDL_WINDOWPOS_CENTERED,
-	SDL_WINDOWPOS_CENTERED,
-	s->sdl.win_w, s->sdl.win_h,
-	SDL_WINDOW_RESIZABLE);
+									SDL_WINDOWPOS_CENTERED,
+									SDL_WINDOWPOS_CENTERED,
+									s->sdl.win_w, s->sdl.win_h,
+									SDL_WINDOW_RESIZABLE);
     if (s->sdl.win == NULL) {
-	ft_putendl_fd("failed to initiate WIN in SDL", 2);
-	return (0);
+		ft_putendl_fd("failed to initiate WIN in SDL", 2);
+		return (0);
     }
     s->sdl.renderer = SDL_CreateRenderer(s->sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (s->sdl.renderer == NULL) {
-	ft_putendl_fd("failed to initiate renderer in SDL", 2);
-	return (0);
+    if (s->sdl.renderer == NULL)
+	{
+		ft_putendl_fd("failed to initiate renderer in SDL", 2);
+		return (0);
     }
     if (!load_all_textures(s))
 	return (0);

@@ -19,6 +19,12 @@ void	handling_window_resizable(t_rt *rt, SDL_Event e)
 	SDL_DestroyTexture(rt->sdl.canvas);
 	clReleaseMemObject(rt->pixels_mem);
 	free(rt->sdl.pixels);
+	SDL_DestroyRenderer(rt->sdl.renderer);
+	rt->sdl.renderer = SDL_CreateRenderer(rt->sdl.win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (rt->sdl.renderer == NULL) {
+		ft_putendl_fd("failed to initiate renderer in SDL", 2);
+	}
+    SDL_RenderSetLogicalSize(rt->sdl.renderer, rt->sdl.win_w, rt->sdl.win_h);
 	rt->samples = 0;
 	rt->job_size = rt->sdl.win_w * rt->sdl.win_h;
 	create_canvas(rt, rt->sdl.win_w, rt->sdl.win_h);

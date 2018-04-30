@@ -15,7 +15,7 @@
 			"normal": [0, 1, 0],
 			"radius": 0.6,
 			"height": 3.3,
-			"texture": 0
+			"texture": [5,0,0,0]
 		},
 		{
 			"type": "sphere",

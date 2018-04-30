@@ -9,7 +9,7 @@ static float3 radiance(global t_object* objs,
 		uint objnum,
 		t_ray r,
 		uint* seeds,
-		read_only image3d_t textures,
+		read_only image2d_array_t textures,
 		global uint2 *sizes) {
 	int depth = 0;	  // bounces counter
 	global t_object* obj;   // intersected object
@@ -64,7 +64,7 @@ static t_ray initRay(uint2 coords, uint2 sub, t_camera cam, uint* seeds) {
     dir = cam.cx * dx + cam.cy * dy + cam.dir;
 
     ray.d = normalize(dir);
-    ray.o = cam.origin + dir;
+    ray.o = cam.origin;
     return (ray);
 }
 
@@ -73,11 +73,11 @@ void path_tracing(
 		global t_object* objs,
 		uint objnum,
 		t_camera camera,
-		global uint* inputSeeds,
+		global uint* input_seeds,
 		global float3* colors,
 		global int* pixels_mem,
 		uint currentSample,
-		read_only image3d_t textures,
+		read_only image2d_array_t textures,
 		global uint2 *sizes) {
 	int i = get_global_id(0);
 	uint2 coords = {i % camera.canvas.x, i / camera.canvas.x};
@@ -85,8 +85,8 @@ void path_tracing(
 	float3 rad = {0, 0, 0};
 	t_ray ray;
 
-    seeds[0] = inputSeeds[i * 2];
-    seeds[1] = inputSeeds[i * 2 + 1];
+    seeds[0] = input_seeds[i * 2];
+    seeds[1] = input_seeds[i * 2 + 1];
     // Each pixel divide by 4 sub-pixels
     for (uint sy = 0; sy < 2; sy++)
     {
@@ -98,11 +98,11 @@ void path_tracing(
             rad += radiance(objs, objnum, ray, seeds, textures, sizes) * 0.25f;
         }
     }
-    addSample(colors, &rad, currentSample, i);
-    putPixel(pixels_mem, colors, i);
+    add_sample(colors, &rad, currentSample, i);
+    put_pixel(pixels_mem, colors, i);
 
-	inputSeeds[i * 2] = seeds[0];
-	inputSeeds[i * 2 + 1] = seeds[1];
+	input_seeds[i * 2] = seeds[0];
+	input_seeds[i * 2 + 1] = seeds[1];
 }
 
 

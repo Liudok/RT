@@ -34,8 +34,8 @@ static float3	torus_normal(global t_torus *obj, float3 pos)
 
 	k = dot(pos - obj->origin, obj->normal);
 	a = pos - obj->normal * k;
-	m = sqrt(obj->small_radius2 - k * k);
-	return (normalize(pos - a - (obj->origin - a) * m / (sqrt(obj->big_radius2) + m)));
+	m = native_sqrt(obj->small_radius2 - k * k);
+	return (normalize(pos - a - (obj->origin - a) * m / (native_sqrt(obj->big_radius2) + m)));
 }
 
 static float3	triangle_normal(global t_triangle *obj)
@@ -100,7 +100,7 @@ static t_material  get_material(global t_object *obj)
 	return (diffuse);
 }
 
-static void map_normal(read_only image3d_t textures,
+static void map_normal(read_only image2d_array_t textures,
 						 t_surface *surf, uint2 size)
 {
 	float3 map_n = normalize(get_texel(textures, surf, surf->obj->texture.y, size));
@@ -108,18 +108,18 @@ static void map_normal(read_only image3d_t textures,
 	if (fast_length(t) == 0.f)
 		t = cross(surf->nl, (float3)(0.f, 0.f, 1.f));
 	t = normalize(t);
-	float3 b = cross(surf->n, t);
+	float3 b = cross(surf->nl, t);
 	surf->nl = normalize(t * map_n.x
 					+ b * map_n.y + surf->nl * map_n.z);
 }
 
-static float3 map_light(read_only image3d_t textures,
+static float3 map_light(read_only image2d_array_t textures,
 						 t_surface *surf, uint2 size)
 {
 	return get_texel(textures, surf, surf->obj->texture.z, size);
 }
 
-static float3 map_transparent(read_only image3d_t textures,
+static float3 map_transparent(read_only image2d_array_t textures,
 						 t_surface *surf, uint2 size, uint *seeds)
 {
 	float3 texel = get_texel(textures, surf, surf->obj->texture.w, size);
@@ -128,7 +128,7 @@ static float3 map_transparent(read_only image3d_t textures,
 	return (float3)(0.9f, 0.9f, 0.9f);
 }
 
-static float3 apply_textures(t_surface *surf, read_only image3d_t textures,
+static float3 apply_textures(t_surface *surf, read_only image2d_array_t textures,
 		global uint2 *sizes, uint *seeds)
 {
 	uchar4 tex = surf->obj->texture;
@@ -140,17 +140,23 @@ static float3 apply_textures(t_surface *surf, read_only image3d_t textures,
 		map_normal(textures, surf, sizes[tex.y]);
 	if (tex.z && tex.z <= NUM_TEX) //light map
 		surf->emission = map_light(textures, surf, sizes[tex.z]);
-	if (tex.x == 255)
+	if (tex.x == 254)
+		color = color * perlin_noise(surf->uv);
+	else if (tex.x == 255)
 		color = surf->nl * .49f + .5f;
 	else if (tex.x && tex.x <= NUM_TEX)
 		color = get_texel(textures, surf, tex.x, sizes[tex.x]);
 	if (tex.w && tex.w <= NUM_TEX) //light map
 		color *= map_transparent(textures, surf, sizes[tex.w], seeds);
+	if (tex.z == 254)
+		surf->emission = color * perlin_noise(surf->uv * (float2)(2048.f, 4048.f));
+	else if (tex.z == 255)
+		surf->emission = color * surf->nl * .49f + .5f;
 	return (color);
 }
 
 static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t,
-		float m, read_only image3d_t textures, global uint2 *sizes, uint* seeds)
+		float m, read_only image2d_array_t textures, global uint2 *sizes, uint* seeds)
 {
     t_surface   s;
 
@@ -176,16 +182,16 @@ static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
 
     r1 = 2 * M_PI * get_random(&seeds[0], &seeds[1]);
     r2 = get_random(&seeds[0], &seeds[1]);
-    r2s = sqrt(r2);
+    r2s = native_sqrt(r2);
 
 	w = surf.nl;
 	u = normalize(cross((fabs(w[0]) > .1f ?
 					(float3)(0, 1, 0) : (float3)(1, 0, 0)), w));
 	v = cross(w, u);
 
-	cos_a = cos(r1);
-	sin_a = sin(r1);
-	k = sqrt(1 - r2);
+	cos_a = native_cos(r1);
+	sin_a = native_sin(r1);
+	k = native_sqrt(1 - r2);
 
 	u = u * cos_a * r2s;
 	v = v * sin_a * r2s;

@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 17:58:23 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/29 11:55:56 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ cl_int rt_cl_compile(t_cl_info* info, char* path)
 				(const size_t*)&size, &status);
 		check_error(status);
 		status = clBuildProgram(info->program, 1, &info->device_id,
-				"-I includes/ -I src/opencl/ -D NUM_TEX=10",
+				"-I includes/ -I src/opencl/ -D NUM_TEX=29",
 				NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
@@ -334,10 +334,9 @@ void rt_cl_push_task(t_kernel* kernel, size_t* size)
 cl_mem rt_cl_create_image_tex(t_cl_info *info, SDL_Surface **textures,
 		cl_uint2 *texture_sizes)
 {
-	const cl_image_format fmt = { CL_BGRA, CL_UNORM_INT8 };
-	const cl_image_desc desc = { CL_MEM_OBJECT_IMAGE3D,
-		textures[0]->w, textures[0]->h, NUM_TEX + 2,
-		1, 0, 0, 0, 0, NULL };
+	static const cl_image_format fmt = { CL_RGBA, CL_UNORM_INT8 };
+	static const cl_image_desc desc = { CL_MEM_OBJECT_IMAGE2D_ARRAY,
+		2048, 1024, 1, NUM_TEX + 2, 0, 0, 0, 0, NULL };
 	cl_int status;
 	cl_mem result;
 
@@ -360,9 +359,11 @@ void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
 	origin[0] = 0;
 	origin[1] = 0;
 	origin[2] = 0;
-	region[0] = 1;
-	region[1] = 1;
+	region[0] = 2048;
+	region[1] = 1024;
 	region[2] = 1;
+	check_error(clEnqueueWriteImage(info->command_queue, mem, CL_TRUE,
+				origin, region, 0, 0, textures[i]->pixels, 0, NULL, NULL));
 	while (i < NUM_TEX) {
 		region[0] = textures[i]->w;
 		region[1] = textures[i]->h;

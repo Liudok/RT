@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/26 17:59:39 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/04/27 14:52:01 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ typedef struct s_rt t_rt;
 
 # define MAX_WIDTH 3840
 # define MAX_HEIGHT 2160
-# define WINDOW_WIDTH 1000
-# define WINDOW_HEIGHT 1000
+# define WINDOW_WIDTH 1250
+# define WINDOW_HEIGHT 1250
 # define BUTTONS_AMOUNT 16
-# define NUM_TEX 10
+# define NUM_TEX 29
 
 # include "panels.h"
 

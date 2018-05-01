@@ -102,8 +102,8 @@ int run_ui(t_rt* s)
                 fig = mouse_ray(s, evt.button.x, evt.button.y);
                 if (fig > 0)
                 {
-                    printf("figure2 = %i\n", fig);
-                    //					show_settings(s);
+                    printf("figure = %i\n", fig);
+                    start_settings_win(s, fig);
                 }
             }
         }

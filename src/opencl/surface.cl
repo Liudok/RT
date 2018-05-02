@@ -35,12 +35,15 @@ static float3	torus_normal(global t_torus *obj, float3 pos)
 	k = dot(pos - obj->origin, obj->normal);
 	a = pos - obj->normal * k;
 	m = native_sqrt(obj->small_radius2 - k * k);
-	return (normalize(pos - a - (obj->origin - a) * m / (native_sqrt(obj->big_radius2) + m)));
+	return (normalize(
+		pos - a - (obj->origin - a) *
+		native_divide(m,  (native_sqrt(obj->big_radius2)) + m)));
 }
 
 static float3	triangle_normal(global t_triangle *obj)
 {
-	return (normalize(cross(obj->vertex1 - obj->vertex0, obj->vertex2 - obj->vertex1)));
+	return (normalize(
+		cross(obj->vertex1 - obj->vertex0, obj->vertex2 - obj->vertex1)));
 }
 
 static float3	mobius_normal(global t_mobius *obj, float3 pos)
@@ -49,7 +52,9 @@ static float3	mobius_normal(global t_mobius *obj, float3 pos)
     float y = pos.y;
     float z = pos.z;
     float R = obj->radius;
-    float3 ret =  {2 * x * y - 2 * R * z - 4 * x * z, -R * R + x * x + 3 * y * y - 4 * y * z + z * z, -2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z};
+    float3 ret =  {2 * x * y - 2 * R * z - 4 * x * z,
+		-R * R + x * x + 3 * y * y - 4 * y * z + z * z,
+		-2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z};
     return (normalize(ret));
 }
 
@@ -94,7 +99,8 @@ static t_material  get_material(global t_object *obj)
 static void map_normal(read_only image2d_array_t textures,
 						 t_surface *surf, uint2 size)
 {
-	float3 map_n = normalize(get_texel(textures, surf, surf->obj->texture.y, size));
+	float3 map_n = fast_normalize(
+			get_texel(textures, surf, surf->obj->texture.y, size));
 	float3 t = cross(surf->nl, (float3)(0.f, 1.f, 0.f));
 	if (fast_length(t) == 0.f)
 		t = cross(surf->nl, (float3)(0.f, 0.f, 1.f));
@@ -127,20 +133,20 @@ static float3 apply_textures(t_surface *surf, read_only image2d_array_t textures
 	surf->uv = get_tex_coords(surf);
 
 
+	if (tex.x == 254)
+		color = color * perlin_noise(surf->uv * (float2)(4048.f, 4048.f));
+	else if (tex.x == 255)
+		color = surf->nl * .48f + .5f;
+	else if (tex.x && tex.x <= NUM_TEX)
+		color = get_texel(textures, surf, tex.x, sizes[tex.x]);
 	if (tex.y && tex.y <= NUM_TEX) //normal_map
 		map_normal(textures, surf, sizes[tex.y]);
 	if (tex.z && tex.z <= NUM_TEX) //light map
-		surf->emission = map_light(textures, surf, sizes[tex.z]);
-	if (tex.x == 254)
-		color = color * perlin_noise(surf->uv);
-	else if (tex.x == 255)
-		color = surf->nl * .49f + .5f;
-	else if (tex.x && tex.x <= NUM_TEX)
-		color = get_texel(textures, surf, tex.x, sizes[tex.x]);
-	if (tex.w && tex.w <= NUM_TEX) //light map
+		surf->emission = map_light(textures, surf, sizes[tex.z]) * color;
+	if (tex.w && tex.w <= NUM_TEX) //transparency map
 		color *= map_transparent(textures, surf, sizes[tex.w], seeds);
 	if (tex.z == 254)
-		surf->emission = color * perlin_noise(surf->uv * (float2)(2048.f, 4048.f));
+		surf->emission = color * perlin_noise(surf->uv * (float2)(4048.f, 4048.f));
 	else if (tex.z == 255)
 		surf->emission = color * surf->nl * .49f + .5f;
 	return (color);

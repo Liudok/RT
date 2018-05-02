@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/27 14:52:01 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/01 12:06:04 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ typedef struct s_rt t_rt;
 # include <stdio.h>
 # include <errno.h>
 
+# define XSTR(s) STR(s)
+# define STR(s) #s
 # define SDL_ERROR "./rt: SDL Error : "
 # define MALLOC_ERR "./rt: malloc allocation fails"
 

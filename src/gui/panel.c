@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 22:55:15 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/01 13:19:40 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,11 +144,22 @@ void			set_panel(t_rt *s)
 
 void			set_bg(t_rt *s)
 {
+	unsigned timeout;
+
 	clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
 	fprintf(stderr, " samples per pixel -> %d\r", s->samples);
 	s->samples++;
-	rt_cl_push_task(&s->kernel, &s->job_size);
-	rt_cl_device_to_host(&s->info, s->pixels_mem, s->sdl.pixels, s->job_size * sizeof(int));
+	timeout	= SDL_GetTicks() + 100;
+	if (s->samples < 10)
+		rt_cl_push_task(&s->kernel, &s->job_size);
+	else
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
+		{
+			rt_cl_push_task(&s->kernel, &s->job_size);
+			rt_cl_join(&s->info);
+		}
+	rt_cl_device_to_host(&s->info, s->pixels_mem,
+			s->sdl.pixels, s->job_size * sizeof(int));
 	SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);
 	SDL_RenderClear(s->sdl.renderer);
 	SDL_RenderCopy(s->sdl.renderer, s->sdl.canvas, NULL, NULL);

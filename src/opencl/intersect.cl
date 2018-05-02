@@ -404,6 +404,7 @@ static void intersect(global t_object* obj,
 		float* m,
 		float* closest_dist) {
 	float dist;
+	float tmp_m = 0;
 	switch (obj->type) {
 		case sphere:
 			dist = sphere_intersect(&obj->prim.sphere, ray);
@@ -412,10 +413,10 @@ static void intersect(global t_object* obj,
 			dist = plane_intersect(&obj->prim.plane, ray);
 			break;
 		case cylinder:
-			dist = cylinder_intersect(&obj->prim.cylinder, ray, m);
+			dist = cylinder_intersect(&obj->prim.cylinder, ray, &tmp_m);
 			break;
 		case cone:
-			dist = cone_intersect(&obj->prim.cone, ray, m);
+			dist = cone_intersect(&obj->prim.cone, ray, &tmp_m);
 			break;
 		case disk:
 			dist = disk_intersect(&obj->prim.disk, ray);
@@ -436,4 +437,5 @@ static void intersect(global t_object* obj,
 		return;
 	*closest_dist = dist;
 	*closest = obj;
+	*m = tmp_m;
 }

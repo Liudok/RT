@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/29 11:55:56 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/01 14:11:48 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,9 +238,8 @@ cl_int rt_cl_compile(t_cl_info* info, char* path)
 		info->program = clCreateProgramWithSource(info->context, 1, (const char**)&seeker,
 				(const size_t*)&size, &status);
 		check_error(status);
-		status = clBuildProgram(info->program, 1, &info->device_id,
-				"-I includes/ -I src/opencl/ -D NUM_TEX=29",
-				NULL, NULL);
+		status = clBuildProgram(info->program, 1, &info->device_id, "-I includes/"
+		" -I src/opencl/ -Werror -D NUM_TEX=" XSTR(NUM_TEX), NULL, NULL);
 		if (status != 0) {
 			printf("status = %i\n", status);
 			// Determine the size of the log

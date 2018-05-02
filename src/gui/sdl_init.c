@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/27 16:25:56 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/01 12:20:15 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int load_all_textures(t_rt* s)
 {
-    static const char* tex_names[] = { TP"earth"TE, TP"earth_normal"TE,
+	static const char* tex_names[] = { TP"earth"TE, TP"earth_normal"TE,
 	TP"earth_light"TE, TP"earth_clouds"TE, TP"brickwall"TE,	TP"brickwall_normal"
 	TE, TP"TennisBallColor"TE, TP"TennisBallNormal"TE, TP"BeachBallColor"TE,
 	TP"BeachBallTransp"TE, TP"SoftballColor"TE, TP"SoftballNormal"TE, TP
@@ -26,21 +26,20 @@ int load_all_textures(t_rt* s)
 	TP"BasketballColor"TE
 	};
 
-    int i = -1;
-    if (!(s->sdl.canvas = SDL_CreateTexture(s->sdl.renderer,
-	      SDL_PIXELFORMAT_ARGB8888,
-	      SDL_TEXTUREACCESS_TARGET,
-	      s->sdl.win_w, s->sdl.win_h))) {
+	int i = -1;
+	if (!(s->sdl.canvas = SDL_CreateTexture(s->sdl.renderer,
+			SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET,
+			s->sdl.win_w, s->sdl.win_h))) {
 		ft_putendl_fd("failed to initiate texture in SDL", 2);
 		return (0);
-    }
-    s->textures[0] = load_texture("src/img/dark_pixel2.png", s);
-    s->textures[1] = load_texture("src/img/dark_pixel.png", s);
-    s->textures[2] = load_texture("src/img/rama.png", s);
-    while (++i < NUM_TEX)
+	}
+	s->textures[0] = load_texture("src/img/dark_pixel2.png", s);
+	s->textures[1] = load_texture("src/img/dark_pixel.png", s);
+	s->textures[2] = load_texture("src/img/rama.png", s);
+	while (++i < NUM_TEX)
 		if(!(s->textures_img[i] = IMG_Load(tex_names[i])))
 			return (0);
-    return (1);
+	return (1);
 }
 
 int sdl_init_everything(t_rt* rt)

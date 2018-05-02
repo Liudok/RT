@@ -28,6 +28,7 @@
 
 # define BUTTON_SIZE 15
 # define SHAPE_SIZE 500
+# define PROPERTIES 16
 
 void        modify_scene(t_rt *rt, int i);
 void        start_settings_win(t_rt* rt, int i);

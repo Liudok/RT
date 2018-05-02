@@ -42,67 +42,73 @@ int load_all_textures(t_rt* s)
 	return (1);
 }
 
-int sdl_init_everything(t_rt* s)
+int sdl_init_everything(t_rt* rt)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) == -1) {
+    if (SDL_Init(SDL_INIT_VIDEO) == -1)
+	{
 		ft_putendl_fd("failed to initiate SDL", 2);
 		return (0);
-	}
-	s->sdl.win = SDL_CreateWindow("RT",
-			SDL_WINDOWPOS_CENTERED,
-			SDL_WINDOWPOS_CENTERED,
-			s->sdl.win_w, s->sdl.win_h,
-			SDL_WINDOW_RESIZABLE);
-	if (s->sdl.win == NULL) {
+    }
+    rt->sdl.win = SDL_CreateWindow("RT",
+									SDL_WINDOWPOS_CENTERED,
+									SDL_WINDOWPOS_CENTERED,
+									rt->sdl.win_w, rt->sdl.win_h,
+									SDL_WINDOW_RESIZABLE);
+    if (rt->sdl.win == NULL) {
 		ft_putendl_fd("failed to initiate WIN in SDL", 2);
 		return (0);
-	}
-	s->sdl.renderer = SDL_CreateRenderer(s->sdl.win, -1,
-			SDL_RENDERER_ACCELERATED);
-	if (s->sdl.renderer == NULL) {
+    }
+    rt->sdl.renderer = SDL_CreateRenderer(rt->sdl.win, -1, SDL_RENDERER_ACCELERATED);
+    if (rt->sdl.renderer == NULL)
+	{
 		ft_putendl_fd("failed to initiate renderer in SDL", 2);
 		return (0);
-	}
-	if (!load_all_textures(s))
-		return (0);
-	SDL_RenderSetLogicalSize(s->sdl.renderer, s->sdl.win_w, s->sdl.win_h);
-	SDL_SetRenderDrawColor(s->sdl.renderer, 0, 255, 0, 255);
-	s->sdl.pixels = (int*)malloc(sizeof(int) * (s->sdl.win_w * s->sdl.win_h));
-	create_buttons(s);
-	return (1);
+    }
+    create_canvas(rt, rt->sdl.win_w, rt->sdl.win_h);
+    if (!load_all_textures(rt))
+	return (0);
+//    SDL_RenderSetLogicalSize(rt->sdl.renderer, rt->sdl.win_w, rt->sdl.win_h);
+//    SDL_SetRenderDrawColor(rt->sdl.renderer, 0, 255, 0, 255);
+    rt->sdl.pixels = (int*)malloc(sizeof(int) * (rt->sdl.win_w * rt->sdl.win_h));
+    create_buttons(rt);
+    return (1);
 }
 
 int run_ui(t_rt* s)
 {
-	int running;
-	int fig;
+    int running;
+    int fig;
 
-	running = 1;
-	init_opencl(s);
-	SDL_Event evt;
-	while (running) {
-		while (SDL_PollEvent(&evt)) {
-			if (is_quit(evt))
-				running = 0;
-			else if (is_window_resizable(evt))
-				handling_window_resizable(s, evt);
-			else if (evt.type == SDL_KEYDOWN)
-				on_event(s, &evt);
-			else if (evt.type == SDL_KEYUP)
-				off_event(s, &evt);
-			else if (evt.type == SDL_MOUSEBUTTONDOWN) {
-				check_pressing(s, evt.button.x, evt.button.y);
-				render_buttons(s);
-				fig = mouse_ray(s, evt.button.x, evt.button.y);
-				if (fig > 0) {
-					printf("figure2 = %i\n", fig);
-					//					show_settings(s);
-				}
-			}
-		}
-		if (is_camera_event(s))
-			update_camera(s);
-		set_bg(s);
-	}
-	return (1);
+    running = 1;
+    init_opencl(s);
+    SDL_Event evt;
+    while (running)
+    {
+	    while (SDL_PollEvent(&evt))
+        {
+            if (is_quit(evt))
+                running = 0;
+            else if (is_window_resizable(evt))
+                handling_window_resizable(s, evt);
+            else if (evt.type == SDL_KEYDOWN)
+                on_event(s, &evt);
+            else if (evt.type == SDL_KEYUP)
+                off_event(s, &evt);
+            else if (evt.type == SDL_MOUSEBUTTONDOWN)
+            {
+                check_pressing(s, evt.button.x, evt.button.y);
+                render_buttons(s);
+                fig = mouse_ray(s, evt.button.x, evt.button.y);
+                if (fig > 0)
+                {
+                    printf("figure = %i\n", fig);
+                    start_settings_win(s, fig);
+                }
+            }
+        }
+        if (is_camera_event(s))
+            update_camera(s);
+	    set_bg(s);
+    }
+    return (1);
 }

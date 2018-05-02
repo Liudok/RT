@@ -58,7 +58,14 @@ static float3	mobius_normal(global t_mobius *obj, float3 pos)
     return (normalize(ret));
 }
 
-static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
+static float3	cube_normal(global t_cube *obj, float3 pos, float m)
+{
+    float3 	normal = {0, 0, 0};
+    normal[(int)m] = 1;
+    return (normal);
+}
+
+float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 {
 	switch (obj->type) {
 		case sphere:
@@ -77,6 +84,8 @@ static float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 			return (triangle_normal(&obj->prim.triangle));
         case mobius:
             return (mobius_normal(&obj->prim.mobius, hit_pos));
+        case cube:
+            return (cube_normal(&obj->prim.cube, hit_pos, m));
 		default:
 			break;
 	}

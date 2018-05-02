@@ -123,8 +123,8 @@ typedef struct	s_cube
 {
 	float3		min;
 	float3		max;
-//	int 		pipes_number;
-//	const __constant	struct s_object	*objs;
+	int 		pipes_number;
+	struct s_object	*objs;
 }				t_cube;
 
 typedef	union	u_primitive
@@ -139,7 +139,7 @@ typedef	union	u_primitive
 	t_mobius	mobius;
 //	t_bool_substraction bool_substraction;
 //	t_bool_intersection bool_intersection;
-//	t_cube		cube;
+	t_cube		cube;
 }				t_primitive;
 
 typedef struct	s_object

@@ -30,5 +30,6 @@
 # define SHAPE_SIZE 500
 
 void        modify_scene(t_rt *rt, int i);
+void        start_settings_win(t_rt* rt, int i);
 
 #endif

@@ -128,6 +128,8 @@ void				create_subbuttons(t_rt *s);
 void				render_subbuttons(t_rt *s);
 void				load_buttons_texures(t_rt *s);
 int 				load_all_textures(t_rt *s);
+
+void				texture_from_text(char *text, t_sdl *sdl, t_rec *rec);
 void				start_parsing(char			*file_str, t_scene *s, int size);
 void 				save_scene_to_file(t_rt *s);
 char 				*type_to_str(int n);

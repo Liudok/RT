@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 22:55:15 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/02 12:19:11 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,15 @@ void			set_bg(t_rt *s)
 	clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
 	fprintf(stderr, " samples per pixel -> %d\r", s->samples);
 	s->samples++;
-	timeout	= SDL_GetTicks() + 100;
+	timeout	= SDL_GetTicks() + 17;
 	if (s->samples < 10)
-		rt_cl_push_task(&s->kernel, &s->job_size);
-	else
 		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
+		{
+			rt_cl_push_task(&s->kernel, &s->job_size);
+			rt_cl_join(&s->info);
+		}
+	else
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout + 150))
 		{
 			rt_cl_push_task(&s->kernel, &s->job_size);
 			rt_cl_join(&s->info);

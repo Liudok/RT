@@ -48,9 +48,20 @@ t_primitive			new_cone(float3 origin, float3 normal, float m1, float m2)
 	t_primitive		prim;
 
 	prim.cone.origin = origin;
+	prim.cone.origin.x = prim.cone.origin.x * (-1);
 	prim.cone.normal = normal;
 	prim.cone.m1 = m1;
 	prim.cone.m2 = m2;
 	prim.cone.half_tangent = 0.5;
+	return (prim);
+}
+
+t_primitive			new_disk(float3 origin, float3 normal, float radius)
+{
+	t_primitive		prim;
+
+	prim.disk.origin = origin;
+	prim.disk.normal = normal;
+	prim.cylinder.radius = radius;
 	return (prim);
 }

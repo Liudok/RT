@@ -77,7 +77,6 @@ int sdl_init_everything(t_rt* rt)
 int run_ui(t_rt* s)
 {
     int running;
-    int fig;
 
     running = 1;
     init_opencl(s);
@@ -98,12 +97,6 @@ int run_ui(t_rt* s)
             {
                 check_pressing(s, evt.button.x, evt.button.y);
                 render_buttons(s);
-                fig = mouse_ray(s, evt.button.x, evt.button.y);
-                if (fig > 0)
-                {
-                    printf("figure = %i\n", fig);
-                    start_settings_win(s, fig);
-                }
             }
         }
         if (is_camera_event(s))

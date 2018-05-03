@@ -36,10 +36,11 @@ t_primitive			new_sphere(float3 origin, float radius);
 t_primitive			new_plane(float3 origin, float3 normal);
 t_primitive			new_cylinder(float3 origin, float3 normal, float radius, float height);
 t_primitive			new_cone(float3 origin, float3 normal, float m1, float m2);
-void        add_new_cone(t_rt *rt, float3 origin);
-void        add_new_cylinder(t_rt *rt, float3 origin);
-void        add_new_plane(t_rt *rt, float3 origin);
-void        add_new_sphere(t_rt *rt, float3 origin);
-void        add_new_triangle(t_rt *rt, float3 origin);
+t_primitive			new_disk(float3 origin, float3 normal, float radius);
+void				add_new_cone(t_rt *rt, float3 origin);
+void				add_new_cylinder(t_rt *rt, float3 origin);
+void				add_new_plane(t_rt *rt, float3 origin);
+void				add_new_sphere(t_rt *rt, float3 origin);
+void				add_new_triangle(t_rt *rt, float3 origin);
 
 #endif

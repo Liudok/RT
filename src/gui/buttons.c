@@ -95,6 +95,7 @@ void			check_pressing(t_rt *s, int x, int y)
 			else
 				s->buttons[i].pressed = 0;
 			printf("pressed in check i = %i\n", i);
+			return;
 		}
 	}
 }

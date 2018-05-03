@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/01 12:06:04 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/03 18:13:27 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct		s_rt
 	t_cl_info		info;
 	t_kernel		kernel;
 	t_kernel		mouse_kernel;
+	t_kernel		effect_kernel;
 	size_t			job_size;
 	cl_mem			pixels_mem;
 	cl_mem			textures_mem;
@@ -96,6 +97,7 @@ typedef struct		s_rt
 	cl_mem			colors;
 	cl_mem			seeds;
 	cl_uint			samples;
+	cl_int			effect_type;
 	cl_mem			mouse_intersect;
 	t_scene			scene;
 	t_event			event;

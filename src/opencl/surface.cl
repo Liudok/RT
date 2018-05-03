@@ -142,14 +142,17 @@ static float3 apply_textures(t_surface *surf, read_only image2d_array_t textures
 	float3 color = surf->obj->color;
 	surf->uv = get_tex_coords(surf);
 
-
-	if (tex.x == 254)
-		color = color * perlin_noise(surf->uv * (float2)(4048.f, 4048.f));
+	if (tex.x == 253)
+		color *= sin(surf->nl * .48f + .5f);
+	else if (tex.x == 254)
+		color *= perlin_noise(surf->uv * (float2)(4048.f, 4048.f));
 	else if (tex.x == 255)
 		color = surf->nl * .48f + .5f;
 	else if (tex.x && tex.x <= NUM_TEX)
 		color = get_texel(textures, surf, tex.x, sizes[tex.x]);
-	if (tex.y && tex.y <= NUM_TEX) //normal_map
+	if (tex.y == 253)
+		surf->nl = normalize((float3)(sin(surf->uv * 512.f), 1));
+	else if (tex.y && tex.y <= NUM_TEX) //normal_map
 		map_normal(textures, surf, sizes[tex.y]);
 	if (tex.z && tex.z <= NUM_TEX) //light map
 		surf->emission = map_light(textures, surf, sizes[tex.z]) * color;

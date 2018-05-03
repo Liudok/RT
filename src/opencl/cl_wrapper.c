@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/01 14:11:48 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/03 16:58:28 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,7 +330,21 @@ void rt_cl_push_task(t_kernel* kernel, size_t* size)
 	check_error(status);
 }
 
-cl_mem rt_cl_create_image_tex(t_cl_info *info, SDL_Surface **textures,
+cl_mem	rt_cl_create_image(t_cl_info *info, cl_int2 size)
+{
+	static const cl_image_format fmt = { CL_RGBA, CL_UNORM_INT8 };
+	const cl_image_desc desc = { CL_MEM_OBJECT_IMAGE2D,
+		size.x, size.y, 1, 1, 0, 0, 0, 0, NULL };
+	cl_int status;
+	cl_mem result;
+
+	result = clCreateImage(info->context, CL_MEM_READ_WRITE,
+			&fmt, &desc, NULL, &status);
+	check_error(status);
+	return (result);
+}
+
+cl_mem	rt_cl_create_image_tex(t_cl_info *info, SDL_Surface **textures,
 		cl_uint2 *texture_sizes)
 {
 	static const cl_image_format fmt = { CL_RGBA, CL_UNORM_INT8 };
@@ -347,7 +361,7 @@ cl_mem rt_cl_create_image_tex(t_cl_info *info, SDL_Surface **textures,
 	return (result);
 }
 
-void rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
+void	rt_cl_bind_textures(t_cl_info *info, cl_mem mem, SDL_Surface** textures,
 		cl_uint2 *texture_sizes)
 {
 	int i;

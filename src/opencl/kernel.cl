@@ -51,7 +51,7 @@ static float3 radiance(global t_object* objs,
     return (clamp(accum_col, 0.f, 1.0f));
 }
 
-static t_ray initRay(uint2 coords, uint2 sub, t_camera cam, uint* seeds) {
+static t_ray initRay(int2 coords, uint2 sub, t_camera cam, uint* seeds) {
 	t_ray ray;
 	float3 dir;
 	float r1 = 2 * get_random(&seeds[0], &seeds[1]);
@@ -75,12 +75,11 @@ void path_tracing(
 		t_camera camera,
 		global uint* input_seeds,
 		global float3* colors,
-		global int* pixels_mem,
 		uint currentSample,
 		read_only image2d_array_t textures,
 		global uint2 *sizes) {
 	int i = get_global_id(0);
-	uint2 coords = {i % camera.canvas.x, i / camera.canvas.x};
+	int2 coords = {i % camera.canvas.x, i / camera.canvas.x};
 	uint seeds[2];
 	float3 rad = {0, 0, 0};
 	t_ray ray;
@@ -98,20 +97,15 @@ void path_tracing(
             rad += radiance(objs, objnum, ray, seeds, textures, sizes) * 0.25f;
         }
     }
-    add_sample(colors, &rad, currentSample, i);
-    put_pixel(pixels_mem, colors, i);
+    add_sample(colors, rad, currentSample, i);
 
 	input_seeds[i * 2] = seeds[0];
 	input_seeds[i * 2 + 1] = seeds[1];
 }
 
 
-__kernel __attribute__((vec_type_hint(float3))) void mouse_hook(
-		global t_object* objs,
-		uint objnum,
-		t_camera camera,
-		uint2 coords,
-		global int *ret)
+__kernel __attribute__((vec_type_hint(float3)))
+void mouse_hook( global t_object* objs, uint objnum, t_camera camera, uint2 coords, global int *ret)
 {
 	t_ray ray;
 
@@ -133,4 +127,24 @@ __kernel __attribute__((vec_type_hint(float3))) void mouse_hook(
 		*ret = obj - objs;
 	else
 		*ret = -1;
+}
+
+__kernel __attribute__((vec_type_hint(float3)))
+void after_effects(global float3 *colors, global int *pixels, int type, t_camera camera)
+{
+	int i = get_global_id(0);
+	//int2 coords = {i % camera.canvas.x, i / camera.canvas.x};
+	float3 current_pixel;
+
+	switch (type) {
+		case 1:
+			current_pixel = sepia(colors[i]);
+			break;
+		case 2:
+			current_pixel = negative(colors[i]);
+			break;
+		default:
+			current_pixel = colors[i];
+	}
+    put_pixel(pixels, current_pixel, i);
 }

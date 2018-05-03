@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/05/01 11:54:02 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/03 18:19:36 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,21 @@ static cl_uint	*make_seeds(t_rt *rt)
 void			init_opencl(t_rt *rt)
 {
 	cl_uint *seeds;
-	int i = -1;
+	size_t i = (size_t)-1;
 	const size_t sizes[] = {sizeof(cl_mem), sizeof(cl_uint), sizeof(t_camera),
-		sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_uint),
+		sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_uint),
 		sizeof(cl_mem), sizeof(cl_mem)};
 	const void *ptrs[] = {&rt->scene.objs_mem, &rt->scene.objnum,
-		&rt->scene.camera, &rt->seeds, &rt->colors, &rt->pixels_mem,
+		&rt->scene.camera, &rt->seeds, &rt->colors,
 		&rt->samples, &rt->textures_mem, &rt->tex_size_mem};
 
+	s->effect_type = 0;
 	seeds = make_seeds(rt);
 	rt_cl_init(&rt->info);
 	rt_cl_compile(&rt->info, "src/opencl/kernel.cl");
 	rt->kernel = rt_cl_create_kernel(&rt->info, "path_tracing");
 	rt->mouse_kernel = rt_cl_create_kernel(&rt->info, "mouse_hook");
+	rt->effect_kernel = rt_cl_create_kernel(&rt->info, "after_effects");
 	rt->mouse_intersect = rt_cl_malloc_read(&rt->info, sizeof(cl_int));
 	rt->scene.objs_mem = rt_cl_malloc_write(
 			&rt->info, sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
@@ -60,8 +62,12 @@ void			init_opencl(t_rt *rt)
 	rt->pixels_mem = rt_cl_malloc_read(&rt->info, sizeof(cl_int) * rt->job_size);
 	rt->tex_size_mem = rt_cl_malloc_write(&rt->info, sizeof(cl_uint2) * (2 + NUM_TEX),
 			&rt->texture_sizes);
-	while(++i < 10)
+	while(++i < sizeof(ptrs) / sizeof(void *))
 		clSetKernelArg(rt->kernel.kernel, i, sizes[i], ptrs[i]);
+	clSetKernelArg(rt->effect_kernel.kernel, 0, sizeof(cl_mem), &rt->colors);
+	clSetKernelArg(rt->effect_kernel.kernel, 1, sizeof(cl_mem), &rt->pixels_mem);
+	clSetKernelArg(rt->effect_kernel.kernel, 2, sizeof(cl_uchar), &rt->effect_type);
+	clSetKernelArg(rt->effect_kernel.kernel, 3, sizeof(t_camera), &rt->scene.camera);
 	free(seeds);
 	create_figures(rt);
 }

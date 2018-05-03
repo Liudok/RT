@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/02 12:19:11 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/03 18:19:07 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,31 +137,35 @@ void			set_panel(t_rt *s)
 	backgroundPos.h = 70;
 	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
 	// backgroundPos.x = WINDOW_WIDTH - backgroundPos.w;
-	// backgroundPos.y = 0;
-	// SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
+	// backgroundPos.y = 0; // SDL_RenderCopy(s->renderer, bg, NULL, &backgroundPos);
 	render_buttons(s);
+}
+
+inline static void			render(t_rt *s, unsigned timeout)
+{
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
+	{
+		rt_cl_push_task(&s->kernel, &s->job_size);
+		rt_cl_join(&s->info);
+		clSetKernelArg(s->kernel.kernel, 5, sizeof(cl_uint), &s->samples);
+		s->samples++;
+	}
 }
 
 void			set_bg(t_rt *s)
 {
 	unsigned timeout;
 
-	clSetKernelArg(s->kernel.kernel, 6, sizeof(cl_uint), &s->samples);
+	clSetKernelArg(s->kernel.kernel, 5, sizeof(cl_uint), &s->samples);
 	fprintf(stderr, " samples per pixel -> %d\r", s->samples);
 	s->samples++;
 	timeout	= SDL_GetTicks() + 17;
-	if (s->samples < 10)
-		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
-		{
-			rt_cl_push_task(&s->kernel, &s->job_size);
-			rt_cl_join(&s->info);
-		}
+	if (s->samples < 30)
+		render(s, timeout);
 	else
-		while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout + 150))
-		{
-			rt_cl_push_task(&s->kernel, &s->job_size);
-			rt_cl_join(&s->info);
-		}
+		render(s, timeout + 150);
+	clSetKernelArg(s->effect_kernel.kernel, 2, sizeof(cl_int), &s->effect_type);
+	rt_cl_push_task(&s->effect_kernel, &s->job_size);
 	rt_cl_device_to_host(&s->info, s->pixels_mem,
 			s->sdl.pixels, s->job_size * sizeof(int));
 	SDL_UpdateTexture(s->sdl.canvas, NULL, s->sdl.pixels, s->sdl.win_w << 2);

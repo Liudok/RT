@@ -321,7 +321,7 @@ static float  cube_intersect(constant t_cube *obj, t_ray ray, float* m, global t
     if (t_y_min > t_y_max)
         swap(&t_y_min, &t_y_max);
     if (t_min > t_y_max || t_y_min > t_max)
-     return (-1);
+    	return (-1);
     if (t_y_min > t_min)
     {
         side.x = 1;
@@ -398,11 +398,61 @@ static float  cube_intersect(constant t_cube *obj, t_ray ray, float* m, global t
     return (t_min);
 }
 
+static float  sphere_intersect1(t_sphere *obj, t_ray ray, float2* roots)
+{
+	float	a;
+	float	b;
+	float	c;
+	float3	oc;
+	float2	t;
+
+	oc = ray.o - obj->origin;
+	a = dot(ray.d, ray.d);
+	b = 2 * dot(ray.d, oc);
+	c = dot(oc, oc) - (obj->radius * obj->radius);
+	ft_roots(&t, a, b, c);
+	if (roots)
+	*roots = t;
+	if ((t.x < 0.0 && t.y >= 0.0) || (t.y < 0.0 && t.x >= 0.0))
+	return t.x > t.y ? t.x : t.y;
+	else
+	return t.x < t.y ? t.x : t.y;
+}
+
+static float	bool_substraction_intersect(global t_bool_substraction *obj, t_ray ray,
+global t_object **closest)
+{
+	float2	roots1;
+	float2	roots2;
+	float 	t1;
+	float 	t2;
+	t1 = sphere_intersect1(&obj->obj1->prim.sphere, ray, &roots1);
+	t2 = sphere_intersect1(&obj->obj2->prim.sphere, ray, &roots2);
+	if (t1 <= 0)
+		return(-1);
+	if (t2 <= 0)
+	{
+		//*closest = obj->obj1;
+		return (t1);
+	}
+	roots1 = (roots1.x > roots1.y) ? roots1.yx : roots1;
+	roots2 = (roots2.x > roots2.y) ? roots2.yx : roots2;
+	if (roots1.x < 0)
+		return (-1);
+	if (roots1.x > roots2.x && roots1.x < roots2.y)
+	{
+		//*closest = obj->obj2;
+		return (roots2.y);
+	}
+	//*closest = obj->obj1;
+	return (t1);
+}
+
 static void intersect(global t_object* obj,
-		global t_object** closest,
-		t_ray ray,
-		float* m,
-		float* closest_dist) {
+						global t_object** closest,
+						t_ray ray,
+						float* m,
+						float* closest_dist) {
 	float dist;
 	float tmp_m = 0;
 	switch (obj->type) {
@@ -430,6 +480,9 @@ static void intersect(global t_object* obj,
         case mobius:
             dist = mobius_intersect(&obj->prim.mobius, ray);
             break;
+		case bool_substraction:
+			dist = bool_substraction_intersect(&obj->prim.bool_substraction, ray, closest);
+			break;
 		default:
 			break;
 	}

@@ -107,12 +107,12 @@ typedef struct	s_mobius
 	float 		half_width;
 }				t_mobius;
 
-//typedef struct	s_bool_substraction
-//{
-//	const __constant	struct s_object	*obj1;
-//	const __constant	struct s_object	*obj2;
-//}				t_bool_substraction;
-//
+typedef struct	s_bool_substraction
+{
+	struct s_object	*obj1;
+	struct s_object	*obj2;
+}				t_bool_substraction;
+
 //typedef struct	s_bool_intersection
 //{
 //	const __constant	struct s_object	*obj1;
@@ -137,7 +137,7 @@ typedef	union	u_primitive
 	t_torus		torus;
 	t_triangle	triangle;
 	t_mobius	mobius;
-//	t_bool_substraction bool_substraction;
+	t_bool_substraction bool_substraction;
 //	t_bool_intersection bool_intersection;
 	t_cube		cube;
 }				t_primitive;

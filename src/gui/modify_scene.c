@@ -40,6 +40,42 @@ t_primitive	new_sphere(float3 origin, float radius)
     return (prim);
 }
 
+t_primitive	new_plane(float3 origin, float3 normal)
+{
+    t_primitive prim;
+
+    prim.plane.origin = origin;
+    prim.plane.normal = normal;
+    return (prim);
+}
+
+t_primitive	new_cylinder(float3 origin, float3 normal)
+{
+	t_primitive prim;
+
+	prim.cylinder.origin = origin;
+	prim.cylinder.normal = normal;
+	return (prim);
+}
+
+void        add_new_cylinder(t_rt *rt)
+{
+	rt->scene.objs[rt->scene.objnum - 1].type = cylinder;
+	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.5, 0.3, 0.8}};
+	rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].prim = new_cylinder((float3){{(rt->scene.objnum - 1) * 4, 1, 10}}, (float3){{1, 0, 0}});
+}
+
+void        add_new_plane(t_rt *rt)
+{
+    rt->scene.objs[rt->scene.objnum - 1].type = plane;
+    rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.5, 0.3, 0.8}};
+    rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
+    rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+    rt->scene.objs[rt->scene.objnum - 1].prim = new_plane((float3){{(rt->scene.objnum - 1) * 4, 1, 10}}, (float3){{1, 0, 0}});
+}
+
 void        add_new_sphere(t_rt *rt)
 {
     rt->scene.objs[rt->scene.objnum - 1].type = sphere;
@@ -65,6 +101,10 @@ void        modify_scene(t_rt *rt, int i)
     remalloc_objs(rt);
     if (i == 4)
         add_new_sphere(rt);
+    if (i == 5)
+        add_new_plane(rt);
+	if (i == 6)
+		add_new_cylinder(rt);
     if (i == 10)
         add_new_triangle(rt);
     reinit_opencl(rt);

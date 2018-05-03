@@ -130,7 +130,7 @@ void				create_subbuttons(t_rt *s);
 void				render_subbuttons(t_rt *s);
 void				load_buttons_texures(t_rt *s);
 int 				load_all_textures(t_rt *s);
-void				settings_rect_params(t_rec *recs);
+void				settings_rect_params(t_rec *recs, int x);
 void        		create_settings_textures(t_rt* rt, t_sdl *sdl, t_rec *recs, int i);
 void				set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs);
 void				other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs);

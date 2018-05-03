@@ -1,6 +1,6 @@
 #include "include/kernel.h"
 
-constant int numX = 512, numY = 512, num_octaves = 7;
+constant int num_octaves = 7;
 constant float persistence = 0.5;
 
 constant int primes[][3] = {
@@ -22,7 +22,9 @@ static float noise(int i, int x, int y)
 {
 	int n = x + y * 57;
 	n = (n << 13) ^ n;
-	int a = primes[i][0], b = primes[i][1], c = primes[i][2];
+	int a = primes[i][0];
+   	int b = primes[i][1];
+	int c = primes[i][2];
 	int t = (n * (n * n * a + b) + c) & 0x7fffffff;
 	return 1.0 - native_divide(t, 1073741824.0f);
 }
@@ -123,24 +125,24 @@ static int to_int(float3 v)
 }
 
 static void add_sample(global float3* colors,
-		float3* color,
+		float3 color,
 		uint currentSample,
 		int id)
 {
 	if (currentSample == 0) {
-		colors[id] = *color;
+		colors[id] = color;
 	} else {
 		const float k1 = currentSample;
 		const float k2 = native_recip(currentSample + 1.f);
-		colors[id].x = (colors[id].x * k1 + color->x) * k2;
-		colors[id].y = (colors[id].y * k1 + color->y) * k2;
-		colors[id].z = (colors[id].z * k1 + color->z) * k2;
+		colors[id].x = (colors[id].x * k1 + color.x) * k2;
+		colors[id].y = (colors[id].y * k1 + color.y) * k2;
+		colors[id].z = (colors[id].z * k1 + color.z) * k2;
 	}
 }
 
-static void put_pixel(global int* pixels, global float3* colors, int id)
+static void put_pixel(global int* pixels, float3 color, int id)
 {
-	pixels[id] = to_int(colors[id]);
+	pixels[id] = to_int(color);
 }
 
 static float2 sphere_tex_coords(t_surface* surf)
@@ -211,4 +213,19 @@ static float3 get_texel(read_only image2d_array_t textures,
 			mix(pixels[2], pixels[3], fraction.x),
 		fraction.y);
 	return result;
+}
+
+static float3 negative(float3 col)
+{
+	return ((float3)(1,1,1) - col);
+}
+
+static float3   sepia(float3 col)
+{
+	float3 res = {
+		(col.x > 0.8078431372f) ? 1.f : col.x + 0.1921568627f,
+		(col.y < 0.0549019607f) ? 0.f : col.y - 0.0549019607f,
+		(col.z < 0.2196078431f) ? 0.f : col.z - 0.2196078431f,
+	};
+	return (res);
 }

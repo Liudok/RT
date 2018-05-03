@@ -87,6 +87,35 @@ void				get_primitives_details4(t_object *o, char *n, struct _json_value *val)
 
 }
 
+void				get_primitives_details5(t_object *o)
+{
+	t_object *obj;
+
+	obj = (t_object*)malloc(sizeof(t_object) * 2);
+	ft_bzero(obj, sizeof(obj) * 2);
+	obj[0].type = sphere;
+	obj[0].color = (float3){{0.9, 0.9, 0.1}};
+	obj[0].material = (float4){{0, 0, 0, 0}};
+	obj[0].texture = (uchar4){{0, 0, 0, 0}};
+	obj[0].prim = new_sphere((float3){{-2, 2, 10}}, 1.3);
+	obj[1].type = sphere;
+	obj[1].color = (float3){{0.9, 0.9, 0.1}};
+	obj[1].material = (float4){{0, 0, 0, 0}};
+	obj[1].texture = (uchar4){{0, 0, 0, 0}};
+	obj[1].prim = new_sphere((float3){{-2, 3, 10}}, 1);
+	if (o->type == bool_substraction)
+	{
+		o->prim.bool_substraction.obj1 = &obj[0];
+		o->prim.bool_substraction.obj2 = &obj[1];
+	}
+	else if (o->type == bool_intersection)
+	{
+		o->prim.bool_substraction.obj1 = &obj[0];
+		o->prim.bool_substraction.obj2 = &obj[1];
+	}
+
+}
+
 void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 {
 	o->type = !ft_strcmp(n, "type") ? get_type(val) : o->type;
@@ -100,5 +129,7 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details3(o, n, val);
 	else if  (o->type == triangle || o->type == cube)
 		get_primitives_details4(o, n, val);
+	else if  (o->type == bool_substraction || o->type == bool_intersection)
+		get_primitives_details5(o);
 	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;
 }

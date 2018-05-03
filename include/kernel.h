@@ -113,12 +113,12 @@ typedef struct	s_bool_substraction
 	struct s_object	*obj2;
 }				t_bool_substraction;
 
-//typedef struct	s_bool_intersection
-//{
-//	const __constant	struct s_object	*obj1;
-//	const __constant	struct s_object	*obj2;
-//}				t_bool_intersection;
-//
+typedef struct	s_bool_intersection
+{
+	struct s_object	*obj1;
+	struct s_object	*obj2;
+}				t_bool_intersection;
+
 typedef struct	s_cube
 {
 	float3		min;

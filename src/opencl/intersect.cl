@@ -301,7 +301,7 @@ static void swap(float* a, float* b)
 }
 
 float3	find_normal(global t_object *obj, float3 hit_pos, float m);
-static float  cube_intersect(constant t_cube *obj, t_ray ray, float* m, global t_object **closest)
+static float  cube_intersect(global t_cube *obj, t_ray ray, float* m, global t_object **closest)
 {
     float 	t_min;
     float 	t_max;
@@ -349,29 +349,31 @@ static float  cube_intersect(constant t_cube *obj, t_ray ray, float* m, global t
         t_max = t_z_max;
     }
 
-    if (obj->objs)
+	global t_object *ptr = NULL;
+	ptr = (global t_object *)((void *)obj - (void *)&ptr->prim);
+	ptr++;
+    if (obj->pipes_number)
     {
-        int 	i = 0;
         int 	i_closet;
         float 	m_current;
-        while (i < obj->pipes_number)
+
+        for (int i = 0; i < obj->pipes_number; i++)
         {
-            float current = cylinder_intersect((__global t_cylinder *)&obj->objs[i].prim.cylinder, ray, &m_current);
-            if (current > 0 && current < t_pipe)
+            float current = cylinder_intersect(&ptr[i].prim.cylinder, ray, &m_current);
+            if (current > EPSILON && current < t_pipe)
             {
                 *m = m_current;
                 i_closet = i;
                 t_pipe = current;
             }
-            i++;
         }
         if (t_pipe < MAXFLOAT)
         {
             float3 pos = ray.o + ray.d * t_pipe;
-            float3 normal = find_normal((__global t_object *)&obj->objs[i_closet], pos, *m);
+            float3 normal = find_normal(&ptr[i_closet], pos, *m);
             if (dot(ray.d, normal) > 0.0f)
             {
-                *closest = (__global t_object *)&obj->objs[i_closet];
+                *closest = &ptr[i_closet];
                 return (t_pipe);
             }
         }
@@ -384,14 +386,12 @@ static float  cube_intersect(constant t_cube *obj, t_ray ray, float* m, global t
     }
     if (t_min > 0)
     {
-        int i = 0;
         float3 pos = ray.o + ray.d * t_min;
-        while (i < obj->pipes_number)
+		for (int i = 0; i < obj->pipes_number; i++)
         {
-            float3 temp = obj->objs[i].prim.cylinder.origin - pos;
-            if (length(temp - dot(temp, obj->objs[i].prim.cylinder.normal) * obj->objs[i].prim.cylinder.normal) < obj->objs[i].prim.cylinder.radius)
-            return (-1);
-            i++;
+            float3 temp = ptr[i].prim.cylinder.origin - pos;
+            if (length(temp - dot(temp, ptr[i].prim.cylinder.normal) * ptr[i].prim.cylinder.normal) < ptr[i].prim.cylinder.radius)
+            	return (-1);
         }
     }
     *m = side.x;
@@ -426,13 +426,17 @@ global t_object **closest)
 	float2	roots2;
 	float 	t1;
 	float 	t2;
-	t1 = sphere_intersect1(&obj->obj1->prim.sphere, ray, &roots1);
-	t2 = sphere_intersect1(&obj->obj2->prim.sphere, ray, &roots2);
+	global t_object *ptr = NULL;
+	ptr = (global t_object *)((void *)obj - (void *)&ptr->prim);
+	ptr++;
+	t1 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots1);
+	ptr++;
+	t2 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots2);
 	if (t1 <= 0)
 		return(-1);
 	if (t2 <= 0)
 	{
-		//*closest = obj->obj1;
+		*closest = --ptr;
 		return (t1);
 	}
 	roots1 = (roots1.x > roots1.y) ? roots1.yx : roots1;
@@ -441,10 +445,10 @@ global t_object **closest)
 		return (-1);
 	if (roots1.x > roots2.x && roots1.x < roots2.y)
 	{
-		//*closest = obj->obj2;
+		*closest = ++ptr;
 		return (roots2.y);
 	}
-	//*closest = obj->obj1;
+	*closest = --ptr;
 	return (t1);
 }
 
@@ -454,6 +458,7 @@ static void intersect(global t_object* obj,
 						float* m,
 						float* closest_dist) {
 	float dist;
+	global t_object *closest_obj;
 	float tmp_m = 0;
 	switch (obj->type) {
 		case sphere:
@@ -480,8 +485,11 @@ static void intersect(global t_object* obj,
         case mobius:
             dist = mobius_intersect(&obj->prim.mobius, ray);
             break;
+		case cube:
+			dist = cube_intersect(&obj->prim.cube, ray, &tmp_m, &closest_obj);
+			break;
 		case bool_substraction:
-			dist = bool_substraction_intersect(&obj->prim.bool_substraction, ray, closest);
+			dist = bool_substraction_intersect(&obj->prim.bool_substraction, ray,  &closest_obj);
 			break;
 		default:
 			break;
@@ -489,6 +497,9 @@ static void intersect(global t_object* obj,
 	if (dist <= EPSILON || dist > *closest_dist)
 		return;
 	*closest_dist = dist;
-	*closest = obj;
+	if (obj->type == bool_substraction || obj->type == bool_intersection || (obj->type == cube && closest_obj))
+		*closest = closest_obj;
+	else
+		*closest = obj;
 	*m = tmp_m;
 }

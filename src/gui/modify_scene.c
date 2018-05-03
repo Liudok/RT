@@ -60,6 +60,27 @@ void        add_new_torus(t_rt *rt, float3 origin)
 	rt->scene.objs[rt->scene.objnum - 1].prim = new_torus(origin, (float3){{0, 1, 0}}, 3, 5);
 }
 
+t_primitive			new_cube(float3 origin, float3 min, float3 max, int pipes_number)
+{
+	t_primitive		prim;
+
+	prim.cube.min = min;
+	prim.cube.max = max;
+	prim.cube.max.x += origin.x + 1;
+	prim.cube.min.x += origin.x + 1;
+	prim.cube.pipes_number = pipes_number;
+	return (prim);
+}
+
+void        add_new_cube(t_rt *rt, float3 origin)
+{
+	rt->scene.objs[rt->scene.objnum - 1].type = cube;
+	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.9, 0.8, 0.2}};
+	rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].prim = new_cube(origin, (float3){{-1, 1, 4}}, (float3){{-3, 3, 6}}, 2);
+}
+
 void        modify_scene(t_rt *rt, int i)
 {
 	static float3 origin = {{-2, 2, 10}};
@@ -79,6 +100,8 @@ void        modify_scene(t_rt *rt, int i)
 		add_new_torus(rt, origin);
     if (i == 10)
         add_new_triangle(rt, origin);
+	if (i == 11)
+		add_new_cube(rt, origin);
     reinit_opencl(rt);
 	origin.x += 2;
     rt->buttons[3].pressed = 0;

@@ -32,6 +32,16 @@
 			"texture": [0.0, 0.0, 0.0, 4.0]
 		},
 		{
+			"type": "cylinder",
+			"material": [0.7, 0.0, 0.0, 0],
+			"color": [0.3 ,0.1, 0.8],
+			"origin": [-1, 0.2, 6],
+			"normal": [0, 1, 0],
+			"radius": 0.72,
+			"height": 1.3,
+			"texture": 0
+		},
+		{
 			"type": "disk",
 			"material": [1.0, 0.0, 0.0, 0.0],
 			"color": [0.9, 0.9, 0.9],

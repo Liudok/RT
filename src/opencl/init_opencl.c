@@ -43,7 +43,7 @@ void			init_opencl(t_rt *rt)
 		&rt->scene.camera, &rt->seeds, &rt->colors,
 		&rt->samples, &rt->textures_mem, &rt->tex_size_mem};
 
-	s->effect_type = 0;
+	rt->effect_type = 0;
 	seeds = make_seeds(rt);
 	rt_cl_init(&rt->info);
 	rt_cl_compile(&rt->info, "src/opencl/kernel.cl");

@@ -30,83 +30,56 @@ void        remalloc_objs(t_rt *rt)
     free(tmp_objs);
 }
 
-t_primitive	new_sphere(float3 origin, float radius)
+void        add_new_disk(t_rt *rt, float3 origin)
 {
-    t_primitive prim;
-
-    prim.sphere.origin = origin;
-    prim.sphere.radius = radius;
-    prim.sphere.r2 = radius * radius;
-    return (prim);
+	rt->scene.objs[rt->scene.objnum - 1].type = disk;
+	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.3, 0.8, 0.6}};
+	rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].prim = new_disk(origin, (float3){{0, 1, 0}}, 3);
 }
 
-t_primitive	new_plane(float3 origin, float3 normal)
+t_primitive			new_torus(float3 origin, float3 normal, float small_radius2, float big_radius2)
 {
-    t_primitive prim;
+	t_primitive		prim;
 
-    prim.plane.origin = origin;
-    prim.plane.normal = normal;
-    return (prim);
-}
-
-t_primitive	new_cylinder(float3 origin, float3 normal)
-{
-	t_primitive prim;
-
-	prim.cylinder.origin = origin;
-	prim.cylinder.normal = normal;
+	prim.torus.origin = origin;
+	prim.torus.origin.x = prim.torus.origin.x * (-1);
+	prim.torus.normal = normal;
+	prim.torus.big_radius2 = big_radius2;
+	prim.torus.small_radius2 = small_radius2;
 	return (prim);
 }
 
-void        add_new_cylinder(t_rt *rt)
+void        add_new_torus(t_rt *rt, float3 origin)
 {
-	rt->scene.objs[rt->scene.objnum - 1].type = cylinder;
-	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.5, 0.3, 0.8}};
+	rt->scene.objs[rt->scene.objnum - 1].type = torus;
+	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.9, 0.8, 0.2}};
 	rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
 	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
-	rt->scene.objs[rt->scene.objnum - 1].prim = new_cylinder((float3){{(rt->scene.objnum - 1) * 4, 1, 10}}, (float3){{1, 0, 0}});
-}
-
-void        add_new_plane(t_rt *rt)
-{
-    rt->scene.objs[rt->scene.objnum - 1].type = plane;
-    rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.5, 0.3, 0.8}};
-    rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
-    rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
-    rt->scene.objs[rt->scene.objnum - 1].prim = new_plane((float3){{(rt->scene.objnum - 1) * 4, 1, 10}}, (float3){{1, 0, 0}});
-}
-
-void        add_new_sphere(t_rt *rt)
-{
-    rt->scene.objs[rt->scene.objnum - 1].type = sphere;
-    rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.9, 0.9, 0.1}};
-    rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
-    rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
-    rt->scene.objs[rt->scene.objnum - 1].prim = new_sphere((float3){{(rt->scene.objnum - 1) * 4, 1, 10}}, 2);
-}
-
-void        add_new_triangle(t_rt *rt)
-{
-    rt->scene.objs[rt->scene.objnum - 1].type = triangle;
-    rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.9, 0.9, 0.1}};
-    rt->scene.objs[rt->scene.objnum - 1].material = (float4){{0, 0, 0, 0}};
-    rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
-    rt->scene.objs[rt->scene.objnum - 1].prim.triangle.vertex0 = (float3){{rt->scene.objnum - 1, 1, 20}};
-    rt->scene.objs[rt->scene.objnum - 1].prim.triangle.vertex1 = (float3){{3, rt->scene.objnum - 1, 15}};
-    rt->scene.objs[rt->scene.objnum - 1].prim.triangle.vertex2 = (float3){{0, 5, rt->scene.objnum - 1}};
+	rt->scene.objs[rt->scene.objnum - 1].prim = new_torus(origin, (float3){{0, 1, 0}}, 3, 5);
 }
 
 void        modify_scene(t_rt *rt, int i)
 {
+	static float3 origin = {{-2, 2, 10}};
+
     remalloc_objs(rt);
     if (i == 4)
-        add_new_sphere(rt);
+        add_new_sphere(rt, origin);
     if (i == 5)
-        add_new_plane(rt);
+        add_new_plane(rt, origin);
 	if (i == 6)
-		add_new_cylinder(rt);
+		add_new_cylinder(rt, origin);
+	if (i == 7)
+		add_new_cone(rt, origin);
+	if (i == 8)
+		add_new_disk(rt, origin);
+	if (i == 9)
+		add_new_torus(rt, origin);
     if (i == 10)
-        add_new_triangle(rt);
+        add_new_triangle(rt, origin);
     reinit_opencl(rt);
+	origin.x += 2;
     rt->buttons[3].pressed = 0;
 }

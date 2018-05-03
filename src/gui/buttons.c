@@ -67,7 +67,7 @@ void			create_subbuttons(t_rt *s)
 void			check_pressing(t_rt *s, int x, int y)
 {
 	int i;
-
+	int fig;
 	i = -1;
 	printf("x = %i, y = %i\n", x, y);
 	while (++i < BUTTONS_AMOUNT)
@@ -97,5 +97,11 @@ void			check_pressing(t_rt *s, int x, int y)
 			printf("pressed in check i = %i\n", i);
 			return;
 		}
+	}
+	fig = mouse_ray(s, x, y);
+	if (fig > 0)
+	{
+		printf("figure = %i\n", fig);
+		start_settings_win(s, fig);
 	}
 }

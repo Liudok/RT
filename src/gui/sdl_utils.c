@@ -15,17 +15,16 @@
 void	texture_from_text(char *text, t_sdl *sdl, t_rec *rec)
 {
 	SDL_Surface	*surface;
-	SDL_Color	color;
+	static const SDL_Color	color = {199, 50, 176, 0};
 	TTF_Font	*font;
 
 	TTF_Init();
 	font = TTF_OpenFont("Roboto/Roboto-Light.ttf", 20);
 	if (font == NULL)
 		return ;
-	color.r = 199;
-	color.g = 50;
-	color.b = 176;
-	surface = TTF_RenderText_Solid(font, text, color);
+	TTF_SetFontStyle(font, TTF_STYLE_BOLD);
+	surface = TTF_RenderUTF8_Blended(font, text, color);
+//	surface = TTF_RenderText_Solid(font, text, color);
 	rec->rect = make_rect(0, 0, surface->h / 2, surface->w / 2);
 	rec->texture = SDL_CreateTextureFromSurface(sdl->renderer, surface);
 	SDL_FreeSurface(surface);

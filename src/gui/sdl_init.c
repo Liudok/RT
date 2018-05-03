@@ -76,39 +76,32 @@ int sdl_init_everything(t_rt* rt)
 
 int run_ui(t_rt* s)
 {
-	int running;
-	int fig;
+    int running;
 
-	running = 1;
-	init_opencl(s);
-	SDL_Event evt;
-	while (running)
-	{
-		while (SDL_PollEvent(&evt))
-		{
-			if (is_quit(evt))
-				running = 0;
-			else if (is_window_resizable(evt))
-				handling_window_resizable(s, evt);
-			else if (evt.type == SDL_KEYDOWN)
-				on_event(s, &evt);
-			else if (evt.type == SDL_KEYUP)
-				off_event(s, &evt);
-			else if (evt.type == SDL_MOUSEBUTTONDOWN)
-			{
-				check_pressing(s, evt.button.x, evt.button.y);
-				render_buttons(s);
-				fig = mouse_ray(s, evt.button.x, evt.button.y);
-				if (fig > 0)
-				{
-					printf("figure = %i\n", fig);
-					start_settings_win(s, fig);
-				}
-			}
-		}
-		if (is_camera_event(s))
-			update_camera(s);
-		set_bg(s);
-	}
-	return (1);
+    running = 1;
+    init_opencl(s);
+    SDL_Event evt;
+    while (running)
+    {
+	    while (SDL_PollEvent(&evt))
+        {
+            if (is_quit(evt))
+                running = 0;
+            else if (is_window_resizable(evt))
+                handling_window_resizable(s, evt);
+            else if (evt.type == SDL_KEYDOWN)
+                on_event(s, &evt);
+            else if (evt.type == SDL_KEYUP)
+                off_event(s, &evt);
+            else if (evt.type == SDL_MOUSEBUTTONDOWN)
+            {
+                check_pressing(s, evt.button.x, evt.button.y);
+                render_buttons(s);
+            }
+        }
+        if (is_camera_event(s))
+            update_camera(s);
+	    set_bg(s);
+    }
+    return (1);
 }

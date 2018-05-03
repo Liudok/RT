@@ -16,6 +16,29 @@
 			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
+			"type": "bool_substraction",
+			"material": [0.7, 0.0, 0.0, 0],
+			"color": [0.3 ,0.1, 0.8],
+			"origin": [0, 0.2, 6],
+			"texture": 0
+		},
+		{
+			"type": "sphere",
+			"material": [1.0, 0.0, 0.0, 0.0],
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 0, 14],
+			"radius": 1.5,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": [1.0, 0.0, 0.0, 0.0],
+			"color": [0.9, 0.9, 0.9],
+			"origin": [-1, 1, 14],
+			"radius": 0.5,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
 			"type": "sphere",
 			"material": [1.0, 0.0, 0.0, 0.0],
 			"color": [0.9, 0.9, 0.9],
@@ -59,12 +82,32 @@
 		},
 		{
 			"type": "cube",
-			"material": [0.0, 0.0, 0.0, 1],
+			"material": [1, 0.0, 0.0, 0],
 			"color": [0.9, 0.1, 0.9],
 			"max": [1, 1, 10],
-			"min": [5, 5, 11],
-			"pipes_number": 0,
+			"min": [5, 5, 20],
+			"pipes_number": 2,
 			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "cylinder",
+			"material": [0.7, 0.0, 0.0, 0],
+			"color": [0.3 ,0.1, 0.1],
+			"origin": [0, 3, 15],
+			"normal": [1, 0, 0],
+			"radius": 0.3,
+			"height": 8,
+			"texture": 0
+		},
+		{
+			"type": "cylinder",
+			"material": [0.7, 0.0, 0.0, 0],
+			"color": [0.3 ,0.1, 0.1],
+			"origin": [3.5, 2.5, 15],
+			"normal": [0, 0, 1],
+			"radius": 0.3,
+			"height": 8,
+			"texture": 0
 		}
 	],
 	"camera": [{

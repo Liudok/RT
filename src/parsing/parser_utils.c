@@ -117,6 +117,8 @@ t_obj_type		get_type(json_value *value)
 		return (triangle);
 	else if (!ft_strncmp(value->u.string.ptr, "cube", 4))
 		return (cube);
+	else if (!ft_strncmp(value->u.string.ptr, "parabaloid", 10))
+		return (parabaloid);
 	else if (!ft_strncmp(value->u.string.ptr, "bool_substraction", 17))
 		return (bool_substraction);
 	else if (!ft_strncmp(value->u.string.ptr, "bool_intersection", 17))

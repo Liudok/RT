@@ -27,5 +27,10 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details2(t_object *o, char *n, struct _json_value *val);
 void			parse_camera(json_value *value, t_scene *s);
+void			get_primitives_details(t_object *o, char *n, struct _json_value *val);
+void			get_primitives_details2(t_object *o, char *n, struct _json_value *val);
+void			get_primitives_details3(t_object *o, char *n, struct _json_value *val);
+void			get_primitives_details4(t_object *o, char *n, struct _json_value *val);
+void			get_primitives_details5(t_object *o, char *n, struct _json_value *val);
 
 #endif

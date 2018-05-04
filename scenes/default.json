@@ -16,11 +16,21 @@
 			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
+			"type": "parabaloid",
+			"material": [0, 0, 0.0,1],
+			"color": [0.9, 0.5, 0.9],
+			"origin": [0, 3, 8],
+			"normal": [0, -1, 0],
+			"radius": 0.1,
+			"max": 2,
+			"texture": [0, 0, 0, 0]
+		},
+		{
 			"type": "bool_substraction",
 			"material": [0.7, 0.0, 0.0, 0],
 			"color": [0.3 ,0.1, 0.8],
 			"origin": [0, 0.2, 6],
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
@@ -97,7 +107,7 @@
 			"normal": [1, 0, 0],
 			"radius": 0.3,
 			"height": 0,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "cylinder",
@@ -107,7 +117,7 @@
 			"normal": [0, 0, 1],
 			"radius": 0.3,
 			"height": 0,
-			"texture": 0
+			"texture": [0.0, 0.0, 0.0, 0.0]
 		}
 	],
 	"camera": [{

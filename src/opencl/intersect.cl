@@ -452,6 +452,68 @@ global t_object **closest)
 	return (t1);
 }
 
+static float parabaloid_intersect(global t_parabaloid* obj, t_ray ray, float* t) {
+	float2		roots;
+	float3		x;
+	float		params[3];
+	float		m1;
+	float		m2;
+
+	obj->normal = normalize(obj->normal);
+	x = ray.o;
+	params[0] = dot(ray.d, ray.d) - dot(ray.d, obj->normal) * dot(ray.d, obj->normal);
+	params[1] = 2 * (dot(x, ray.d) - dot(ray.d, obj->normal) * (dot(x, obj->normal) + 2 * obj->radius));
+	params[2] = dot(x, x) - dot(x, obj->normal) * (dot(x, obj->normal) + 4 * obj->radius);
+	ft_roots(&roots,params[0],params[1],params[2]);
+	m1 = dot(ray.d, obj->normal) * roots[0] + dot(x, obj->normal);
+	m2 = dot(ray.d, obj->normal) * roots[1] + dot(x, obj->normal);
+	if ((roots[0] <= 0.0f && roots[1] <= 0.0f) || (roots[0] == roots[1]))
+		return (INFINITY);
+	if (obj->max > 0)
+	{
+		if (roots[0] > 0.0f && roots[1] < 0.0f && m1 > 0.0f && m1 < obj->max)
+		{
+			*t = roots[0];
+			return (1);
+		}
+		else if (roots[1] > 0.0f && roots[0] < 0.0f && m2 > 0.0f && m2 < obj->max)
+		{
+			*t = roots[1];
+			return (1);
+		}
+		else if (roots[0] > 0.0f && roots[1] > 0.0f)
+		{
+			if (roots[0] > 0.0f && m1 > 0.0f && m1 < obj->max)
+			{
+				*t = roots[0];
+				return (1);
+			}
+			else if (roots[1] > 0.0f && m2 > 0.0f && m2 < obj->max)
+			{
+				*t = roots[1];
+				return (1);
+			}
+		}
+	}
+	else if (roots[0] > 0 && roots[1] > 0)
+	{
+		*t = roots[0] < roots[1] ? roots[0] : roots[1];
+		return (1);
+	}
+	else if (roots[0] > 0 && roots[1] < 0)
+	{
+		*t = roots[0];
+		return (1);
+	}
+	else if (roots[1] > 0 && roots[0] < 0)
+	{
+		*t = roots[1];
+		return (1);
+	}
+	return (INFINITY);
+}
+
+
 static void intersect(global t_object* obj,
 						global t_object** closest,
 						t_ray ray,
@@ -490,6 +552,9 @@ static void intersect(global t_object* obj,
 			break;
 		case bool_substraction:
 			dist = bool_substraction_intersect(&obj->prim.bool_substraction, ray,  &closest_obj);
+			break;
+		case parabaloid:
+			dist = parabaloid_intersect(&obj->prim.parabaloid, ray,  &tmp_m);
 			break;
 		default:
 			break;

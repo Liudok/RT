@@ -69,7 +69,6 @@ void			init_opencl(t_rt *rt)
 	clSetKernelArg(rt->effect_kernel.kernel, 2, sizeof(cl_uchar), &rt->effect_type);
 	clSetKernelArg(rt->effect_kernel.kernel, 3, sizeof(t_camera), &rt->scene.camera);
 	free(seeds);
-	create_figures(rt);
 }
 
 void			reinit_opencl(t_rt *rt)

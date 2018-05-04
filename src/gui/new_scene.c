@@ -30,6 +30,25 @@ void				show_new_scene_panel(t_rt *s)
 	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
 }
 
+void				after_effect_panel(t_rt *s)
+{
+	SDL_Texture* bg;
+	SDL_Rect backgroundPos;
+	int				i;
+
+	bg = s->textures[1];
+	backgroundPos.y = 0;
+	backgroundPos.w = 190;
+	backgroundPos.h = 70;
+	backgroundPos.x = 192;
+	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
+	i = 16;
+	while (i < 20)
+	{
+		SDL_RenderCopy(s->sdl.renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+		i++;
+	}
+}
 
 
 void		create_new_scene(t_rt *s)

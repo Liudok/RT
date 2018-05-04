@@ -420,7 +420,7 @@ static float  sphere_intersect1(t_sphere *obj, t_ray ray, float2* roots)
 }
 
 static float	bool_substraction_intersect(global t_bool_substraction *obj, t_ray ray,
-global t_object **closest)
+											global t_object **closest)
 {
 	float2	roots1;
 	float2	roots2;
@@ -433,7 +433,7 @@ global t_object **closest)
 	ptr++;
 	t2 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots2);
 	if (t1 <= 0)
-		return(-1);
+		return(INFINITY);
 	if (t2 <= 0)
 	{
 		*closest = --ptr;
@@ -442,7 +442,7 @@ global t_object **closest)
 	roots1 = (roots1.x > roots1.y) ? roots1.yx : roots1;
 	roots2 = (roots2.x > roots2.y) ? roots2.yx : roots2;
 	if (roots1.x < 0)
-		return (-1);
+		return (INFINITY);
 	if (roots1.x > roots2.x && roots1.x < roots2.y)
 	{
 		*closest = ++ptr;

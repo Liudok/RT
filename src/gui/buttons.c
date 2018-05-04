@@ -20,7 +20,10 @@ void set_icons(t_rt *s)
 	s->icon[13] = "src/icons/sun-2.png";
 	s->icon[14] = "src/icons/create_file.png";
 	s->icon[15] = "src/icons/find_in.png";
-//	s->icon[16] = "src/icons/settings.png";
+	s->icon[16] = "src/icons/settings.png";
+	s->icon[17] = "src/icons/settings.png";
+	s->icon[18] = "src/icons/settings.png";
+	s->icon[19] = "src/icons/settings.png";
 
 }
 
@@ -57,6 +60,8 @@ void			create_subbuttons(t_rt *s)
 			s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
 		else if (i < 16)
 			s->buttons[i].rect = make_rect((10 + k * 20), 120, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i < 20)
+			s->buttons[i].rect = make_rect((200 + (i % 16) * 20), 10, BUTTON_SIZE, BUTTON_SIZE);
 		i++;
 		k++;
 		if (i >= 8 && k == 4)
@@ -82,13 +87,10 @@ void			check_pressing(t_rt *s, int x, int y)
 					save_scene_to_png(s);
 				else if (i == 15 && s->buttons[1].pressed)
 					save_scene_to_file(s);
-
 				else
 				{
 					s->buttons[i].pressed = 1;
-					if (i == 1)
-						create_new_scene(s);
-                    else if (i > 3 && s->buttons[1].pressed && s->buttons[i].pressed)
+                    if (i > 3 && s->buttons[1].pressed && s->buttons[i].pressed)
                         modify_scene(s, i);
 				}
 			}

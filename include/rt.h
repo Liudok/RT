@@ -30,7 +30,7 @@ typedef struct s_rt t_rt;
 # define MAX_HEIGHT 2160
 # define WINDOW_WIDTH 1250
 # define WINDOW_HEIGHT 1250
-# define BUTTONS_AMOUNT 16
+# define BUTTONS_AMOUNT 20
 # define NUM_TEX 29
 
 # include "panels.h"
@@ -126,6 +126,7 @@ void				check_pressing(t_rt *s, int x, int y);
 void				file_choosing(t_rt *s);
 void				show_settings(t_rt *s);
 void				create_new_scene(t_rt *s);
+void				after_effect_panel(t_rt *s);
 void 				create_figures(t_rt *s);
 void				set_icons(t_rt *s);
 void				create_subbuttons(t_rt *s);

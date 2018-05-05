@@ -64,7 +64,6 @@ int sdl_init_everything(t_rt* rt)
 		ft_putendl_fd("failed to initiate renderer in SDL", 2);
 		return (0);
     }
-//    create_canvas(rt, rt->sdl.win_w, rt->sdl.win_h);
     if (!load_all_textures(rt))
 	return (0);
 //    SDL_RenderSetLogicalSize(rt->sdl.renderer, rt->sdl.win_w, rt->sdl.win_h);

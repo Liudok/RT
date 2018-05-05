@@ -88,19 +88,19 @@ void        modify_scene(t_rt *rt, int i)
     remalloc_objs(rt);
     if (i == 4)
         add_new_sphere(rt, origin);
-    if (i == 5)
+	else if (i == 5)
         add_new_plane(rt, origin);
-	if (i == 6)
+	else if (i == 6)
 		add_new_cylinder(rt, origin);
-	if (i == 7)
+	else if (i == 7)
 		add_new_cone(rt, origin);
-	if (i == 8)
+	else if (i == 8)
 		add_new_disk(rt, origin);
-	if (i == 9)
+	else if (i == 9)
 		add_new_torus(rt, origin);
-    if (i == 10)
+	else if (i == 10)
         add_new_triangle(rt, origin);
-	if (i == 11)
+	else if (i == 11)
 		add_new_cube(rt, origin);
     reinit_opencl(rt);
 	origin.x += 2;

@@ -24,6 +24,7 @@ void set_icons(t_rt *s)
 	s->icon[17] = "src/icons/negative.png";
 	s->icon[18] = "src/icons/sepia.png";
 	s->icon[19] = "src/icons/cartoon.png";
+	s->icon[20] = "src/icons/chb.png";
 
 }
 
@@ -62,11 +63,56 @@ void			create_subbuttons(t_rt *s)
 			s->buttons[i].rect = make_rect((10 + k * 20), 120, BUTTON_SIZE, BUTTON_SIZE);
 		else if (i < 20)
 			s->buttons[i].rect = make_rect((106 + (k % 4) * 20), 10, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i < 21)
+			s->buttons[i].rect = make_rect(188, 10, BUTTON_SIZE, BUTTON_SIZE);
 		i++;
 		k++;
 		if (i >= 8 && k == 4)
 			k = 0;
 	}
+}
+
+void		apply_after_effect(t_rt *rt, int i)
+{
+	if (rt->buttons[i].pressed)
+		rt->effect_type = i % 15;
+	if (i == 16)
+	{
+		rt->buttons[17].pressed = 0;
+		rt->buttons[18].pressed = 0;
+		rt->buttons[19].pressed = 0;
+		rt->buttons[20].pressed = 0;
+		//		rt->blur = 1;
+	}
+	else if (i == 17)
+	{
+		rt->buttons[16].pressed = 0;
+		rt->buttons[18].pressed = 0;
+		rt->buttons[19].pressed = 0;
+		rt->buttons[20].pressed = 0;
+	}
+	else if (i == 18)
+	{
+		rt->buttons[16].pressed = 0;
+		rt->buttons[17].pressed = 0;
+		rt->buttons[19].pressed = 0;
+		rt->buttons[20].pressed = 0;
+	}
+	else if (i == 19)
+	{
+		rt->buttons[16].pressed = 0;
+		rt->buttons[17].pressed = 0;
+		rt->buttons[18].pressed = 0;
+		rt->buttons[20].pressed = 0;
+	}
+	else if (i == 20)
+	{
+		rt->buttons[16].pressed = 0;
+		rt->buttons[17].pressed = 0;
+		rt->buttons[18].pressed = 0;
+		rt->buttons[19].pressed = 0;
+	}
+	clSetKernelArg(rt->effect_kernel.kernel, 2, sizeof(cl_uchar), &rt->effect_type);
 }
 
 void			check_pressing(t_rt *s, int x, int y)
@@ -90,12 +136,18 @@ void			check_pressing(t_rt *s, int x, int y)
 				else
 				{
 					s->buttons[i].pressed = 1;
-                    if (i > 3 && s->buttons[1].pressed && s->buttons[i].pressed)
+                    if (i > 3 && i < 16 && s->buttons[1].pressed && s->buttons[i].pressed)
                         modify_scene(s, i);
+					if (i >= 16 && i < 21 && s->buttons[2].pressed && s->buttons[i].pressed)
+						apply_after_effect(s, i);
 				}
 			}
 			else
+			{
 				s->buttons[i].pressed = 0;
+				if (i >= 16 && i < 21 && s->buttons[2].pressed)
+					s->effect_type = 0;
+			}
 			printf("pressed in check i = %i\n", i);
 			return;
 		}

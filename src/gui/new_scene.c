@@ -34,18 +34,29 @@ void				after_effect_panel(t_rt *s)
 {
 	SDL_Texture* bg;
 	SDL_Rect backgroundPos;
+	SDL_Rect		ram;
 	int				i;
 
 	bg = s->textures[1];
 	backgroundPos.y = 0;
-	backgroundPos.w = 190;
+	backgroundPos.w = 230;
 	backgroundPos.h = 70;
 	backgroundPos.x = 192;
 	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &backgroundPos);
 	i = 16;
-	while (i < 20)
+	while (i < BUTTONS_AMOUNT)
 	{
-		SDL_RenderCopy(s->sdl.renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+		if (!s->buttons[i].pressed)
+			SDL_RenderCopy(s->sdl.renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+		else
+		{
+			ram.x = s->buttons[i].rect.x - 5;
+			ram.y = s->buttons[i].rect.y - 5;
+			ram.w = s->buttons[i].rect.w + 10;
+			ram.h = s->buttons[i].rect.h + 10;
+			SDL_RenderCopy(s->sdl.renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
+			SDL_RenderCopy(s->sdl.renderer, s->textures[2], NULL, &ram);
+		}
 		i++;
 	}
 }

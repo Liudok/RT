@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
-#include <stdlib.h>
+#include "../../include/rt.h"
 #include <time.h>
 
 static cl_uint	*make_seeds(t_rt *rt)
@@ -21,7 +21,7 @@ static cl_uint	*make_seeds(t_rt *rt)
 	seeds = (cl_uint *)malloc(MAX_WIDTH * MAX_HEIGHT * 2 * sizeof(cl_uint));
 	rt_check_error(!seeds, MALLOC_ERR, NULL);
 	rt->job_size = rt->sdl.win_w * rt->sdl.win_h;
-	rt->samples = 0;
+	rt->samples = rt->blur;
 	srand(time(0));
 	for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
 	{
@@ -35,6 +35,8 @@ static cl_uint	*make_seeds(t_rt *rt)
 void			init_opencl(t_rt *rt)
 {
 	cl_uint *seeds;
+
+	rt->blur = 0;
 	size_t i = (size_t)-1;
 	const size_t sizes[] = {sizeof(cl_mem), sizeof(cl_uint), sizeof(t_camera),
 		sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_uint),

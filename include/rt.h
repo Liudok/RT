@@ -30,7 +30,7 @@ typedef struct s_rt t_rt;
 # define MAX_HEIGHT 2160
 # define WINDOW_WIDTH 1250
 # define WINDOW_HEIGHT 1250
-# define BUTTONS_AMOUNT 20
+# define BUTTONS_AMOUNT 21
 # define NUM_TEX 29
 
 # include "panels.h"
@@ -107,6 +107,7 @@ typedef struct		s_rt
 	cl_uint2		texture_sizes[NUM_TEX + 1];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
+	int 			blur;
 }					t_rt;
 
 

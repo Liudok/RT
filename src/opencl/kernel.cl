@@ -137,11 +137,14 @@ void after_effects(global float3 *colors, global int *pixels, int type, t_camera
 	float3 current_pixel;
 
 	switch (type) {
-		case 1:
+		case 3:
 			current_pixel = sepia(colors[i]);
 			break;
 		case 2:
 			current_pixel = negative(colors[i]);
+			break;
+		case 5:
+			current_pixel = black_white(colors[i]);
 			break;
 		default:
 			current_pixel = colors[i];

@@ -215,6 +215,15 @@ static float3 get_texel(read_only image2d_array_t textures,
 	return result;
 }
 
+static float3 black_white(float3 col)
+{
+	float average = (col.x + col.y + col.z) / 3;
+	col.x = average;
+	col.y = average;
+	col.z = average;
+	return (col);
+}
+
 static float3 negative(float3 col)
 {
 	return ((float3)(1,1,1) - col);

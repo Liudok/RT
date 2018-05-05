@@ -12,36 +12,6 @@
 
 #include "../../include/panels.h"
 
-
-
-//void				render_subbuttons(t_sdl *s)
-//{
-//	int				i;
-////	SDL_Texture*	rama;
-////	SDL_Rect		ram;
-//
-//	i = 4;
-////	rama = load_texture("src/img/rama.png", s);
-////	rama = s->textures[2];
-//	while (i < 16)
-//	{
-////		if (!s->buttons[i].pressed)
-//			SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
-////		else
-////		{
-////			if (i == 2)
-////				show_settings(s);
-////			ram.x = s->buttons[i].rect.x - 5;
-////			ram.y = s->buttons[i].rect.y - 5;
-////			ram.w = s->buttons[i].rect.w + 10;
-////			ram.h = s->buttons[i].rect.h + 10;
-////			SDL_RenderCopy(s->renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
-////			SDL_RenderCopy(s->renderer, rama, NULL, &ram);
-////		}
-//		i++;
-//	}
-////	SDL_DestroyTexture(rama);
-
 void				render_buttons(t_rt *s)
 {
 	int				i;
@@ -56,16 +26,6 @@ void				render_buttons(t_rt *s)
 			SDL_RenderCopy(s->sdl.renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
 		else
 		{
-			if (i == 2)
-			{
-				after_effect_panel(s);
-			}
-			else if (i == 1)
-			{
-				create_new_scene(s);
-//				show_settings(s);
-			}
-//			else if (i > 3 && s->buttons[i].pressed)
 			ram.x = s->buttons[i].rect.x - 5;
 			ram.y = s->buttons[i].rect.y - 5;
 			ram.w = s->buttons[i].rect.w + 10;
@@ -73,10 +33,16 @@ void				render_buttons(t_rt *s)
 			SDL_RenderCopy(s->sdl.renderer, s->buttons[i].txt, NULL, &s->buttons[i].rect);
 			SDL_RenderCopy(s->sdl.renderer, rama, NULL, &ram);
 		}
+		if (i == 2 && s->buttons[i].pressed)
+		{
+			after_effect_panel(s);
+		}
+		else if (i == 1 && s->buttons[i].pressed)
+		{
+			create_new_scene(s);
+		}
 		i++;
 	}
-//	SDL_DestroyTexture(rama);
-	// render_subbuttons(s);
 }
 
 void			set_panel(t_rt *s)

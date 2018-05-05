@@ -224,6 +224,23 @@ static float3 black_white(float3 col)
 	return (col);
 }
 
+static float3 cartoon(float3 col)
+{
+	if (col.x > 0.5)
+	{
+		col.x = 0.9;
+	}
+	else if (col.y > 0.5)
+	{
+		col.y = 0.9;
+	}
+	else if (col.z > 0.5)
+	{
+		col.z = 0.9;
+	}
+	return (col);
+}
+
 static float3 negative(float3 col)
 {
 	return ((float3)(1,1,1) - col);

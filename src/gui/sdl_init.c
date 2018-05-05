@@ -66,7 +66,7 @@ int sdl_init_everything(t_rt* rt)
     }
     if (!load_all_textures(rt))
 	return (0);
-//    SDL_RenderSetLogicalSize(rt->sdl.renderer, rt->sdl.win_w, rt->sdl.win_h);
+    SDL_RenderSetLogicalSize(rt->sdl.renderer, rt->sdl.win_w, rt->sdl.win_h);
 //    SDL_SetRenderDrawColor(rt->sdl.renderer, 0, 255, 0, 255);
     rt->sdl.pixels = (int*)malloc(sizeof(int) * (rt->sdl.win_w * rt->sdl.win_h));
     create_buttons(rt);

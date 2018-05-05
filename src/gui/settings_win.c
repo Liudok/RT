@@ -50,8 +50,9 @@ void		start_settings_win(t_rt* rt, int i)
 
 	running = 1;
 	create_settings_win(&sdl);
+	ft_bzero(recs, sizeof(recs));
 	create_settings_textures(rt, &sdl, recs, i);
-	//	texture_from_text(ft_itoa(rt->scene.objs[i].color.s0), sdl, &recs[4]);
+	real_create_settings_textures(rt, &sdl, recs, i);
 	SDL_Event evt;
 	while (running)
 	{

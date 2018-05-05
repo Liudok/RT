@@ -134,7 +134,7 @@ void				create_subbuttons(t_rt *s);
 void				render_subbuttons(t_rt *s);
 void				load_buttons_texures(t_rt *s);
 int 				load_all_textures(t_rt *s);
-void				settings_rect_params(t_rec *recs, int x);
+void				settings_rect_params(t_rec *recs);
 void        		create_settings_textures(t_rt* rt, t_sdl *sdl, t_rec *recs, int i);
 void				set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs);
 void				other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs);
@@ -179,5 +179,5 @@ void				destroy(t_rt *pt);
 void				reinit_opencl(t_rt *pt);
 int					mouse_ray(t_rt *rt, int x, int y);
 void				choosing_dialog(t_rt *rt);
-
+void				real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i);
 #endif

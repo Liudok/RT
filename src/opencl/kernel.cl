@@ -143,6 +143,9 @@ void after_effects(global float3 *colors, global int *pixels, int type, t_camera
 		case 2:
 			current_pixel = negative(colors[i]);
 			break;
+		case 4:
+			current_pixel = cartoon(colors[i]);
+			break;
 		case 5:
 			current_pixel = black_white(colors[i]);
 			break;

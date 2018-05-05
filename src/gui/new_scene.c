@@ -66,8 +66,6 @@ void		create_new_scene(t_rt *s)
 {
 
 	show_new_scene_panel(s);
-//	create_subbuttons(s);
-//	render_subbuttons(s);
 	int				i;
 
 	i = 4;

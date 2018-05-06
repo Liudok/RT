@@ -67,8 +67,8 @@ typedef struct	s_cylinder
 	float3		origin;
 	float3		normal;
 	float		radius;
-	float		r2;
 	float 		height;
+	float		r2;
 }				t_cylinder;
 
 typedef struct	s_cone

@@ -42,5 +42,6 @@ void				add_new_cylinder(t_rt *rt, float3 origin);
 void				add_new_plane(t_rt *rt, float3 origin);
 void				add_new_sphere(t_rt *rt, float3 origin);
 void				add_new_triangle(t_rt *rt, float3 origin);
+int 				this_figure_props(t_obj_type type);
 
 #endif

@@ -122,59 +122,153 @@ static float disk_intersect(global t_disk* obj, t_ray ray) {
 	return (INFINITY);
 }
 
-static void fourth_degree_equation(float4* t,
-		float A,
-		float B,
-		float C,
-		float D,
-		float E) {
-	float a = -3.0f * B * B / 8.0f / A / A + C / A;
-	float b = B * B * B / 8 / A / A / A - B * C / 2 / A / A + D / A;
-	float g = -3.0f * B * B * B * B / 256.0f / A / A / A / A +
-		C * B * B / 16.0f / A / A / A - B * D / 4.0f / A / A + E / A;
-	float P = -a * a / 12.0f - g;
-	float Q = -a * a * a / 108.0f + a * g / 3.0f - b * b / 8.0f;
-	float R = Q / 2.0f + sqrt(Q * Q / 4.0f + P * P * P / 27.0f);
-	float U = cbrt(R);
-	float U2 = (U == 0.0f) ? 0.0f : P / 3.0f / U;
-	float y = -5.0f / 6.0f * a - U + U2;
-	float W = sqrt(a + 2.0f * y);
-	t->s0 = -B / 4.0f / A +
-		(W + sqrt(-(3.0f * a + 2.0f * y + 2.0f * b / W))) / 2.0f;
-	t->s1 = -B / 4.0f / A +
-		(W - sqrt(-(3.0f * a + 2.0f * y + 2.0f * b / W))) / 2.0f;
-	t->s2 = -B / 4.0f / A +
-		(-W + sqrt(-(3.0f * a + 2.0f * y - 2.0f * b / W))) / 2.0f;
-	t->s3 = -B / 4.0f / A +
-		(-W - sqrt(-(3.0f * a + 2.0f * y - 2.0f * b / W))) / 2.0f;
+static void sort(float3 *ua, float2 *l)
+{
+	if (fabs((*ua)[0]) > fabs((*ua)[1]) && fabs((*ua)[0]) > fabs((*ua)[2]))
+	{
+		(*l)[0] = (*ua)[0];
+		(*l)[1] = fabs((*ua)[1]) > fabs((*ua)[2]) ? (*ua)[1] : (*ua)[2];
+	}
+	else if (fabs((*ua)[1]) > fabs((*ua)[0]) && fabs((*ua)[1]) > fabs((*ua)[2]))
+	{
+		(*l)[0] = (*ua)[1];
+		(*l)[1] = fabs((*ua)[0]) > fabs((*ua)[2]) ? (*ua)[0] : (*ua)[2];
+	}
+	else
+	{
+		(*l)[0] = (*ua)[2];
+		(*l)[1] = fabs((*ua)[0]) > fabs((*ua)[1]) ? (*ua)[0] : (*ua)[1];
+	}
 }
 
-static float torus_intersect(global t_torus* obj, t_ray ray) {
-	float3 oc = ray.o - obj->origin;
-	float m = dot(ray.d, ray.d);
-	float n = dot(ray.d, oc);
-	float o = dot(oc, oc);
-	float p = dot(ray.d, obj->normal);
-	float q = dot(oc, obj->normal);
-	float a = m * m;
-	float b = 4.0f * m * n;
-	float c = 4.0f * n * n + 2.0f * m * o -
-		2.0f * (obj->big_radius2 + obj->small_radius2) * m +
-		4.0f * obj->big_radius2 * p * p;
-	float d = 4.0f * n * o -
-		4.0f * (obj->big_radius2 + obj->small_radius2) * n +
-		8.0f * obj->big_radius2 * p * q;
-	float e = o * o - 2.0f * (obj->big_radius2 + obj->small_radius2) * o +
-		4.0f * obj->big_radius2 * q * q +
-		(obj->big_radius2 - obj->small_radius2) *
-		(obj->big_radius2 - obj->small_radius2);
-	float ret = INFINITY;
+static void negative_discr_solution(t_equation *e)
+{
+	float 	n;
+	float 	bq3;
+	float 	beta;
+	float 	a3;
+	float3 	ua;
 
-	float4 t;
+	n = sqrt(e->b);
+	bq3 = n * n * n;
+	beta = (e->br / bq3 < 1.0f) ? acos(e->br / bq3) : 0.0f;
+	a3 = -2.0f * n;
+	ua[0] = a3 * cos(beta / 3.0f) - e->c / 3.0f;
+	ua[1] = a3 * cos((beta + 2.0f * M_PI) / 3.0f) - e->c / 3.0f;
+	ua[2] = a3 * cos((beta - 2.0f * M_PI) / 3.0f) - e->c / 3.0f;
+	e->flag = false;
+	sort(&ua, &(e->l));
+	if (e->l[0] >= 0.0f)
+	{
+		e->real1 = sqrt(e->l[0]);
+		e->im1 = 0.0f;
+	}
+	else
+	{
+		e->im1 = sqrt(-e->l[0]);
+		e->real1 = 0.0f;
+	}
+	if (e->l[1] >= 0.0f)
+	{
+		e->im2 = 0.0f;
+		e->real2 = sqrt(e->l[1]);
+	}
+	else
+	{
+		e->real2 = 0.0f;
+		e->im2 = sqrt(-e->l[1]);
+	}
+}
 
-	fourth_degree_equation(&t, a, b, c, d, e);
-	for (int i = 0; i < 4; i++)
-		ret = (t[i] >= EPSILON && t[i] < ret) ? t[i] : ret;
+static void positive_discr_solution(t_equation *e)
+{
+	float 	n;
+	float 	a3;
+	float3 	ua;
+	float 	n2;
+	float 	u2;
+
+	n = (e->br < 0.0f) ? -1.0f : 1.0f;
+	a3 = -n * cbrt(fabs(e->br) + sqrt(e->discr));
+	ua[0] = a3 + e->b / a3 - e->c / 3.0f;
+	ua[1] = -0.5f * ((a3 * a3 + e->b) / a3) - e->c / 3.0f;
+	ua[2] = -(sqrt(3.0f) / 2.0f) * fabs(a3 - (e->b / a3));
+	e->flag = true;
+	n2 = sqrt(sqrt(ua[1] * ua[1] + ua[2] * ua[2]));
+	u2 = atan2(ua[2], ua[1]);
+	e->real1 = n2 * cos(u2 * 0.5f);
+	e->im1 = n2 * sin(u2 * 0.5f);
+	e->real2 = e->real1;
+	e->im2 = -e->im1;
+}
+
+static int	fourth_degree_equation(float4 *t, float4 a)
+{
+	float	res;
+	float	im_re1;
+	float	im_re2;
+	float	komp;
+	t_equation 	e;
+
+	e.aa = a[0] * a[0];
+	e.pp = a[1] - 0.375f * e.aa;
+	e.rr = a[3] - 0.25f * (a[0] * a[2] - 0.25f * e.aa * (a[1] - 0.1875f * e.aa));
+	e.q2 = a[2] - 0.5f * a[0] * (a[1] - 0.25f * e.aa);
+	e.c = 0.5f * e.pp;
+	e.aa = 0.25f * (0.25f * e.pp * e.pp - e.rr);
+	e.b = e.c * e.c / 9.0f - e.aa / 3.0f;
+	e.br = e.c * e.c * e.c / 27.0f - e.c * e.aa / 6.0f - (0.125f * e.q2 * 0.125f * e.q2) / 2.0f;
+	e.discr = ((e.br * e.br) - (e.b * e.b * e.b));
+	if (e.discr < 0.0f)
+		negative_discr_solution(&e);
+	else
+		positive_discr_solution(&e);
+	im_re1 = e.im1 * e.im1 + e.real1 * e.real1;
+	im_re2 = e.im2 * e.im2 + e.real2 * e.real2;
+	komp = e.im1 * e.im2 - e.real1 * e.real2;
+	res = e.q2 * 0.125f * komp / im_re1 / im_re2;
+	(*t)[0] = e.real1 + e.real2 + res - a[0] * 0.25f;
+	(*t)[1] = -e.real1 - e.real2 + res - a[0] * 0.25f;
+	(*t)[2] = -e.real1 + e.real2 - res - a[0] * 0.25f;
+	(*t)[3] = e.real1 - e.real2 - res - a[0] * 0.25f;
+	if (!e.flag && e.l[0] >= 0.0f && e.l[1] >= 0.0f)
+		return (4);
+	else if (!e.flag)
+		return (0);
+	else
+		return (2);
+}
+
+static float  torus_intersect(global t_torus* obj, t_ray ray)
+{
+	int		count_roots;
+	int		i;
+	float4	u;
+	float4	x;
+	float	ret;
+	float3 	oc;
+	float4	qq;
+	float4 	dots;
+
+	oc = ray.o - obj->origin;
+	dots[0] = dot(oc, obj->normal);
+	dots[1] = dot(ray.d, obj->normal);
+	dots[2] = dot(oc, oc);
+	dots[3] = dot(oc, ray.d);
+	qq[0] = 1.0f - dots[1] * dots[1];
+	qq[1] = 2.0f * (dots[3] - dots[0] * dots[1]);
+	qq[2] = dots[2] - dots[0] * dots[0];
+	qq[3] = dots[2] + obj->big_radius2 - obj->small_radius2;
+	u[0] = 4.0f * dots[3];
+	u[1] = 2.0f * qq[3] + u[0] * u[0] * 0.25f - 4.0f * obj->big_radius2 * qq[0];
+	u[2] = u[0] * qq[3] - 4.0f * obj->big_radius2 * qq[1];
+	u[3] = qq[3] * qq[3] - 4.0f * obj->big_radius2 * qq[2];
+	count_roots = fourth_degree_equation(&x, u);
+	i = -1;
+	ret = INFINITY;
+	while (count_roots > ++i)
+		if (x[i] < ret && x[i] > 0)
+			ret = x[i];
 	return (ret);
 }
 

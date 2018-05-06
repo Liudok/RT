@@ -202,6 +202,24 @@ typedef struct			s_ray
 	float3				d;
 }						t_ray;
 
+typedef	struct			s_equation
+{
+	bool				flag;
+	float				aa;
+	float				pp;
+	float				rr;
+	float				q2;
+	float				c;
+	float				b;
+	float				br;
+	float				discr;
+	float				real1;
+	float				real2;
+	float				im1;
+	float				im2;
+	float2				l;
+}						t_equation;
+
 # endif
 
 #endif

@@ -111,7 +111,6 @@ void		real_settings_rect_params(t_rec *recs, int prop)
 	{
 		if (i < 11) //color
 		{
-			printf("PROP i = %i", i);
 			recs[i].rect.x = 200 + (i % 8) * 100;
 			recs[i].rect.y = 40;
 		}

@@ -25,7 +25,7 @@ void		change_value(t_rt* rt, int i, int btn)
 		rt->scene.objs[i].material.s0 = (btn == 11) ? (cl_float)atof(val) : rt->scene.objs[i].material.s0;
 		rt->scene.objs[i].material.s1 = (btn == 12) ? (cl_float)atof(val) : rt->scene.objs[i].material.s1;
 		rt->scene.objs[i].material.s2 = (btn == 13) ? (cl_float)atof(val) : rt->scene.objs[i].material.s2;
-		rt->scene.objs[i].material.s2 = (btn == 14) ? (cl_float)atof(val) : rt->scene.objs[i].material.s3;
+		rt->scene.objs[i].material.s3 = (btn == 14) ? (cl_float)atof(val) : rt->scene.objs[i].material.s3;
 		rt->scene.objs[i].texture.s0 = (btn == 15) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s0;
 		rt->scene.objs[i].texture.s1 = (btn == 16) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s1;
 		rt->scene.objs[i].texture.s2 = (btn == 17) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s2;

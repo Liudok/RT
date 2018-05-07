@@ -28,10 +28,10 @@ void	handling_window_resizable(t_rt *rt, SDL_Event e)
 	rt_check_error(!rt->sdl.pixels, MALLOC_ERR, NULL);
 	rt->pixels_mem =
 		rt_cl_malloc_read(&rt->info, sizeof(cl_int) * rt->job_size);
-	clSetKernelArg(rt->kernel.kernel, 5, sizeof(cl_mem), &rt->pixels_mem);
 	init_camera(rt, rt->scene.camera.origin);
 	rotate_camera(rt);
     reinit_opencl(rt);
 	clSetKernelArg(rt->kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);
 	clSetKernelArg(rt->kernel.kernel, 5, sizeof(cl_mem), &rt->pixels_mem);
+	clSetKernelArg(rt->effect_kernel.kernel, 1, sizeof(cl_mem), &rt->pixels_mem);
 }

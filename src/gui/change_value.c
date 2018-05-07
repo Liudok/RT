@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
-//void		change_specific
+//void		change_origin_
 void		change_value(t_rt* rt, int i, int btn)
 {
 	const char *val;
@@ -19,7 +19,6 @@ void		change_value(t_rt* rt, int i, int btn)
 	val = tinyfd_inputBox("", "put value", "0");
 	if (val != NULL)
 	{
-		printf("btn = %i\n", btn);
 		rt->scene.objs[i].color.s0 = (btn == 8) ? (cl_float)atof(val) : rt->scene.objs[i].color.s0;
 		rt->scene.objs[i].color.s1 = (btn == 9) ? (cl_float)atof(val) : rt->scene.objs[i].color.s1;
 		rt->scene.objs[i].color.s2 = (btn == 10) ? (cl_float)atof(val) : rt->scene.objs[i].color.s2;
@@ -43,6 +42,18 @@ void		change_value(t_rt* rt, int i, int btn)
 		{
 			rt->scene.objs[i].prim.plane.normal.s1 = (btn == 22) ? (cl_float)atof(val) : rt->scene.objs[i].prim.plane.normal.s1;
 			rt->scene.objs[i].prim.plane.normal.s2 = (btn == 23) ? (cl_float)atof(val) : rt->scene.objs[i].prim.plane.normal.s2;
+		}
+		if (rt->scene.objs[i].type == triangle)
+		{
+			rt->scene.objs[i].prim.triangle.vertex2.s0 = (btn == 24) ? (cl_float)atof(val) : rt->scene.objs[i].prim.triangle.vertex2.s0;
+			rt->scene.objs[i].prim.triangle.vertex2.s1 = (btn == 25) ? (cl_float)atof(val) : rt->scene.objs[i].prim.triangle.vertex2.s1;
+			rt->scene.objs[i].prim.triangle.vertex2.s2 = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.triangle.vertex2.s2;
+		}
+		else if (rt->scene.objs[i].type == cone)
+		{
+			rt->scene.objs[i].prim.cone.half_tangent = (btn == 24) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.half_tangent;
+			rt->scene.objs[i].prim.cone.m1 = (btn == 25) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.m1;
+			rt->scene.objs[i].prim.cone.m2 = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.m2;
 		}
 	}
 }

@@ -39,8 +39,10 @@ void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 	}
 	else if (o[0].type == mobius)
 	{
-		texture_from_text("Radius:", sdl, &recs[21]);
-		texture_from_text("Half_width:", sdl, &recs[22]);
+		sprintf(text, "%.2f       ", o[0].prim.mobius.radius);
+		texture_from_text(text, sdl, &recs[18]);
+		sprintf(text, "%.2f       ", o[0].prim.mobius.half_width);
+		texture_from_text(text, sdl, &recs[19]);
 	}
 	else if (o[0].type == cube)
 	{
@@ -56,8 +58,6 @@ void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text(text, sdl, &recs[22]);
 		sprintf(text, "%.2f       ", o[0].prim.cube.max.s2);
 		texture_from_text(text, sdl, &recs[23]);
-		sprintf(text, "%d       ", o[0].prim.cube.pipes_number);
-		texture_from_text(text, sdl, &recs[24]);
 	}
 }
 
@@ -135,7 +135,7 @@ void		real_settings_rect_params(t_rec *recs, int prop)
 			recs[i].rect.x = 200 + (i % 21) * 100;
 			recs[i].rect.y = 200;
 		}
-		else if (i < 25) //radius and radius2
+		else if (i < 25)
 		{
 			recs[i].rect.x = 200;
 			recs[i].rect.y = 240;

@@ -115,12 +115,27 @@ void		apply_after_effect(t_rt *rt, int i)
 	clSetKernelArg(rt->effect_kernel.kernel, 2, sizeof(cl_uchar), &rt->effect_type);
 }
 
+void        add_new_disk(t_rt *rt, float3 origin);
+
+void 			clean_scene(t_rt *rt)
+{
+	rt->scene.objnum = 1;
+	free(rt->scene.objs);
+	rt->scene.objs = (t_object*)malloc(sizeof(t_object));
+	ft_bzero(rt->scene.objs, sizeof(rt->scene.objs) * rt->scene.objnum);
+	add_new_disk(rt, (float3){{0, 5, 1}});
+	rt->scene.objs[0].material.s3 = 1;
+	rt->scene.objs[0].color = (float3){{0.9, 0.9, 0.9}};
+	rt->scene.objs[0].prim.disk.normal = (float3){{0, 1, -0.1}};
+	rt->scene.objs[0].prim.disk.radius2 = 100;
+	rt->buttons[14].pressed = 0;
+	reinit_opencl(rt);
+}
 void			check_pressing(t_rt *s, int x, int y)
 {
 	int i;
 	int fig;
 	i = -1;
-	printf("x = %i, y = %i\n", x, y);
 	while (++i < BUTTONS_AMOUNT)
 	{
 		if (within_rect(s->buttons[i].rect, x, y))
@@ -133,6 +148,8 @@ void			check_pressing(t_rt *s, int x, int y)
 					save_scene_to_png(s);
 				else if (i == 15 && s->buttons[1].pressed)
 					save_scene_to_file(s);
+				else if (i == 14 && s->buttons[1].pressed)
+					clean_scene(s);
 				else
 				{
 					s->buttons[i].pressed = 1;
@@ -148,14 +165,13 @@ void			check_pressing(t_rt *s, int x, int y)
 				if (i >= 16 && i < 21 && s->buttons[2].pressed)
 					s->effect_type = 0;
 			}
-			printf("pressed in check i = %i\n", i);
 			return;
 		}
 	}
 	fig = mouse_ray(s, x, y);
 	if (fig > 0)
 	{
-		printf("figure = %i\n", fig);
+		printf("\nfigure = %i\n", fig);
 		start_settings_win(s, fig);
 	}
 }

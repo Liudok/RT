@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 18:25:48 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 18:25:52 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/05/07 16:41:46 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	update_camera(t_rt *rt)
 {
 	t_camera	*c;
 
-	rt->samples = 0; 
+	rt->samples = rt->effect_type == 1 ? 1 : 0; 
 	c = &rt->scene.camera;
 	if (rt->event.w)
 		c->origin = vadd(c->origin, vmul(normalize(c->dir), 0.2));

@@ -25,6 +25,12 @@ void		other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text("Radius:", sdl, &recs[3]);
 		texture_from_text("Half_width:", sdl, &recs[4]);
 	}
+	else if (o[0].type == cube)
+	{
+		texture_from_text("Min:", sdl, &recs[3]);
+		texture_from_text("Max:", sdl, &recs[4]);
+		texture_from_text("Pipes:", sdl, &recs[5]);
+	}
 }
 
 void		set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)

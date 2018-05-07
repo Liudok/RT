@@ -37,10 +37,10 @@ int 		this_figure_props(t_obj_type type)
 		return (26);
 	else if (type == 3)
 		return (27);
-	else if (type == 4 || type == 7)
+	else if (type == 4 || type == 7 || type == 10)
 		return (25);
-	else if (type == 6 || type == 10)
-		return (24);
+	else if (type == 6)
+		return (27);
 	else
 		return (0);
 }

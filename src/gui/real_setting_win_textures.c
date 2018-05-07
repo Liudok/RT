@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <OpenCL/opencl.h>
 #include "../../include/panels.h"
 
 void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
@@ -30,17 +31,34 @@ void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text(text, sdl, &recs[22]);
 		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex1.s2);
 		texture_from_text(text, sdl, &recs[23]);
-//		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s0);
-//		texture_from_text(text, sdl, &recs[24]);
-//		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s1);
-//		texture_from_text(text, sdl, &recs[25]);
-//		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s2);
-//		texture_from_text(text, sdl, &recs[26]);
+		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s0);
+		texture_from_text(text, sdl, &recs[24]);
+		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s1);
+		texture_from_text(text, sdl, &recs[25]);
+		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s2);
+		texture_from_text(text, sdl, &recs[26]);
 	}
 	else if (o[0].type == mobius)
 	{
 		texture_from_text("Radius:", sdl, &recs[21]);
 		texture_from_text("Half_width:", sdl, &recs[22]);
+	}
+	else if (o[0].type == cube)
+	{
+		sprintf(text, "%.2f       ", o[0].prim.cube.min.s0);
+		texture_from_text(text, sdl, &recs[18]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.min.s1);
+		texture_from_text(text, sdl, &recs[19]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.min.s2);
+		texture_from_text(text, sdl, &recs[20]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.max.s0);
+		texture_from_text(text, sdl, &recs[21]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.max.s1);
+		texture_from_text(text, sdl, &recs[22]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.max.s2);
+		texture_from_text(text, sdl, &recs[23]);
+		sprintf(text, "%d       ", o[0].prim.cube.pipes_number);
+		texture_from_text(text, sdl, &recs[24]);
 	}
 }
 
@@ -167,7 +185,7 @@ void		real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i)
 
 	prop = this_figure_props(rt->scene.objs[i].type);
 	real_create_color_texture(rt, sdl, recs, i);
-	if (rt->scene.objs[i].type != triangle && rt->scene.objs[i].type != mobius)
+	if (rt->scene.objs[i].type != triangle && rt->scene.objs[i].type != mobius && rt->scene.objs[i].type != cube)
 	{
 		sprintf(text, "%.2f       ", rt->scene.objs[i].prim.plane.origin.x);
 		texture_from_text(text, sdl, &recs[18]);
@@ -184,5 +202,12 @@ void		real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i)
 	{
 		recs[26].rect.x = 200;
 		recs[26].rect.y = 320;
+	}
+	else if (rt->scene.objs[i].type == triangle)
+	{
+		recs[25].rect.x = 300;
+		recs[25].rect.y = 240;
+		recs[26].rect.x = 400;
+		recs[26].rect.y = 240;
 	}
 }

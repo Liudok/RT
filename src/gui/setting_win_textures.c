@@ -29,7 +29,6 @@ void		other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 	{
 		texture_from_text("Min:", sdl, &recs[3]);
 		texture_from_text("Max:", sdl, &recs[4]);
-		texture_from_text("Pipes:", sdl, &recs[5]);
 	}
 }
 

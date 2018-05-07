@@ -39,14 +39,14 @@ static float3 radiance(global t_object* objs,
             if (get_random(&seeds[0], &seeds[1]) >= surf.maxref)
                 break;
             surf.ref /= surf.maxref;
-        }
+		}
 		accum_ref *= surf.ref;
-        if (surf.material == specular)
-            r = specular_reflection(surf, r);
+		if (surf.material == specular)
+			r = specular_reflection(surf, r);
 		else if (surf.material == transparent)
 			r.o = surf.pos;
 		else
-            r = diffuse_reflection(surf, seeds);
+			r = diffuse_reflection(surf, seeds);
     }
     return (clamp(accum_col, 0.f, 1.0f));
 }
@@ -134,25 +134,19 @@ void after_effects(global float3 *colors, global int *pixels, int type, t_camera
 {
 	int i = get_global_id(0);
 	int2 coords = {i % camera.canvas.x, i / camera.canvas.x};
-	float3 current_pixel;
-switch (type) {
+	switch (type) {
 		case 1:
-			current_pixel = blur(colors, camera.canvas, coords);
-			break;
+			return put_pixel(pixels, blur(colors, camera.canvas, coords), i);
 		case 2:
-			current_pixel = negative(colors[i]);
-			break;
+			return put_pixel(pixels, negative(colors[i]), i);
 		case 3:
-			current_pixel = sepia(colors[i]);
-			break;
+			return put_pixel(pixels, sepia(colors[i]), i);
 		case 4:
-			current_pixel = cartoon(colors, camera.canvas, coords);
-			break;
+			return put_pixel(pixels, cartoon(colors, camera.canvas, coords), i);
 		case 5:
-			current_pixel = black_white(colors[i]);
-			break;
+			return put_pixel(pixels, black_white(colors[i]), i);
 		default:
-			current_pixel = colors[i];
+			break;
 	}
-    put_pixel(pixels, current_pixel, i);
+	put_pixel(pixels, colors[i], i);
 }

@@ -36,9 +36,8 @@ static float3	torus_normal(global t_torus *obj, float3 pos)
 	k = dot(pos - obj->origin, obj->normal);
 	a = pos - obj->normal * k;
 	m = native_sqrt(obj->small_radius2 - k * k);
-	return (normalize(
-		pos - a - (obj->origin - a) *
-		native_divide(m,  (native_sqrt(obj->big_radius2)) + m)));
+	return normalize(
+		pos - a - (obj->origin - a) * m / (native_sqrt(obj->big_radius2) + m));
 }
 
 static float3	triangle_normal(global t_triangle *obj)

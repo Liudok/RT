@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/07 13:40:57 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/07 17:32:12 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ inline static void			render(t_rt *s, unsigned timeout)
 {
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout))
 	{
+		clSetKernelArg(s->kernel.kernel, 5, sizeof(cl_uint), &s->samples);
 		rt_cl_push_task(&s->kernel, &s->job_size);
 		rt_cl_join(&s->info);
-		clSetKernelArg(s->kernel.kernel, 5, sizeof(cl_uint), &s->samples);
 		s->samples++;
 	}
 }
@@ -74,9 +74,7 @@ void			set_bg(t_rt *s)
 {
 	unsigned timeout;
 
-	clSetKernelArg(s->kernel.kernel, 5, sizeof(cl_uint), &s->samples);
 	fprintf(stderr, " samples per pixel -> %d\r", s->samples);
-	s->samples++;
 	timeout	= SDL_GetTicks() + 17;
 	if (s->samples < 30)
 		render(s, timeout);

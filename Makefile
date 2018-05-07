@@ -6,7 +6,7 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/04/26 14:53:02 by skamoza          ###   ########.fr        #
+#    Updated: 2018/05/07 17:14:34 by skamoza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,9 +48,7 @@ LIBRARIES   = -lm -lpthread -framework OpenCL
 LIBRARIES  += -L libft/ -lft -framework AppKit
 LIBRARIES  += -L libJSON/ -lJSON
 LIBRARIES  += -F frameworks/
-LIBRARIES  += -framework SDL2
-LIBRARIES  += -framework SDL2_image
-LIBRARIES  += -framework SDL2_ttf
+LIBRARIES  += -framework SDL2 -framework SDL2_image -framework SDL2_ttf
 
 TO_LINKING  = $(addprefix $(OBJS_DIR)/, $(OBJS)) $(INCLUDES) $(LIBRARIES) -rpath frameworks/
 

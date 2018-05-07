@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <OpenCL/opencl.h>
 #include "../../include/panels.h"
 
 void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)

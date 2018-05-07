@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 11:41:26 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/04 11:41:29 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/07 13:39:45 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		get_primitives_details2(t_object *o, char *n, struct _json_value *val)
 		o->prim.cone.m1 = !ft_strncmp(n, "m1", 2) ? get_number(val) : o->prim.cone.m1;
 		o->prim.cone.m2 = !ft_strncmp(n, "m2", 2) ? get_number(val) : o->prim.cone.m2;
 	}
-	if (o->type == disk)
+	else if (o->type == disk)
 	{
 		o->prim.disk.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.disk.origin;
 		o->prim.disk.normal = !ft_strncmp(n, "normal", 6) ? get_float3(val) : o->prim.disk.normal;

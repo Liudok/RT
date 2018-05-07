@@ -57,6 +57,7 @@ void 				print_obj(t_object *o, int n)
 		i++;
 	}
 }
+
 void 				print_cam(t_camera *o);
 static void			parse_value(json_value *value, t_scene *s)
 {
@@ -71,7 +72,7 @@ static void			parse_value(json_value *value, t_scene *s)
 	{
 		if (!ft_strcmp(value->u.object.values[i].name, "objects"))
 			parse_objects(value->u.object.values[i].value, s);
-		if (!ft_strcmp(value->u.object.values[i].name, "camera"))
+		else if (!ft_strcmp(value->u.object.values[i].name, "camera"))
 			parse_camera(value->u.object.values[i].value, s);
 	}
 //	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i\n", s->objnum);

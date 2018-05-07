@@ -133,18 +133,20 @@ __kernel __attribute__((vec_type_hint(float3)))
 void after_effects(global float3 *colors, global int *pixels, int type, t_camera camera)
 {
 	int i = get_global_id(0);
-	//int2 coords = {i % camera.canvas.x, i / camera.canvas.x};
+	int2 coords = {i % camera.canvas.x, i / camera.canvas.x};
 	float3 current_pixel;
-
-	switch (type) {
-		case 3:
-			current_pixel = sepia(colors[i]);
+switch (type) {
+		case 1:
+			current_pixel = blur(colors, camera.canvas, coords);
 			break;
 		case 2:
 			current_pixel = negative(colors[i]);
 			break;
+		case 3:
+			current_pixel = sepia(colors[i]);
+			break;
 		case 4:
-			current_pixel = cartoon(colors[i]);
+			current_pixel = cartoon(colors, camera.canvas, coords);
 			break;
 		case 5:
 			current_pixel = black_white(colors[i]);

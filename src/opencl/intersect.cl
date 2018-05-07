@@ -251,8 +251,8 @@ static float  torus_intersect(global t_torus* obj, t_ray ray)
 	float4 	dots;
 
 	oc = ray.o - obj->origin;
-	dots[0] = dot(oc, obj->normal);
-	dots[1] = dot(ray.d, obj->normal);
+	dots[0] = dot(oc, normalize(obj->normal));
+	dots[1] = dot(ray.d, normalize(obj->normal));
 	dots[2] = dot(oc, oc);
 	dots[3] = dot(oc, ray.d);
 	qq[0] = 1.0f - dots[1] * dots[1];

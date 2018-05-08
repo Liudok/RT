@@ -55,7 +55,7 @@ void		change_value(t_rt* rt, int i, int btn)
 			rt->scene.objs[i].prim.cone.m1 = (btn == 27) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.m1;
 			rt->scene.objs[i].prim.cone.m2 = (btn == 28) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.m2;
 		}
-		else if (rt->scene.objs[i].type == cylinder)
+		else if (rt->scene.objs[i].type == cylinder || rt->scene.objs[i].type == torus)
 		{
 			rt->scene.objs[i].prim.cylinder.radius = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cylinder.radius;
 			rt->scene.objs[i].prim.cylinder.r2 = rt->scene.objs[i].prim.cylinder.radius * rt->scene.objs[i].prim.cylinder.radius;

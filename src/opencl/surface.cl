@@ -29,15 +29,18 @@ static float3	disk_normal(global t_disk *obj)
 
 static float3	torus_normal(global t_torus *obj, float3 pos)
 {
-	float 	k;
+	float3	cent;
+	float	k;
 	float3	a;
-	float 	m;
 
-	k = dot(pos - obj->origin, obj->normal);
-	a = pos - obj->normal * k;
-	m = native_sqrt(obj->small_radius2 - k * k);
-	return normalize(
-		pos - a - (obj->origin - a) * m / (native_sqrt(obj->big_radius2) + m));
+	cent = pos - obj->origin;
+	k = dot(normalize(obj->normal), cent);
+	a = normalize(obj->normal) * k;
+	a = cent - a;
+	k = dot(a, a);
+	k = 1 / sqrt(k) * sqrt(obj->big_radius2);
+	cent = pos - a - (obj->origin - a) * k / (sqrt(obj->big_radius2) + k);
+	return (normalize(cent));
 }
 
 static float3	triangle_normal(global t_triangle *obj)

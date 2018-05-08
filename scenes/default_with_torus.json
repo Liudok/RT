@@ -33,13 +33,13 @@
 		},
 		{
 			"type": "torus",
-			"material": [0.0, 1.0, 0.0, 0.1],
+			"material": [0.0, 0.0, 1.0, 0.0],
 			"color": [1.0, 1.0, 1.0],
 			"origin": [0, 3, 2],
 			"big_radius2": 3.8,
 			"small_radius2": 0.8,
 			"normal": [1, 0, 0],
-			"texture": 0
+			"texture": [255,0,0,0]
 		},
 		{
 			"type": "sphere",
@@ -59,7 +59,7 @@
 		}
 	],
 	"camera": [{
-		"origin": [0, 0, -15],
+		"origin": [0, 2, -10],
 		"dir": [0, 0, 1]
 	}]
 }

@@ -163,16 +163,6 @@ typedef struct	s_object
 	uchar4 		texture;
 }				t_object;
 
-//typedef struct	s_object
-//{
-//	t_obj_type	type;
-//	t_primitive	prim;
-//	float4		material;
-//	float3		color;
-//	uchar4 		texture;
-//}				t_object;
-
-
 typedef struct	s_camera
 {
 	float3		base_origin;

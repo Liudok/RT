@@ -47,17 +47,17 @@ void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 	else if (o[0].type == cube)
 	{
 		sprintf(text, "%.2f       ", o[0].prim.cube.min.s0);
-		texture_from_text(text, sdl, &recs[18]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.min.s1);
-		texture_from_text(text, sdl, &recs[19]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.min.s2);
 		texture_from_text(text, sdl, &recs[20]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.max.s0);
+		sprintf(text, "%.2f       ", o[0].prim.cube.min.s1);
 		texture_from_text(text, sdl, &recs[21]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.max.s1);
+		sprintf(text, "%.2f       ", o[0].prim.cube.min.s2);
 		texture_from_text(text, sdl, &recs[22]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.max.s2);
+		sprintf(text, "%.2f       ", o[0].prim.cube.max.s0);
 		texture_from_text(text, sdl, &recs[23]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.max.s1);
+		texture_from_text(text, sdl, &recs[24]);
+		sprintf(text, "%.2f       ", o[0].prim.cube.max.s2);
+		texture_from_text(text, sdl, &recs[25]);
 	}
 }
 

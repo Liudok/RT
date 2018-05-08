@@ -179,4 +179,5 @@ void				reinit_opencl(t_rt *pt);
 int					mouse_ray(t_rt *rt, int x, int y);
 void				choosing_dialog(t_rt *rt);
 void				real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i);
+int					check_pressing_setting(int prop, t_rec *recs, int x, int y);
 #endif

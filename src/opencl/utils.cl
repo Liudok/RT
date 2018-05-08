@@ -1,8 +1,5 @@
 #include "include/kernel.h"
 
-constant int num_octaves = 7;
-constant float persistence = 0.5;
-
 constant int primes[][3] = {
 	{ 995615039, 600173719, 701464987 },
 	{ 831731269, 162318869, 136250887 },
@@ -65,12 +62,12 @@ static float interpolated_noise(int i, float x, float y)
 static float perlin_noise(float2 uv)
 {
 	float total = 0;
-	float frequency = native_powr(2.f, num_octaves);
+	float frequency = native_powr(2.f, 7);
 	float amplitude = 1;
 
-	for (int i = 0; i < num_octaves; ++i) {
+	for (int i = 0; i < 7; ++i) {
 		frequency /= 2;
-		amplitude *= persistence;
+		amplitude /= 2;
 		total += interpolated_noise(i % max_prime_index,
 				uv.x / frequency, uv.y / frequency)
 			* amplitude;
@@ -186,13 +183,10 @@ static float2 get_tex_coords(t_surface* surf)
 	return ((float2)(0, 0));
 }
 
-constant sampler_t sampler_tex =
-	CLK_FILTER_NEAREST | CLK_NORMALIZED_COORDS_FALSE;
-
 static float3 get_texel(read_only image2d_array_t textures,
 		t_surface* surf, int tex_num, uint2 size)
 {
-	float2 uv = surf->uv * convert_float2(size);
+	float2 uv = surf->uv * convert_float2(size - (uint2)(1,1));
 	float2 fl;
 	float2 fraction = fract(uv, &fl);
 	const int2 t[] = {
@@ -203,7 +197,7 @@ static float3 get_texel(read_only image2d_array_t textures,
 	};
 	float3 pixels[4];
 	for (int i = 0; i < 4; ++i)
-		pixels[i] = read_imagef(textures, sampler_tex,
+		pixels[i] = read_imagef(textures,
 						(int4)(t[i], tex_num, 0)).zyx;
 	float3 result =
 		mix(
@@ -233,19 +227,23 @@ static float3 black_white(float3 col)
 	return (col);
 }
 
-constant float matrix[3][3] = {
-	{.13f, .12f, .13f},
-	{.12f, 0.0f, .12f},
-	{.13f, .12f, .13f}
+constant float matrix[][7] = {
+	{ 0.00134f, 0.00408f, 0.00794f, 0.00992f, 0.00794f, 0.00408f, 0.00134f },
+	{ 0.00408f, 0.01238f, 0.02412f, 0.03012f, 0.02412f, 0.01238f, 0.00408f },
+	{ 0.00794f, 0.02412f, 0.04698f, 0.05867f, 0.04698f, 0.02412f, 0.00794f },
+	{ 0.00992f, 0.03012f, 0.05867f, 0.07327f, 0.05867f, 0.03012f, 0.00992f },
+	{ 0.00794f, 0.02412f, 0.04698f, 0.05867f, 0.04698f, 0.02412f, 0.00794f },
+	{ 0.00408f, 0.01238f, 0.02412f, 0.03012f, 0.02412f, 0.01238f, 0.00408f },
+	{ 0.00134f, 0.00408f, 0.00794f, 0.00992f, 0.00794f, 0.00408f, 0.00134f }
 };
 
 static float3 blur(global float3 *colors, int2 canvas, int2 coords)
 {
 	float3 current = 0;
 
-	for (int i = -1; i < 2; i++)
-		for (int j = -1; j < 2; j++)
-			current += get_color(colors, canvas, coords + (int2)(i,j)) * matrix[i + 1][j + 1];
+	for (int i = -3; i < 4; i++)
+		for (int j = -3; j < 4; j++)
+			current += get_color(colors, canvas, coords + (int2)(i,j)) * matrix[i + 3][j + 3];
 	return (current);
 }
 
@@ -281,8 +279,8 @@ static float3 negative(float3 col)
 static float3   sepia(float3 col)
 {
 	float3 res = {
-		clamp(col.x * .393f + col.y * .769f + col.z * .189f, 0.f, 1.f),
-		clamp(col.x * .349f + col.y * .686f + col.z * .168f, 0.f, 1.f),
+		clamp(col.x * .6f + col.y * .8f + col.z * .6f, 0.0005f, 1.f),
+		clamp(col.x * .349f + col.y * .686f + col.z * .168f, 0.0004f, 1.f),
 		clamp(col.x * .272f + col.y * .534f + col.z * .131f, 0.f, 1.f)
 	};
 	return (res);

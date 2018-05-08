@@ -61,5 +61,9 @@ void		change_value(t_rt* rt, int i, int btn)
 			rt->scene.objs[i].prim.cylinder.r2 = rt->scene.objs[i].prim.cylinder.radius * rt->scene.objs[i].prim.cylinder.radius;
 			rt->scene.objs[i].prim.cylinder.height = (btn == 27) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cylinder.height;
 		}
+		else if (rt->scene.objs[i].type == disk)
+		{
+			rt->scene.objs[i].prim.disk.radius2 = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.disk.radius2;
+		}
 	}
 }

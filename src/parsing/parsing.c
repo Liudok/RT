@@ -31,6 +31,10 @@ void				parse_objects(json_value *value, t_scene *s)
 		if (value->u.array.values[i]->type != json_object)
 			ft_error("Not valid json object.");
 		s->objs[i].type = not_valid;
+		s->objs[i].material = 0;
+		s->objs[i].color = (float3){{0.0, 0.9, 0.8}};
+		s->objs[i].roughness = 0;
+		s->objs[i].ior = 1;
 		get_object_info(value->u.array.values[i], &s->objs[i]);
 	}
 }

@@ -72,12 +72,12 @@ uchar4			get_uchar4(json_value *value)
 
 t_material		get_material(json_value *value)
 {
-//	if (value->type != json_string)
-//	{
-//		ft_putendl_fd("Not valid json type", 2);
+	if (value->type != json_string)
+	{
+		ft_putendl_fd("Not valid json type..", 2);
 //		g_error_flag = 1;
-//		return (diffuse);
-//	}
+		return (diffuse);
+	}
 	if (!ft_strcmp(value->u.string.ptr, "diffuse"))
 		return (diffuse);
 	else if (!ft_strcmp(value->u.string.ptr, "specular"))

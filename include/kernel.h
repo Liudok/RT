@@ -46,7 +46,7 @@ typedef enum	e_obj_type
 
 typedef enum	e_material
 {
-	diffuse, specular, refraction, emission, transparent
+	diffuse, specular, glass, emission, transparent
 }				t_material;
 
 typedef struct	s_sphere
@@ -156,7 +156,9 @@ typedef struct	s_object
 {
 	t_obj_type	type;
 	t_primitive	prim;
-	float4		material;
+	t_material	material;
+	float		roughness;
+	float		ior;
 	float3		color;
 	uchar4 		texture;
 }				t_object;

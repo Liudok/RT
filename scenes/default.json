@@ -1,7 +1,8 @@
 {
 	"objects": [{
 			"type": "sphere",
-			"material": [1.0, 0.0, 0.0, 0.0],
+			"material": "diffuse",
+			"roughness": 0,
 			"color": [0.1, 0.96, 0.1],
 			"origin": [0, 1, 3],
 			"radius": 0.1,
@@ -9,7 +10,8 @@
 		},
 		{
 			"type": "sphere",
-			"material": [0.0, 1.0, 0.0, 0.0],
+			"material": "specular",
+			"roughness": 0,
 			"color": [0.9, 0.9, 0.9],
 			"origin": [1, 0, 4],
 			"radius": 1.0,
@@ -17,30 +19,24 @@
 		},
 		{
 			"type": "bool_substraction",
-			"material": [0.7, 0.0, 0.0, 0],
-			"color": [0.8 ,0.8, 0.8],
+			"material": "diffuse",
+			"color": [0.3 ,0.1, 0.8],
 			"origin": [0, 0.2, 6],
 			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
-			"material": [0.0, 0.0, 0.0, 1.0],
-			"color": [1, 1, 1],
+			"material": "diffuse",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.9, 0.9, 0.9],
 			"origin": [-2, 29, 10],
 			"radius": 10.1,
 			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",
-			"material": [1.0, 0.0, 0.0, 0.0],
-			"color": [0.9, 0.9, 0.9],
-			"origin": [-2, 0, 9.5],
-			"radius": 1.1,
-			"texture": [0.0, 0.0, 0.0, 0.0]
-		},
-		{
-			"type": "sphere",
-			"material": [1.0, 0.0, 0.0, 0.0],
+			"material": "diffuse",
 			"color": [0.9, 0.9, 0.9],
 			"origin": [-2.7, 0.8, 9],
 			"radius": 0.4,
@@ -48,7 +44,7 @@
 		},
 		{
 			"type": "sphere",
-			"material": [1.0, 0.0, 0.0, 0.0],
+			"material": "specular",
 			"color": [0.9, 0.9, 0.9],
 			"origin": [-4, 0, 4],
 			"radius": 1.01,
@@ -56,15 +52,24 @@
 		},
 		{
 			"type": "sphere",
-			"material": [1.0, 0.0, 0.0, 0.0],
+			"material": "diffuse",
 			"color": [0.9, 0.9, 0.9],
 			"origin": [-4, 0, 4],
 			"radius": 1.03,
 			"texture": [0.0, 0.0, 0.0, 4.0]
 		},
 		{
+			"type": "disk",
+			"material": "emission",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 10, 20],
+			"radius2": 60,
+			"normal": [0, 1, 1],
+			"texture": [13.0, 0.0, 0.0, 0.0]
+		},
+		{
 			"type": "sphere",
-			"material": [1.0, 0.0, 0.0, 0],
+			"material": "emission",
 			"color": [0.9, 0.9, 0.9],
 			"origin": [0, -1001, 0],
 			"radius": 1000.0,

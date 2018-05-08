@@ -28,50 +28,13 @@ void		create_settings_win(t_sdl *sdl)
 	SDL_SetRenderDrawColor(sdl->renderer, 0, 0, 25, 38);
 }
 
-int 		this_figure_props(t_obj_type type)
-{
-	if (type == 0)
-		return (22);
-	else if (type == 1 || type == 10)
-		return (24);
-	else if (type == 2 || type == 5)
-		return (26);
-	else if (type == 3)
-		return (27);
-	else if (type == 4)
-		return (25);
-	else if (type == 6)
-		return (27);
-	else if (type == 7)
-		return (20);
-	else
-		return (0);
-}
-
-static int 		this_figure_small_props(t_obj_type type)
-{
-	if (type == 0 || type == 10)
-		return (5);
-	else if (type == 1 || type == 7)
-		return (5);
-	else if (type == 2 || type == 5)
-		return (7);
-	else if (type == 3)
-		return (8);
-	else if (type == 4)
-		return (6);
-	else if (type == 6)
-		return (6);
-	else
-		return (0);
-}
-
-
-void		render_settings_bg(t_sdl *sdl, t_rec *recs, int prop, int small_prop)
+void		render_settings_bg(t_sdl *sdl, t_rec *recs, int prop, int type)
 {
 	int		i;
+	int		small_prop;
 
 	i = 0;
+	small_prop = this_figure_small_props(type);
 	SDL_RenderClear(sdl->renderer);
 	while (i < prop)
 	{
@@ -84,20 +47,7 @@ void		render_settings_bg(t_sdl *sdl, t_rec *recs, int prop, int small_prop)
 	}
 	SDL_RenderPresent(sdl->renderer);
 }
-int		check_pressing_setting(int prop, t_rec *recs, int x, int y)
-{
-	int i;
 
-	i = -1;
-	while (++i < prop)
-	{
-		if (within_rect(recs[i].rect, x, y))
-		{
-			return (i);
-		}
-	}
-	return (-1);
-}
 
 void		start_settings_win(t_rt* rt, int i)
 {
@@ -105,16 +55,16 @@ void		start_settings_win(t_rt* rt, int i)
 	int		running;
 	t_rec	*recs;
 	int		prop;
-	int		small_prop;
-	int btn;
+	int		btn;
 
 	running = 1;
 	btn = -1;
-	create_settings_win(&sdl);
 	prop = this_figure_props(rt->scene.objs[i].type);
-	small_prop = this_figure_small_props(rt->scene.objs[i].type);
+	if (prop == 0)
+		return;
 	recs = (t_rec*)malloc(sizeof(t_rec) * prop);
 	ft_bzero(recs, sizeof(recs));
+	create_settings_win(&sdl);
 	create_settings_textures(rt, &sdl, recs, i);
 	real_create_settings_textures(rt, &sdl, recs, i);
 	SDL_Event evt;
@@ -139,7 +89,7 @@ void		start_settings_win(t_rt* rt, int i)
 				}
 			}
 		}
-		render_settings_bg(&sdl, recs, prop, small_prop);
+		render_settings_bg(&sdl, recs, prop, rt->scene.objs[i].type);
 	}
 	if (btn == -10)
 		reinit_opencl(rt);

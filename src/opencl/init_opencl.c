@@ -6,12 +6,12 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/05/03 18:19:36 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/07 16:41:45 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include <stdlib.h>
+#include "../../include/rt.h"
 #include <time.h>
 
 static cl_uint	*make_seeds(t_rt *rt)
@@ -35,6 +35,7 @@ static cl_uint	*make_seeds(t_rt *rt)
 void			init_opencl(t_rt *rt)
 {
 	cl_uint *seeds;
+
 	size_t i = (size_t)-1;
 	const size_t sizes[] = {sizeof(cl_mem), sizeof(cl_uint), sizeof(t_camera),
 		sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_uint),
@@ -69,7 +70,6 @@ void			init_opencl(t_rt *rt)
 	clSetKernelArg(rt->effect_kernel.kernel, 2, sizeof(cl_uchar), &rt->effect_type);
 	clSetKernelArg(rt->effect_kernel.kernel, 3, sizeof(t_camera), &rt->scene.camera);
 	free(seeds);
-	create_figures(rt);
 }
 
 void			reinit_opencl(t_rt *rt)
@@ -81,7 +81,7 @@ void			reinit_opencl(t_rt *rt)
 	rt->scene.objs_mem = rt_cl_malloc_write(&rt->info,
 			sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
     rt->seeds = rt_cl_malloc_write(
-            &rt->info, sizeof(cl_uint) * rt->sdl.win_w * rt->sdl.win_h * 2, seeds);
+            &rt->info, sizeof(cl_uint) * MAX_WIDTH * MAX_HEIGHT * 2, seeds);
 	clSetKernelArg(rt->kernel.kernel, 0, sizeof(cl_mem), &rt->scene.objs_mem);
 	clSetKernelArg(rt->kernel.kernel, 1, sizeof(cl_uint), &rt->scene.objnum);
 	clSetKernelArg(rt->kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);

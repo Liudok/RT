@@ -267,7 +267,7 @@ static float  torus_intersect(global t_torus* obj, t_ray ray)
 	i = -1;
 	ret = INFINITY;
 	while (count_roots > ++i)
-		if (x[i] < ret && x[i] > 0)
+		if (x[i] < ret && x[i] > EPSILON)
 			ret = x[i];
 	return (ret);
 }
@@ -514,7 +514,7 @@ static float  sphere_intersect1(t_sphere *obj, t_ray ray, float2* roots)
 }
 
 static float	bool_substraction_intersect(global t_bool_substraction *obj, t_ray ray,
-global t_object **closest)
+											global t_object **closest)
 {
 	float2	roots1;
 	float2	roots2;
@@ -527,7 +527,7 @@ global t_object **closest)
 	ptr++;
 	t2 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots2);
 	if (t1 <= 0)
-		return(-1);
+		return(INFINITY);
 	if (t2 <= 0)
 	{
 		*closest = --ptr;
@@ -536,7 +536,7 @@ global t_object **closest)
 	roots1 = (roots1.x > roots1.y) ? roots1.yx : roots1;
 	roots2 = (roots2.x > roots2.y) ? roots2.yx : roots2;
 	if (roots1.x < 0)
-		return (-1);
+		return (INFINITY);
 	if (roots1.x > roots2.x && roots1.x < roots2.y)
 	{
 		*closest = ++ptr;
@@ -545,6 +545,68 @@ global t_object **closest)
 	*closest = --ptr;
 	return (t1);
 }
+
+static float parabaloid_intersect(global t_parabaloid* obj, t_ray ray, float* t) {
+	float2		roots;
+	float3		x;
+	float		params[3];
+	float		m1;
+	float		m2;
+
+	obj->normal = normalize(obj->normal);
+	x = ray.o;
+	params[0] = dot(ray.d, ray.d) - dot(ray.d, obj->normal) * dot(ray.d, obj->normal);
+	params[1] = 2 * (dot(x, ray.d) - dot(ray.d, obj->normal) * (dot(x, obj->normal) + 2 * obj->radius));
+	params[2] = dot(x, x) - dot(x, obj->normal) * (dot(x, obj->normal) + 4 * obj->radius);
+	ft_roots(&roots,params[0],params[1],params[2]);
+	m1 = dot(ray.d, obj->normal) * roots[0] + dot(x, obj->normal);
+	m2 = dot(ray.d, obj->normal) * roots[1] + dot(x, obj->normal);
+	if ((roots[0] <= 0.0f && roots[1] <= 0.0f) || (roots[0] == roots[1]))
+		return (INFINITY);
+	if (obj->max > 0)
+	{
+		if (roots[0] > 0.0f && roots[1] < 0.0f && m1 > 0.0f && m1 < obj->max)
+		{
+			*t = roots[0];
+			return (1);
+		}
+		else if (roots[1] > 0.0f && roots[0] < 0.0f && m2 > 0.0f && m2 < obj->max)
+		{
+			*t = roots[1];
+			return (1);
+		}
+		else if (roots[0] > 0.0f && roots[1] > 0.0f)
+		{
+			if (roots[0] > 0.0f && m1 > 0.0f && m1 < obj->max)
+			{
+				*t = roots[0];
+				return (1);
+			}
+			else if (roots[1] > 0.0f && m2 > 0.0f && m2 < obj->max)
+			{
+				*t = roots[1];
+				return (1);
+			}
+		}
+	}
+	else if (roots[0] > 0 && roots[1] > 0)
+	{
+		*t = roots[0] < roots[1] ? roots[0] : roots[1];
+		return (1);
+	}
+	else if (roots[0] > 0 && roots[1] < 0)
+	{
+		*t = roots[0];
+		return (1);
+	}
+	else if (roots[1] > 0 && roots[0] < 0)
+	{
+		*t = roots[1];
+		return (1);
+	}
+	return (INFINITY);
+}
+
 
 static void intersect(global t_object* obj,
 						global t_object** closest,
@@ -584,6 +646,9 @@ static void intersect(global t_object* obj,
 			break;
 		case bool_substraction:
 			dist = bool_substraction_intersect(&obj->prim.bool_substraction, ray,  &closest_obj);
+			break;
+		case parabaloid:
+			dist = parabaloid_intersect(&obj->prim.parabaloid, ray,  &tmp_m);
 			break;
 		default:
 			break;

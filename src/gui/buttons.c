@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   buttons.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/08 11:15:29 by lberezyn          #+#    #+#             */
+/*   Updated: 2018/05/08 11:15:31 by lberezyn         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../include/panels.h"
 
-void set_icons(t_rt *s)
+void		set_icons(t_rt *s)
 {
 	s->icon = (char **)malloc(sizeof(char *) * BUTTONS_AMOUNT);
 	s->icon[0] = "src/icons/find.png";
@@ -20,13 +31,16 @@ void set_icons(t_rt *s)
 	s->icon[13] = "src/icons/sun-2.png";
 	s->icon[14] = "src/icons/create_file.png";
 	s->icon[15] = "src/icons/find_in.png";
-//	s->icon[16] = "src/icons/settings.png";
-
+	s->icon[16] = "src/icons/blur.png";
+	s->icon[17] = "src/icons/negative.png";
+	s->icon[18] = "src/icons/sepia.png";
+	s->icon[19] = "src/icons/cartoon.png";
+	s->icon[20] = "src/icons/chb.png";
 }
 
-void			create_buttons(t_rt *s)
+void		create_buttons(t_rt *s)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	set_icons(s);
@@ -35,73 +49,40 @@ void			create_buttons(t_rt *s)
 		s->buttons[i].pressed = 0;
 		s->buttons[i].name = i;
 		if (i < 4)
-			s->buttons[i].rect = make_rect((10 + i * 20), 10, BUTTON_SIZE, BUTTON_SIZE);
+			s->buttons[i].rect = make_rect((10 + i * 20),
+											10, BUTTON_SIZE, BUTTON_SIZE);
 		s->buttons[i].txt = load_texture(s->icon[i], s);
 		i++;
 	}
 	create_subbuttons(s);
 }
 
-void			create_subbuttons(t_rt *s)
+void		create_subbuttons(t_rt *s)
 {
-	int i;
-	int k;
+	int		i;
+	int		k;
 
 	i = 4;
 	k = 0;
-	while (i < 16)
+	while (i < BUTTONS_AMOUNT)
 	{
 		if (i < 8)
-			s->buttons[i].rect = make_rect((10 + k * 20), 50, BUTTON_SIZE, BUTTON_SIZE);
+			s->buttons[i].rect = make_rect((10 + k * 20),
+											50, BUTTON_SIZE, BUTTON_SIZE);
 		else if (i < 12)
-			s->buttons[i].rect = make_rect((10 + k * 20), 80, BUTTON_SIZE, BUTTON_SIZE);
+			s->buttons[i].rect = make_rect((10 + k * 20),
+											80, BUTTON_SIZE, BUTTON_SIZE);
 		else if (i < 16)
-			s->buttons[i].rect = make_rect((10 + k * 20), 120, BUTTON_SIZE, BUTTON_SIZE);
+			s->buttons[i].rect = make_rect((10 + k * 20),
+											120, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i < 20)
+			s->buttons[i].rect = make_rect((106 + (k % 4) * 20),
+											10, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i < 21)
+			s->buttons[i].rect = make_rect(188, 10, BUTTON_SIZE, BUTTON_SIZE);
 		i++;
 		k++;
 		if (i >= 8 && k == 4)
 			k = 0;
-	}
-}
-
-void			check_pressing(t_rt *s, int x, int y)
-{
-	int i;
-	int fig;
-	i = -1;
-	printf("x = %i, y = %i\n", x, y);
-	while (++i < BUTTONS_AMOUNT)
-	{
-		if (within_rect(s->buttons[i].rect, x, y))
-		{
-			if (s->buttons[i].pressed == 0)
-			{
-				if (i == 0)
-					file_choosing(s);
-				else if (i == 3)
-					save_scene_to_png(s);
-				else if (i == 15 && s->buttons[1].pressed)
-					save_scene_to_file(s);
-
-				else
-				{
-					s->buttons[i].pressed = 1;
-					if (i == 1)
-						create_new_scene(s);
-                    else if (i > 3 && s->buttons[1].pressed && s->buttons[i].pressed)
-                        modify_scene(s, i);
-				}
-			}
-			else
-				s->buttons[i].pressed = 0;
-			printf("pressed in check i = %i\n", i);
-			return;
-		}
-	}
-	fig = mouse_ray(s, x, y);
-	if (fig > 0)
-	{
-		printf("figure = %i\n", fig);
-		start_settings_win(s, fig);
 	}
 }

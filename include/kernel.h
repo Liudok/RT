@@ -40,6 +40,7 @@ typedef enum	e_obj_type
 	bool_substraction,
 	bool_intersection,
 	cube,
+	parabaloid,
 	not_valid
 }				t_obj_type;
 
@@ -66,8 +67,8 @@ typedef struct	s_cylinder
 	float3		origin;
 	float3		normal;
 	float		radius;
-	float		r2;
 	float 		height;
+	float		r2;
 }				t_cylinder;
 
 typedef struct	s_cone
@@ -127,6 +128,14 @@ typedef struct	s_cube
 	struct s_object	*objs;
 }				t_cube;
 
+typedef struct	s_parabaloid
+{
+	float3		origin;
+	float3		normal;
+	float 		radius;
+	float 		max;
+}				t_parabaloid;
+
 typedef	union	u_primitive
 {
 	t_plane		plane;
@@ -140,6 +149,7 @@ typedef	union	u_primitive
 	t_bool_substraction bool_substraction;
 //	t_bool_intersection bool_intersection;
 	t_cube		cube;
+	t_parabaloid parabaloid;
 }				t_primitive;
 
 typedef struct	s_object

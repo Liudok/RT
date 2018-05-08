@@ -21,6 +21,8 @@ int			main(void)
 	rt.sdl.win_w = WINDOW_WIDTH;
 	rt.sdl.win_h = WINDOW_HEIGHT;
 	rt.scene.file = NULL;
+	if (BUTTONS_AMOUNT > 255)
+		ft_error("Incorrect BUTTONS_AMOUNT");
 	if (!sdl_init_everything(&rt))
 		ft_error("Failed SDL initialization");
 	init_default_scene(&rt);

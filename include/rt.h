@@ -30,7 +30,7 @@ typedef struct s_rt t_rt;
 # define MAX_HEIGHT 2160
 # define WINDOW_WIDTH 1250
 # define WINDOW_HEIGHT 1250
-# define BUTTONS_AMOUNT 16
+# define BUTTONS_AMOUNT 21
 # define NUM_TEX 29
 
 # include "panels.h"
@@ -107,6 +107,7 @@ typedef struct		s_rt
 	cl_uint2		texture_sizes[NUM_TEX + 1];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
+	int 			blur;
 }					t_rt;
 
 
@@ -126,13 +127,14 @@ void				check_pressing(t_rt *s, int x, int y);
 void				file_choosing(t_rt *s);
 void				show_settings(t_rt *s);
 void				create_new_scene(t_rt *s);
+void				after_effect_panel(t_rt *s);
 void 				create_figures(t_rt *s);
 void				set_icons(t_rt *s);
 void				create_subbuttons(t_rt *s);
 void				render_subbuttons(t_rt *s);
 void				load_buttons_texures(t_rt *s);
 int 				load_all_textures(t_rt *s);
-void				settings_rect_params(t_rec *recs, int x);
+void				settings_rect_params(t_rec *recs);
 void        		create_settings_textures(t_rt* rt, t_sdl *sdl, t_rec *recs, int i);
 void				set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs);
 void				other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs);
@@ -177,5 +179,6 @@ void				destroy(t_rt *pt);
 void				reinit_opencl(t_rt *pt);
 int					mouse_ray(t_rt *rt, int x, int y);
 void				choosing_dialog(t_rt *rt);
-
+void				real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i);
+int					check_pressing_setting(int prop, t_rec *recs, int x, int y);
 #endif

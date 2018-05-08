@@ -110,16 +110,15 @@ static void ft_roots(float2* t, float a, float b, float c)
 
 static int to_int(float3 v)
 {
-	float3 t;
 	union {
 		uchar4 byte;
 		uint value;
 	} color;
 
-	t = native_powr(clamp(v, 0.f, 1.0f), native_recip(2.2f));
-	color.byte[0] = (int)(t.z * 255.0f + .5f);
-	color.byte[1] = (int)(t.y * 255.0f + .5f);
-	color.byte[2] = (int)(t.x * 255.0f + .5f);
+	v = native_powr(min(v, 1.0f), native_recip(2.2f));
+	color.byte[0] = (int)(v.z * 255.0f + .5f);
+	color.byte[1] = (int)(v.y * 255.0f + .5f);
+	color.byte[2] = (int)(v.x * 255.0f + .5f);
 	color.byte[3] = 0x0;
 	return (color.value);
 }
@@ -134,9 +133,7 @@ static void add_sample(global float3* colors,
 	} else {
 		const float k1 = currentSample;
 		const float k2 = native_recip(currentSample + 1.f);
-		colors[id].x = (colors[id].x * k1 + color.x) * k2;
-		colors[id].y = (colors[id].y * k1 + color.y) * k2;
-		colors[id].z = (colors[id].z * k1 + color.z) * k2;
+		colors[id] = (colors[id] * k1 + color) * k2;
 	}
 }
 
@@ -198,7 +195,7 @@ static float3 get_texel(read_only image2d_array_t textures,
 	float2 uv = surf->uv * convert_float2(size);
 	float2 fl;
 	float2 fraction = fract(uv, &fl);
-	int2 t[] = {
+	const int2 t[] = {
 		{fl.x, fl.y},
 		{fl.x + 1, fl.y},
 		{fl.x, fl.y + 1},
@@ -208,24 +205,85 @@ static float3 get_texel(read_only image2d_array_t textures,
 	for (int i = 0; i < 4; ++i)
 		pixels[i] = read_imagef(textures, sampler_tex,
 						(int4)(t[i], tex_num, 0)).zyx;
-	float3 result = mix(
+	float3 result =
+		mix(
 			mix(pixels[0], pixels[1], fraction.x),
 			mix(pixels[2], pixels[3], fraction.x),
 		fraction.y);
 	return result;
 }
 
+static float3 get_color(global float3 *colors, int2 canvas, int2 coords)
+{
+	if (coords.x >= canvas.x)
+		coords.x = canvas.x - 1;
+	else if (coords.y >= canvas.y)
+		coords.y = canvas.y - 1;
+	if (coords.x < 0)
+		coords.x = 0;
+	else if (coords.y < 0)
+		coords.y = 0;
+	return (colors[coords.x + coords.y * canvas.x]);
+}
+
+static float3 black_white(float3 col)
+{
+	float average = (col.x + col.y + col.z) / 3;
+	col = (float3)(average);
+	return (col);
+}
+
+constant float matrix[3][3] = {
+	{.13f, .12f, .13f},
+	{.12f, 0.0f, .12f},
+	{.13f, .12f, .13f}
+};
+
+static float3 blur(global float3 *colors, int2 canvas, int2 coords)
+{
+	float3 current = 0;
+
+	for (int i = -1; i < 2; i++)
+		for (int j = -1; j < 2; j++)
+			current += get_color(colors, canvas, coords + (int2)(i,j)) * matrix[i + 1][j + 1];
+	return (current);
+}
+
+static float3 edge_detection(global float3 *colors, int2 canvas, int2 coords)
+{
+	for (int i = 0; i < 2; i++)
+		for (int j = 0; j < 2; j++)
+		{
+			float3 a = get_color(colors, canvas, coords + (int2)(i,j));
+			float3 b = get_color(colors, canvas, coords - (int2)(i,j));
+			if (fast_distance(a, b) > 0.1f || fabs(a.x - b.x) > 0.05 ||
+					fabs(a.y - b.y) > 0.05|| fabs(a.z - b.z) > 0.05)
+				return (float3)(1,1,1);
+		}
+	return (float3)(100,100,100);
+}
+
+static float3 cartoon(global float3 *colors, int2 canvas, int2 coords)
+{
+	float3 result = blur(colors, canvas, coords) *
+		edge_detection(colors, canvas, coords);
+	uchar3 cartoon = { result.x, result.y, result.z };
+	result = (float3)(cartoon.x, cartoon.y, cartoon.z);
+	result /= 5.f;
+	return(result);
+}
+
 static float3 negative(float3 col)
 {
-	return ((float3)(1,1,1) - col);
+	return ((float3)(1,1,1) - cbrt(col));
 }
 
 static float3   sepia(float3 col)
 {
 	float3 res = {
-		(col.x > 0.8078431372f) ? 1.f : col.x + 0.1921568627f,
-		(col.y < 0.0549019607f) ? 0.f : col.y - 0.0549019607f,
-		(col.z < 0.2196078431f) ? 0.f : col.z - 0.2196078431f,
+		clamp(col.x * .393f + col.y * .769f + col.z * .189f, 0.f, 1.f),
+		clamp(col.x * .349f + col.y * .686f + col.z * .168f, 0.f, 1.f),
+		clamp(col.x * .272f + col.y * .534f + col.z * .131f, 0.f, 1.f)
 	};
 	return (res);
 }

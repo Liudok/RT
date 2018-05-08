@@ -25,6 +25,11 @@ void		other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text("Radius:", sdl, &recs[3]);
 		texture_from_text("Half_width:", sdl, &recs[4]);
 	}
+	else if (o[0].type == cube)
+	{
+		texture_from_text("Min:", sdl, &recs[3]);
+		texture_from_text("Max:", sdl, &recs[4]);
+	}
 }
 
 void		set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
@@ -50,24 +55,16 @@ void		set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text("Big radius:", sdl, &recs[6]);
 }
 
-void		settings_rect_params(t_rec *recs, int x)
+void		settings_rect_params(t_rec *recs)
 {
 	int		i;
 	int		y;
 
 	i = 0;
 	y = 20;
-	while (i < PROPERTIES / 2)
+	while (i < 8)
 	{
-		recs[i].rect.x = x * 2;
-		recs[i].rect.y = y * 2;
-		y += 20;
-		i++;
-	}
-	x = 200;
-	while (i < PROPERTIES)
-	{
-		recs[i].rect.x = x * 2;
+		recs[i].rect.x = 40;
 		recs[i].rect.y = y * 2;
 		y += 20;
 		i++;
@@ -91,5 +88,5 @@ void		create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i)
 	}
 	else
 		other_prim_3_texture(&rt->scene.objs[i], sdl, recs);
-	settings_rect_params(recs, 20);
+	settings_rect_params(recs);
 }

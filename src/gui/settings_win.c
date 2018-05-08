@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <OpenCL/opencl.h>
 #include "../../include/panels.h"
 
 void		create_settings_win(t_sdl *sdl)
@@ -17,41 +18,55 @@ void		create_settings_win(t_sdl *sdl)
 	sdl->win = SDL_CreateWindow("Settings",
 								SDL_WINDOWPOS_CENTERED,
 								SDL_WINDOWPOS_CENTERED,
-								400, 400,
+								500, 400,
 								SDL_WINDOW_RESIZABLE);
 	sdl->renderer = SDL_CreateRenderer(sdl->win, -1, SDL_RENDERER_ACCELERATED);
 	sdl->canvas = SDL_CreateTexture(sdl->renderer,
 									SDL_PIXELFORMAT_ARGB8888,
 									SDL_TEXTUREACCESS_TARGET,
-									400, 400);
+									500, 400);
 	SDL_SetRenderDrawColor(sdl->renderer, 0, 0, 25, 38);
 }
 
-void		render_settings_bg(t_sdl *sdl, t_rec *recs)
+void		render_settings_bg(t_sdl *sdl, t_rec *recs, int prop, int type)
 {
 	int		i;
+	int		small_prop;
 
 	i = 0;
+	small_prop = this_figure_small_props(type);
 	SDL_RenderClear(sdl->renderer);
-	while (i < PROPERTIES)
+	while (i < prop)
 	{
-		SDL_RenderCopy(sdl->renderer, recs[i].texture,
-						NULL, &recs[i].rect);
+		if (recs[i].texture != NULL && (i < small_prop || i > 7))
+		{
+			SDL_RenderCopy(sdl->renderer, recs[i].texture,
+						   NULL, &recs[i].rect);
+		}
 		i++;
 	}
 	SDL_RenderPresent(sdl->renderer);
 }
 
+
 void		start_settings_win(t_rt* rt, int i)
 {
 	t_sdl	sdl;
 	int		running;
-	t_rec	recs[PROPERTIES];
+	t_rec	*recs;
+	int		prop;
+	int		btn;
 
 	running = 1;
+	btn = -1;
+	prop = this_figure_props(rt->scene.objs[i].type);
+	if (prop == 0)
+		return;
+	recs = (t_rec*)malloc(sizeof(t_rec) * prop);
+	ft_bzero(recs, sizeof(recs));
 	create_settings_win(&sdl);
 	create_settings_textures(rt, &sdl, recs, i);
-	//	texture_from_text(ft_itoa(rt->scene.objs[i].color.s0), sdl, &recs[4]);
+	real_create_settings_textures(rt, &sdl, recs, i);
 	SDL_Event evt;
 	while (running)
 	{
@@ -65,11 +80,20 @@ void		start_settings_win(t_rt* rt, int i)
 				off_event(rt, &evt);
 			else if (evt.type == SDL_MOUSEBUTTONDOWN)
 			{
-
+				btn = check_pressing_setting(prop, recs, evt.button.x, evt.button.y);
+				if (btn >= 0)
+				{
+					change_value(rt, i, btn);
+					real_create_settings_textures(rt, &sdl, recs, i);
+					btn = -10;
+				}
 			}
 		}
-		render_settings_bg(&sdl, recs);
+		render_settings_bg(&sdl, recs, prop, rt->scene.objs[i].type);
 	}
+	if (btn == -10)
+		reinit_opencl(rt);
+	free(recs);
 	SDL_DestroyRenderer(sdl.renderer);
 	SDL_DestroyWindow(sdl.win);
 }

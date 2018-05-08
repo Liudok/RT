@@ -70,6 +70,28 @@ uchar4			get_uchar4(json_value *value)
 	return (ret);
 }
 
+t_material		get_material(json_value *value)
+{
+	if (value->type != json_string)
+	{
+		ft_putendl_fd("Not valid json type", 2);
+		g_error_flag = 1;
+		return (diffuse);
+	}
+	if (!ft_strcmp(value->u.string.ptr, "diffuse"))
+		return (diffuse);
+	else if (!ft_strcmp(value->u.string.ptr, "specular"))
+		return (specular);
+	else if (!ft_strcmp(value->u.string.ptr, "glass"))
+		return (glass);
+	else if (!ft_strcmp(value->u.string.ptr, "emission"))
+		return (emission);
+	else if (!ft_strcmp(value->u.string.ptr, "transparent"))
+		return (transparent);
+	else
+		return (diffuse);
+}
+
 float4			get_float4(json_value *value)
 {
 	float4		ret;

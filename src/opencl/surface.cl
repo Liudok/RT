@@ -97,15 +97,7 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 
 static t_material  get_material(global t_object *obj)
 {
-    if (obj->material.x)
-        return (diffuse);
-	else if (obj->material.y)
-        return (specular);
-    else if (obj->material.z)
-        return (refraction);
-    else if (obj->material.w)
-        return (emission);
-	return (diffuse);
+	return (obj->material);
 }
 
 static void map_normal(read_only image2d_array_t textures,

@@ -7,12 +7,12 @@
 #include "src/opencl/surface.cl"
 
 static float3 radiance(global t_object* objs,
-		uint objnum,
+		const uint objnum,
 		t_ray r,
 		uint* seeds,
 		read_only image2d_array_t textures,
 		global uint2 *sizes,
-		float3 ambient) {
+		const float3 ambient) {
 	int depth = 0;	  // bounces counter
 	global t_object* obj;   // intersected object
 	float t;		    // distance to hit
@@ -29,7 +29,7 @@ static float3 radiance(global t_object* objs,
 
 		for (uint i = 0; i < objnum; i++)
 			intersect(&objs[i], &obj, r, &m, &t);
-		if (!obj || t >= MAXFLOAT || t < EPSILON || depth > 5000)
+		if (!obj || t >= MAXFLOAT || t < EPSILON)
 			break;
 		
 		total_dist += t;
@@ -53,11 +53,13 @@ static float3 radiance(global t_object* objs,
 			r = glass_refraction(surf, r, seeds, &accum_ref);
 		else
 			r = diffuse_reflection(surf, seeds);
+		if (depth > 5000)
+			break;
     }
     return clamp(max(accum_col, accum_ref * ambient), 0.f, 1.f);
 }
 
-static t_ray initRay(int2 coords, uint2 sub, t_camera cam, uint* seeds) {
+static t_ray initRay(const int2 coords, const uchar2 sub, const t_camera cam, uint* seeds) {
 	t_ray ray;
 	float3 dir;
 	float r1 = 2 * get_random(&seeds[0], &seeds[1]);
@@ -78,10 +80,10 @@ __kernel __attribute__((vec_type_hint(float3)))
 void path_tracing(
 		global t_object* objs,
 		uint objnum,
-		t_camera camera,
+		const t_camera camera,
 		global uint* input_seeds,
 		global float3* colors,
-		uint currentSample,
+		const uint currentSample,
 		read_only image2d_array_t textures,
 		global uint2 *sizes) {
 	int i = get_global_id(0);
@@ -93,16 +95,22 @@ void path_tracing(
     seeds[0] = input_seeds[i * 2];
     seeds[1] = input_seeds[i * 2 + 1];
     // Each pixel divide by 4 sub-pixels
-    for (uint sy = 0; sy < 2; sy++)
+    for (uchar sy = 0; sy < 2; sy++)
     {
-        for (uint sx = 0; sx < 2; sx++)
+        for (uchar sx = 0; sx < 2; sx++)
         {
             // Init ray dir on 'table tent' term
-            ray = initRay(coords, (uint2)(sx, sy), camera, seeds);
+            ray = initRay(coords, (uchar2)(sx, sy), camera, seeds);
             // Compute sub-pixel radiance and save, divide by 4
             rad += radiance(objs, objnum, ray, seeds, textures, sizes, camera.ambient) * 0.25f;
         }
     }
+	/*
+	uint sy = (currentSample % 4) / 2);
+	uint sx = currentSample % 2;
+	ray = initRay(coords, (uint2)(sx, sy), camera, seeds);
+	rad = radiance(objs, objnum, ray, seeds, textures, sizes, camera.ambient);
+	*/
     add_sample(colors, rad, currentSample, i);
 
 	input_seeds[i * 2] = seeds[0];
@@ -152,7 +160,6 @@ void after_effects(global float3 *colors, global int *pixels, int type, t_camera
 		case 5:
 			return put_pixel(pixels, black_white(colors[i]), i);
 		default:
-			break;
+			return put_pixel(pixels, colors[i], i);
 	}
-	put_pixel(pixels, colors[i], i);
 }

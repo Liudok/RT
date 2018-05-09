@@ -30,14 +30,6 @@
 			"texture": [0, 0, 0, 0]
 		},
 		{
-			"type": "julia",
-			"material": "diffuse",
-			"roughness": 0,
-			"ior": 1,
-			"color": [0.75, 0.75, 0.75],
-			"texture": [0, 0, 0, 0]
-		},
-		{
 			"type": "plane",
 			"material": "diffuse",
 			"roughness": 0,
@@ -101,6 +93,7 @@
 	],
 	"camera": [{
 		"origin": [0, 4, -5],
-		"dir": [0, -0.08, 1]
+		"dir": [0, -0.08, 1],
+		"ambient": [0, 0, 0]
 	}]
 }

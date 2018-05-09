@@ -101,7 +101,7 @@ typedef struct		s_rt
 	cl_mem			mouse_intersect;
 	t_scene			scene;
 	t_event			event;
-
+    int             painting_flag;
 	SDL_Texture		*textures[NUM_TEX];
 	SDL_Surface		*textures_img[NUM_TEX ];
 	cl_uint2		texture_sizes[NUM_TEX + 1];

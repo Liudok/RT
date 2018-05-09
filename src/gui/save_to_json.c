@@ -1,4 +1,5 @@
 
+#include <OpenCL/opencl.h>
 #include "../../include/panels.h"
 
 void		dprint_material(t_material material, int fd)
@@ -56,7 +57,8 @@ void 			save_scene_to_file(t_rt *s)
 	dprintf(fd, "{\n\t\"objects\": [");
 	save_objs(fd, s->scene.objs, s->scene.objnum);
 	dprintf(fd,"\t\t\"origin\": [%f, %f, %f],\n", s->scene.camera.origin.s0, s->scene.camera.origin.s1, s->scene.camera.origin.s2);
-	dprintf(fd,"\t\t\"dir\": [%f, %f, %f]\n", s->scene.camera.dir.s0, s->scene.camera.dir.s1, s->scene.camera.dir.s2);
+	dprintf(fd,"\t\t\"dir\": [%f, %f, %f],\n", s->scene.camera.dir.s0, s->scene.camera.dir.s1, s->scene.camera.dir.s2);
+	dprintf(fd,"\t\t\"ambient\": [%f, %f, %f]\n", s->scene.camera.ambient.s0, s->scene.camera.ambient.s1, s->scene.camera.ambient.s2);
 	dprintf(fd, "\t}]\n}");
 	close(fd);
 }

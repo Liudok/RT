@@ -23,21 +23,25 @@ static cl_uint	*make_seeds(t_rt *rt)
 	rt->job_size = rt->sdl.win_w * rt->sdl.win_h;
 
 	srand(time(0));
-	
-	for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
-	{
-		seeds[i] = rand();
-		if (seeds[i] < 2)
-			seeds[i] = 2;
-	}
-
-	// uint local_seeds[] = {rand(), rand()};
-	// for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
-	// {
-	// 	seeds[i] = local_seeds[i % 2];
-	// 	if (seeds[i] < 2)
-	// 		seeds[i] = 2;
-	// }
+	if (rt->painting_flag == 0)
+    {
+        for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
+        {
+            seeds[i] = rand();
+            if (seeds[i] < 2)
+                seeds[i] = 2;
+        }
+    }
+    else
+    {
+        uint local_seeds[] = {rand(), rand()};
+        for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
+        {
+            seeds[i] = local_seeds[i % 2];
+            if (seeds[i] < 2)
+                seeds[i] = 2;
+        }
+    }
 	return (seeds);
 }
 
@@ -72,7 +76,7 @@ void			init_opencl(t_rt *rt)
 	rt->pixels_mem = rt_cl_malloc_read(&rt->info, sizeof(cl_int) * rt->job_size);
 	rt->tex_size_mem = rt_cl_malloc_write(&rt->info, sizeof(cl_uint2) * (2 + NUM_TEX),
 			&rt->texture_sizes);
-	rt->scene.camera.ambient = (float3){{.5f,.5f,.5f}};
+	//rt->scene.camera.ambient = (float3){{.5f,.5f,.5f}};
 	while(++i < sizeof(ptrs) / sizeof(void *))
 		clSetKernelArg(rt->kernel.kernel, i, sizes[i], ptrs[i]);
 	clSetKernelArg(rt->effect_kernel.kernel, 0, sizeof(cl_mem), &rt->colors);

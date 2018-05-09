@@ -30,6 +30,27 @@ void        remalloc_objs(t_rt *rt)
     free(tmp_objs);
 }
 
+void		add_ambient(t_rt *rt, int i)
+{
+    rt->scene.camera.ambient.s0 = 0.1;
+    rt->scene.camera.ambient.s1 = 0.1;
+    rt->scene.camera.ambient.s2 = 0.1;
+    rt->buttons[i].pressed = 0;
+
+}
+
+void		painting_effect(t_rt *rt, int i)
+{
+	if (rt->painting_flag == 0)
+		rt->painting_flag = 1;
+	else
+		rt->painting_flag = 0;
+	rt->buttons[i].pressed = 0;
+
+}
+
+
+
 void        modify_scene(t_rt *rt, int i)
 {
 	static float3 origin = {{-2, 2, 10}};
@@ -51,6 +72,9 @@ void        modify_scene(t_rt *rt, int i)
         add_new_triangle(rt, origin);
 	else if (i == 11)
 		add_new_cube(rt, origin);
+	else if (i == 13 && rt->buttons[1].pressed)
+		painting_effect(rt, i);
+//		add_ambient(rt, i);
 	else if (i == 14 && rt->buttons[1].pressed)
 		clean_scene(rt);
     reinit_opencl(rt);

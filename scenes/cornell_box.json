@@ -89,7 +89,7 @@
 		},
 		{
 			"type": "disk",
-			"material": "emission",
+			"material": "diffuse",
 			"roughness": 0,
 			"ior": 1,
 			"color": [1, 1, 1],

@@ -23,7 +23,7 @@ LIBJSON_DIR = ./libJSON
 HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h parser.h kernel.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
-SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c \
+SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c validation.c \
               new_scene.c parsing.c parser_utils.c create.c tinyfiledialogs.c \
               primitive.c camera.c cross.c dot.c normalize.c vadd.c vlen.c \
               vrotate.c vsub.c create_rotation_matrix.c cl_wrapper.c \

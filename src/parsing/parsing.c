@@ -14,6 +14,8 @@ static void			get_object_info(json_value *value, t_object *o)
 		get_objects_details(o, n, value->u.object.values[i].value);
 		if (o->type == not_valid)
 			ft_error("Not valid type.");
+		if (!validation(o))
+			g_error_flag = 1;
 		i++;
 	}
 }
@@ -40,29 +42,6 @@ void				parse_objects(json_value *value, t_scene *s)
 	}
 }
 
-void 				print_obj(t_object *o, int n)
-{
-	int i = 0;
-	while (i < n)
-	{
-		printf("=========== type : %u \n", o[i].type);
-//		printf("material : { %f %f %f %f}\n", o[i].material.s0, o[i].material.s1, o[i].material.s2, o[i].material.s3);
-		printf("color : { %f %f %f }\n", o[i].color.s0, o[i].color.s1, o[i].color.s2);
-//		if (o[i].type == 0)
-//		{
-//			printf("prim origin : { %f %f %f }\n", o[i].prim.sphere.origin.s0, o[i].prim.sphere.origin.s1, o[i].prim.sphere.origin.s2);
-//			printf("radius = %f\n", o[i].prim.sphere.radius);
-//		}
-//		else if (o[i].type == 4)
-//		{
-//			printf("prim origin : { %f %f %f }\n", o[i].prim.disk.origin.s0, o[i].prim.disk.origin.s1, o[i].prim.disk.origin.s2);
-//			printf("prim normal : { %f %f %f }\n", o[i].prim.disk.normal.s0, o[i].prim.disk.normal.s1, o[i].prim.disk.normal.s2);
-//			printf("radius2 = %f\n", o[i].prim.disk.radius2);
-//		}
-		i++;
-	}
-}
-
 void 				print_cam(t_camera *o);
 static void			parse_value(json_value *value, t_scene *s)
 {
@@ -81,7 +60,6 @@ static void			parse_value(json_value *value, t_scene *s)
 			parse_camera(value->u.object.values[i].value, s);
 	}
 //	printf("AMOUNT OF OBJECTS ON THIS SCENE: %i\n", s->objnum);
-//	print_obj(s->objs, s->objnum);
 //	print_cam(&s->camera);
 }
 

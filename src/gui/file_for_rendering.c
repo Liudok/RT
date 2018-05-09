@@ -93,7 +93,7 @@ void	init_default_scene(t_rt *rt)
 	uint 			size;
 
 
-	rt->scene.file = "scenes/cornell_box.json";
+	rt->scene.file = "scenes/default.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 	{
 		ft_putendl("Default file not found at scenes/default.json");

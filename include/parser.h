@@ -33,5 +33,5 @@ void			get_primitives_details2(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details3(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details4(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details5(t_object *o, char *n, struct _json_value *val);
-
+int 			validation(t_object *o);
 #endif

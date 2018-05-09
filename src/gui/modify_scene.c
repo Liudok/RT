@@ -72,7 +72,7 @@ void        modify_scene(t_rt *rt, int i)
         add_new_triangle(rt, origin);
 	else if (i == 11)
 		add_new_cube(rt, origin);
-	else if (i == 13 && rt->buttons[1].pressed)
+	else if (i == 12 && rt->buttons[1].pressed)
 		painting_effect(rt, i);
 //		add_ambient(rt, i);
 	else if (i == 14 && rt->buttons[1].pressed)

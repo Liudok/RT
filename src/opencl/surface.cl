@@ -2,6 +2,8 @@
 #include "include/kernel.h"
 
 static float4 julia_normal(float4 qP) {
+	return normalize(qP);
+	/*
 	float4 N;
 	float gradX, gradY, gradZ;
 
@@ -27,8 +29,8 @@ static float4 julia_normal(float4 qP) {
 
 	N = normalize((float4)(gradX, gradY, gradZ, 0.f));
 
-	return normalize(qP);
 	return N;
+	*/
 }
 
 static float3	sphere_normal(global t_sphere *obj, float3 pos)
@@ -112,6 +114,7 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 		case disk:
 			return (disk_normal(&obj->prim.disk));
         case torus:
+            return (julia_normal((float4)(hit_pos, 1.f)).xyz);
             return (torus_normal(&obj->prim.torus, hit_pos));
 		case triangle:
 			return (triangle_normal(&obj->prim.triangle));

@@ -79,19 +79,19 @@ int			check_pressing_setting(int prop, t_rec *recs, int x, int y)
 int			this_figure_props(t_obj_type type)
 {
 	if (type == 0)
-		return (22);
-	else if (type == 1 || type == 10)
 		return (24);
-	else if (type == 2 || type == 5)
+	else if (type == 1 || type == 10)
 		return (26);
+	else if (type == 2 || type == 5)
+		return (28);
 	else if (type == 3)
-		return (27);
+		return (29);
 	else if (type == 4)
-		return (25);
-	else if (type == 6)
 		return (27);
+	else if (type == 6)
+		return (29);
 	else if (type == 7)
-		return (20);
+		return (22);
 	else
 		return (0);
 }
@@ -99,17 +99,17 @@ int			this_figure_props(t_obj_type type)
 int			this_figure_small_props(t_obj_type type)
 {
 	if (type == 0 || type == 10)
-		return (5);
-	else if (type == 1 || type == 7)
-		return (5);
-	else if (type == 2 || type == 5)
 		return (7);
+	else if (type == 1 || type == 7)
+		return (7);
+	else if (type == 2 || type == 5)
+		return (9);
 	else if (type == 3)
-		return (8);
+		return (10);
 	else if (type == 4)
-		return (6);
+		return (8);
 	else if (type == 6)
-		return (6);
+		return (8);
 	else
 		return (0);
 }

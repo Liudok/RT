@@ -1,6 +1,25 @@
 
 #include "../../include/panels.h"
 
+void		dprint_material(t_material material, int fd)
+{
+	char *mat;
+
+	if (material == 0)
+		mat = "diffuse";
+	else if (material == 1)
+		mat = "specular";
+	else if (material == 2)
+		mat = "glass";
+	else if (material == 3)
+		mat = "emission";
+	else if (material == 4)
+		mat = "transparent";
+	else
+		mat = "diffuse";
+	dprintf(fd,"\t\t\t\"material\": \"%s\",\n", mat);
+}
+
 static void	save_objs(int fd, t_object *o, int n)
 {
 	int i = 0;
@@ -10,7 +29,9 @@ static void	save_objs(int fd, t_object *o, int n)
 			dprintf(fd, "{\n\t\t\t\"type\": \"%s\",\n", type_to_str(o[i].type));
 		else
 			dprintf(fd, "\t\t{\n\t\t\t\"type\": \"%s\",\n", type_to_str(o[i].type));
-		dprintf(fd,"\t\t\t\"material\": [%f, %f, %f, %f],\n", o[i].material.s0, o[i].material.s1, o[i].material.s2, o[i].material.s3);
+		dprint_material(o[i].material, fd);
+		dprintf(fd,"\t\t\t\"roughness\": %f,\n", o[i].roughness);
+		dprintf(fd,"\t\t\t\"ior\": %f,\n", o[i].ior);
 		dprintf(fd,"\t\t\t\"color\": [%f, %f, %f],\n", o[i].color.s0, o[i].color.s1, o[i].color.s2);
 		print_prim_info(fd, o, i);
 		dprintf(fd,"\t\t\t\"texture\": [%hhu, %hhu, %hhu, %hhu]\n", o[i].texture.s0, o[i].texture.s1, o[i].texture.s2, o[i].texture.s3);

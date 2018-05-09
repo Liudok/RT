@@ -156,7 +156,9 @@ typedef struct	s_object
 {
 	t_obj_type	type;
 	t_primitive	prim;
-	float4		material;
+	t_material	material;
+	float		roughness;
+	float		ior;
 	float3		color;
 	uchar4 		texture;
 }				t_object;

@@ -38,7 +38,9 @@ void				get_primitives_details(t_object *o, char *n, struct _json_value *val)
 void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 {
 	o->type = !ft_strcmp(n, "type") ? get_type(val) : o->type;
-	o->material = !ft_strcmp(n, "material") ? get_float4(val) : o->material;
+	o->material = !ft_strcmp(n, "material") ? get_material(val) : o->material;
+	o->roughness = !ft_strcmp(n, "roughness") ? get_number(val) : o->roughness;
+	o->ior = !ft_strcmp(n, "ior") ? get_number(val) : o->ior;
 	o->color = !ft_strcmp(n, "color") ? get_float3(val) : o->color;
 	if (o->type == plane || o->type == sphere || o->type == cylinder)
 		get_primitives_details(o, n, val);

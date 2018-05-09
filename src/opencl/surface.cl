@@ -97,29 +97,21 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 
 static t_material  get_material(global t_object *obj)
 {
-    if (obj->material.x)
-        return (diffuse);
-	else if (obj->material.y)
-        return (specular);
-    else if (obj->material.z)
-        return (glass);
-    else if (obj->material.w)
-        return (emission);
-	return (diffuse);
+	return (obj->material);
 }
 
 static void map_normal(read_only image2d_array_t textures,
 						 t_surface *surf, uint2 size)
 {
-	float3 map_n = fast_normalize(
-			get_texel(textures, surf, surf->obj->texture.y, size));
+	float3 map_n = get_texel(textures, surf, surf->obj->texture.y, size);
 	float3 t = cross(surf->nl, (float3)(0.f, 1.f, 0.f));
 	if (fast_length(t) == 0.f)
 		t = cross(surf->nl, (float3)(0.f, 0.f, 1.f));
 	t = normalize(t);
 	float3 b = cross(surf->nl, t);
 	surf->nl = normalize(t * map_n.x
-					+ b * map_n.y + surf->nl * map_n.z);
+						+ b * map_n.y
+						+ surf->nl * map_n.z);
 }
 
 static float3 map_light(read_only image2d_array_t textures,
@@ -128,13 +120,12 @@ static float3 map_light(read_only image2d_array_t textures,
 	return get_texel(textures, surf, surf->obj->texture.z, size);
 }
 
-static float3 map_transparent(read_only image2d_array_t textures,
+static void map_transparent(read_only image2d_array_t textures,
 						 t_surface *surf, uint2 size, uint *seeds)
 {
 	float3 texel = get_texel(textures, surf, surf->obj->texture.w, size);
 	if (get_random(seeds, seeds + 1) > texel.x * texel.y * texel.z)
 		surf->material = transparent;
-	return (float3)(0.9f, 0.9f, 0.9f);
 }
 
 static float3 apply_textures(t_surface *surf, read_only image2d_array_t textures,
@@ -159,7 +150,7 @@ static float3 apply_textures(t_surface *surf, read_only image2d_array_t textures
 	if (tex.z && tex.z <= NUM_TEX) //light map
 		surf->emission = map_light(textures, surf, sizes[tex.z]) * color;
 	if (tex.w && tex.w <= NUM_TEX) //transparency map
-		color *= map_transparent(textures, surf, sizes[tex.w], seeds);
+		map_transparent(textures, surf, sizes[tex.w], seeds);
 	if (tex.z == 254)
 		surf->emission = color * perlin_noise(surf->uv * (float2)(4048.f, 4048.f));
 	else if (tex.z == 255)
@@ -177,11 +168,11 @@ static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t
     s.pos = r.o + r.d * t;
     s.m = m;
     s.n = find_normal(obj, s.pos, s.m);
-    s.nl = (dot(s.n, r.d) < 0) ? s.n : s.n * -1;
+    s.nl = (dot(s.n, r.d) < 0) ? s.n : -s.n;
     s.material = get_material(obj);
 	s.ref = apply_textures(&s, textures, sizes, seeds);
     s.maxref = fmax(fmax(s.ref.x, s.ref.y), s.ref.z);
-    s.maxref -= (s.maxref > 0.75) ? (s.maxref - 0.75) * 0.75 : 0;
+    s.maxref -= (s.maxref > 0.75f) ? (s.maxref - 0.75f) * 0.1f : 0;
     return (s);
 }
 

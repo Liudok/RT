@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/03 18:13:27 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/07 16:37:32 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ typedef struct		s_rt
 	cl_uint2		texture_sizes[NUM_TEX + 1];
 	t_btn			buttons[BUTTONS_AMOUNT];
 	char			**icon;
-	int 			blur;
 }					t_rt;
 
 

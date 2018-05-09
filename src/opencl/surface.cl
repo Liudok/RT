@@ -211,6 +211,42 @@ static t_ray   specular_reflection(t_surface surf, t_ray r)
     t_ray spec;
 
     spec.o = surf.pos;
-    spec.d = r.d - surf.nl * 2 * dot(r.d, surf.nl);
+    spec.d = normalize(r.d - surf.nl * 2 * dot(r.d, surf.nl));
     return (spec);
+}
+
+static t_ray   glass_refraction(t_surface surf, t_ray r, uint *seeds,  float3 *accum_ref)
+{
+	t_ray   refracted_ray;
+    t_ray	reflected_ray = specular_reflection(surf, r);
+    uchar	into = dot(surf.n, surf.nl) < 0;
+    float	nc = 1;
+    float	ior = 1.5;
+    float	nnt = into ? ior / nc : nc / ior;
+    float	ddn = dot(r.d, surf.nl);
+    float 	cos2t = 1 - nnt * nnt * (1 - ddn * ddn);
+
+    if (cos2t < 0)
+    	return (reflected_ray);
+
+    refracted_ray.o = surf.pos;
+    refracted_ray.d = 
+    	normalize((r.d * nnt - surf.n * ((into ? -1 : 1) * (ddn * nnt + sqrt(cos2t)))));
+
+    float 	a = ior - nc;
+    float 	b = ior + nc;
+    float 	c = 1 - (into ? dot(refracted_ray.d, surf.n) : -ddn);
+    float 	R0 = a * a / (b * b);
+    float 	Rfres = R0 + (1 - R0) * pow(c, 5);
+    float 	P = 0.25 + 0.5 * Rfres;
+    float 	RP = Rfres / P;
+    float 	TP = (1 - Rfres) / (1 - P);
+
+    if (get_random(&seeds[0], &seeds[1]) < P)
+    {
+    	*accum_ref = *accum_ref * RP; 
+    	return (reflected_ray);
+    }
+    *accum_ref = *accum_ref * TP;
+    return (refracted_ray);
 }

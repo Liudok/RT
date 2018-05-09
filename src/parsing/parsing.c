@@ -35,6 +35,7 @@ void				parse_objects(json_value *value, t_scene *s)
 		s->objs[i].color = (float3){{0.0, 0.9, 0.8}};
 		s->objs[i].roughness = 0;
 		s->objs[i].ior = 1;
+		s->objs[i].texture = (uchar4){{0, 0, 0, 0}};
 		get_object_info(value->u.array.values[i], &s->objs[i]);
 	}
 }

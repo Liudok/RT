@@ -1,10 +1,7 @@
-
-#include "include/kernel.h"
-
-static float4 julia_normal(float4 qP) {
-	return normalize(qP);
+static float3 julia_normal(float4 qP) {
+	return normalize(qP.xyz);
 	/*
-	float4 N;
+	float3 N;
 	float gradX, gradY, gradZ;
 
 	float4 gx1 = qP - (float4)(1e-4f, 0.f, 0.f, 0.f);
@@ -27,7 +24,7 @@ static float4 julia_normal(float4 qP) {
 	gradY = length(gy2) - length(gy1);
 	gradZ = length(gz2) - length(gz1);
 
-	N = normalize((float4)(gradX, gradY, gradZ, 0.f));
+	N = normalize((float3)(gradX, gradY, gradZ));
 
 	return N;
 	*/

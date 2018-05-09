@@ -2,19 +2,11 @@
 #define ESCAPE_THRESHOLD 1e1f
 #define DELTA 1e-4f
 
-#include "include/kernel.h"
-
 static float4 QuatMult(const float4 q1, const float4 q2) {
 	float4 r;
 
-	// a1a2 - b1b2 - c1c2 - d1d2
-	r.x = q1.x * q2.x - q1.y * q2.y - q1.z * q2.z - q1.w * q2.w;
-	// a1b2 + b1a2 + c1d2 - d1c2
-	r.y = q1.x * q2.y + q1.y * q2.x + q1.z * q2.w - q1.w * q2.z;
-	// a1c2 - b1d2 + c1a2 + d1b2
-	r.z = q1.x * q2.z - q1.y * q2.w + q1.z * q2.x + q1.w * q2.y;
-	// a1d2 + b1c2 - c1b2 + d1a2
-	r.w = q1.x * q2.w + q1.y * q2.z - q1.z * q2.y + q1.w * q2.x;
+	r.x = q1.x * q2.x - dot(q1.yzw, q2.yzw);
+	r.yzw = q1.x * q2.yzw + q2.x * q1.yzw + cross(q1.yzw, q2.yzw);
 
 	return r;
 }
@@ -22,18 +14,18 @@ static float4 QuatMult(const float4 q1, const float4 q2) {
 static float4 QuatSqr(const float4 q) {
 	float4 r;
 
-	r.x = q.x * q.x - q.y * q.y - q.z * q.z - q.w * q.w;
-	r.y = 2.f * q.x * q.y;
-	r.z = 2.f * q.x * q.z;
-	r.w = 2.f * q.x * q.w;
+	r.x = q.x * q.x - dot(q.yzw, q.yzw);
+	r.yzw = 2 * q.x * q.yzw;
 
 	return r;
 }
 
 constant uint maxIterations = 10;
 
-static void IterateIntersect(float4 *q, float4 *qp,
-		const float4 c) {
+constant float4 c = {0.285f, 0.485f, 0.f, 0.f};
+constant float epsilon = 0.003f * 0.75f;
+
+static void IterateIntersect(float4 *q, float4 *qp) {
 	float4 q0 = *q;
 	float4 qp0 = *qp;
 
@@ -49,8 +41,6 @@ static void IterateIntersect(float4 *q, float4 *qp,
 	*qp = qp0;
 }
 
-constant float4 c = {0.285f, 0.485f, 0.f, 0.f};
-constant float epsilon = 0.003f * 0.75f;
 
 static float IntersectBoundingSphere(const t_ray ray) {
 	const float4 op = {-ray.o, 1.f};
@@ -78,7 +68,7 @@ static float IntersectBoundingSphere(const t_ray ray) {
 
 static float IntersectJulia(const t_ray ray) {
 	float dist = IntersectBoundingSphere(ray);
-	if (dist <= 0.f)
+	if (dist < 0)
 		return (INFINITY);
 	float4 r = {ray.o, 0.f};
 
@@ -86,7 +76,7 @@ static float IntersectJulia(const t_ray ray) {
 		float4 z = r;
 		float4 zp = { 1.f, 0.f, 0.f, 0.f };
 
-		IterateIntersect(&z, &zp, c);
+		IterateIntersect(&z, &zp);
 
 		const float normZP = length(zp);
 
@@ -99,7 +89,7 @@ static float IntersectJulia(const t_ray ray) {
 
 		r += (float4)(ray.d, 0.f) * dist;
  		if (dot(r, r) > BOUNDING_RADIUS_2)
-			return (-1);
+			return (INFINITY);
 	} while (dist > epsilon);
 
 	return distance(ray.o, r.xyz);

@@ -23,6 +23,18 @@
 			"texture": [0, 0, 0, 0]
 		},
 		{
+			"type": "disk",
+			"material": "emission",
+			"roughness": 0.000000,
+			"ior": 1.000000,
+			"color": [0.900000, 0.900000, 0.900000],
+			"origin": [0.000000, -15.000000, 1.000000],
+			"normal": [0.000000, 1.000000, -0.100000],
+			"radius2": 100.000000,
+			"texture": [0, 0, 0, 0]
+		},
+
+		{
 			"type": "sphere",
 			"material": "glass",
 			"roughness": 0.000000,

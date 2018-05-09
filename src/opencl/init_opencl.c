@@ -23,21 +23,21 @@ static cl_uint	*make_seeds(t_rt *rt)
 	rt->job_size = rt->sdl.win_w * rt->sdl.win_h;
 
 	srand(time(0));
-	/*
+	
 	for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
 	{
 		seeds[i] = rand();
 		if (seeds[i] < 2)
 			seeds[i] = 2;
 	}
-	 */
-	uint local_seeds[] = {rand(), rand()};
-	for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
-	{
-		seeds[i] = local_seeds[i % 2];
-		if (seeds[i] < 2)
-			seeds[i] = 2;
-	}
+
+	// uint local_seeds[] = {rand(), rand()};
+	// for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
+	// {
+	// 	seeds[i] = local_seeds[i % 2];
+	// 	if (seeds[i] < 2)
+	// 		seeds[i] = 2;
+	// }
 	return (seeds);
 }
 

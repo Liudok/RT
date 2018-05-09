@@ -62,7 +62,7 @@
 		},
 		{
 			"type": "sphere",
-			"material": "specular",
+			"material": "diffuse",
 			"color": [0.9, 0.9, 0.9],
 			"origin": [-4, 0, 4],
 			"radius": 1.01,

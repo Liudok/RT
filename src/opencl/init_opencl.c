@@ -21,11 +21,20 @@ static cl_uint	*make_seeds(t_rt *rt)
 	seeds = (cl_uint *)malloc(MAX_WIDTH * MAX_HEIGHT * 2 * sizeof(cl_uint));
 	rt_check_error(!seeds, MALLOC_ERR, NULL);
 	rt->job_size = rt->sdl.win_w * rt->sdl.win_h;
-	rt->samples = 0;
+
 	srand(time(0));
+	/*
 	for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
 	{
 		seeds[i] = rand();
+		if (seeds[i] < 2)
+			seeds[i] = 2;
+	}
+	 */
+	uint local_seeds[] = {rand(), rand()};
+	for (unsigned int i = 0; i < (unsigned int)(MAX_WIDTH * MAX_HEIGHT * 2); ++i)
+	{
+		seeds[i] = local_seeds[i % 2];
 		if (seeds[i] < 2)
 			seeds[i] = 2;
 	}
@@ -74,19 +83,20 @@ void			init_opencl(t_rt *rt)
 
 void			reinit_opencl(t_rt *rt)
 {
-	cl_uint *seeds;
-
-	seeds = make_seeds(rt);
+//	cl_uint *seeds;
+//
+//	seeds = make_seeds(rt);
+	rt->samples = 0;
 	clReleaseMemObject(rt->scene.objs_mem);
 	rt->scene.objs_mem = rt_cl_malloc_write(&rt->info,
 			sizeof(t_object) * rt->scene.objnum, rt->scene.objs);
-    rt->seeds = rt_cl_malloc_write(
-            &rt->info, sizeof(cl_uint) * MAX_WIDTH * MAX_HEIGHT * 2, seeds);
+//    rt->seeds = rt_cl_malloc_write(
+//            &rt->info, sizeof(cl_uint) * MAX_WIDTH * MAX_HEIGHT * 2, seeds);
 	clSetKernelArg(rt->kernel.kernel, 0, sizeof(cl_mem), &rt->scene.objs_mem);
 	clSetKernelArg(rt->kernel.kernel, 1, sizeof(cl_uint), &rt->scene.objnum);
 	clSetKernelArg(rt->kernel.kernel, 2, sizeof(t_camera), &rt->scene.camera);
-    clSetKernelArg(rt->kernel.kernel, 3, sizeof(cl_mem), &rt->seeds);
-	free(seeds);
+//    clSetKernelArg(rt->kernel.kernel, 3, sizeof(cl_mem), &rt->seeds);
+//	free(seeds);
 }
 
 int			mouse_ray(t_rt *rt, int x, int y)

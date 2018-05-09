@@ -1,0 +1,101 @@
+{
+	"objects": [{
+			"type": "sphere",
+			"material": "diffuse",
+			"roughness": 0,
+			"color": [0.1, 0.96, 0.1],
+			"origin": [0, 1, 3],
+			"radius": 0.1,
+			"texture": [7, 8, 0, 0]
+		},
+		{
+			"type": "sphere",
+			"material": "specular",
+			"roughness": 0,
+			"color": [0.9, 0.9, 0.9],
+			"origin": [1, 0, 4],
+			"radius": 1.0,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "bool_substraction",
+			"material": "diffuse",
+			"color": [0.3 ,0.1, 0.8],
+			"origin": [0, 0.2, 6],
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": "diffuse",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.9, 0.9, 0.9],
+			"origin": [-2, 2, 10],
+			"radius": 1.1,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": "transparent",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 0, 0],
+			"radius": 2.0,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "julia",
+			"material": "diffuse",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.75, 0.75, 0.75],
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "sphere",
+			"material": "diffuse",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [-2.7, 0.8, 9],
+			"radius": 0.4,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": "specular",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [-4, 0, 4],
+			"radius": 1.01,
+			"texture": [1, 2, 3, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": "diffuse",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [-4, 0, 4],
+			"radius": 1.03,
+			"texture": [0.0, 0.0, 0.0, 4.0]
+		},
+		{
+			"type": "disk",
+			"material": "emission",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 10, 20],
+			"radius2": 60,
+			"normal": [0, 1, 1],
+			"texture": [13.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": "emission",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, -1001, 0],
+			"radius": 1000.0,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		}
+	],
+	"camera": [{
+		"origin": [0, 0, -15],
+		"dir": [0, 0, 1]
+	}]
+}

@@ -1,0 +1,42 @@
+{
+	"objects": [{
+			"type": "sphere",
+			"material": "transparent",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 0, 0],
+			"radius": 3.0,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "julia",
+			"material": "diffuse",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.75, 0.75, 0.75],
+			"texture": [255, 0, 0, 0]
+		},
+		{
+			"type": "disk",
+			"material": "emission",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 5, -5],
+			"radius2": 60,
+			"normal": [0, 1, 1],
+			"texture": [0, 0.0, 0.0, 0.0]
+		},
+		{
+			"type": "sphere",
+			"material": "emission",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, -1001, 0],
+			"radius": 1000.0,
+			"texture": [0.0, 0.0, 0.0, 0.0]
+		}
+	],
+	"camera": [{
+		"origin": [0, 0, -15],
+		"dir": [0, 0, 1]
+	}]
+}

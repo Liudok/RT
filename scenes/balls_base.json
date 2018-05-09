@@ -33,7 +33,7 @@
 		{
 			"type": "plane",
 			"material": "diffuse",
-			"roughness": 0,
+			"roughness": 0.5,
 			"ior": 1,
 			"color": [0.500000, 0.300000, 0.800000],
 			"origin": [3.000000, 2.000000, 10.000000],

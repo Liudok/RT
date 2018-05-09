@@ -49,7 +49,7 @@ static void IterateIntersect(float4 *q, float4 *qp,
 	*qp = qp0;
 }
 
-constant float4 c = { -0.291f, -0.399f, 0.399f, -0.437f };
+constant float4 c = {0.285f, 0.485f, 0.f, 0.f};
 constant float epsilon = 0.003f * 0.75f;
 
 static float IntersectBoundingSphere(const t_ray ray) {
@@ -98,7 +98,7 @@ static float IntersectJulia(const t_ray ray) {
 		dist = 0.5f * normZ * log(normZ) / normZP;
 
 		r += (float4)(ray.d, 0.f) * dist;
- 		if (dot(r, r) < BOUNDING_RADIUS_2)
+ 		if (dot(r, r) > BOUNDING_RADIUS_2)
 			return (-1);
 	} while (dist > epsilon);
 

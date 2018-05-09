@@ -114,7 +114,6 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 		case disk:
 			return (disk_normal(&obj->prim.disk));
         case torus:
-            return (julia_normal((float4)(hit_pos, 1.f)).xyz);
             return (torus_normal(&obj->prim.torus, hit_pos));
 		case triangle:
 			return (triangle_normal(&obj->prim.triangle));

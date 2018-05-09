@@ -73,6 +73,10 @@ char 		*type_to_str(int n)
 		return ("bool_intersection");
 	else if (n == 10)
 		return ("cube");
+	else if (n == 11)
+		return ("parabaloid");
+	else if (n == 12)
+		return ("julia");
 	else
 		return ("not_valid");
 }

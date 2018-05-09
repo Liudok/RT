@@ -145,6 +145,8 @@ t_obj_type		get_type(json_value *value)
 		return (bool_substraction);
 	else if (!ft_strncmp(value->u.string.ptr, "bool_intersection", 17))
 		return (bool_intersection);
+	else if (!ft_strncmp(value->u.string.ptr, "julia", 5))
+		return (julia);
 	ft_putendl_fd("Not valid object type", 2);
 	g_error_flag = 1;
 	return (not_valid);

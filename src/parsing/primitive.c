@@ -35,6 +35,15 @@ void				get_primitives_details(t_object *o, char *n, struct _json_value *val)
 	}
 }
 
+//void				get_julia_details(t_object *o, char *n, struct _json_value *val)
+//{
+//	if (o->type == julia)
+//	{
+//		o->prim.plane.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.plane.origin;
+//		o->prim.plane.normal = !ft_strncmp(n, "normal", 6) ? get_float3(val) : o->prim.plane.normal;
+//	}
+//}
+
 void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 {
 	o->type = !ft_strcmp(n, "type") ? get_type(val) : o->type;
@@ -54,5 +63,7 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 //		get_primitives_details5(o);
 	else if  (o->type == parabaloid)
 		get_primitives_details5(o, n, val);
+//	else if  (o->type == julia)
+//		get_julia_details(o, n, val);
 	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;
 }

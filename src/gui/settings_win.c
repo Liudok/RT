@@ -18,13 +18,13 @@ void		create_settings_win(t_sdl *sdl)
 	sdl->win = SDL_CreateWindow("Settings",
 								SDL_WINDOWPOS_CENTERED,
 								SDL_WINDOWPOS_CENTERED,
-								500, 400,
+								500, 500,
 								SDL_WINDOW_RESIZABLE);
 	sdl->renderer = SDL_CreateRenderer(sdl->win, -1, SDL_RENDERER_ACCELERATED);
 	sdl->canvas = SDL_CreateTexture(sdl->renderer,
 									SDL_PIXELFORMAT_ARGB8888,
 									SDL_TEXTUREACCESS_TARGET,
-									500, 400);
+									500, 500);
 	SDL_SetRenderDrawColor(sdl->renderer, 0, 0, 25, 38);
 }
 
@@ -38,7 +38,7 @@ void		render_settings_bg(t_sdl *sdl, t_rec *recs, int prop, int type)
 	SDL_RenderClear(sdl->renderer);
 	while (i < prop)
 	{
-		if (recs[i].texture != NULL && (i < small_prop || i > 7))
+		if (recs[i].texture != NULL && (i < small_prop || i > 9))
 		{
 			SDL_RenderCopy(sdl->renderer, recs[i].texture,
 						   NULL, &recs[i].rect);

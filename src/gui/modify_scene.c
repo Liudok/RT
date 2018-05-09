@@ -65,7 +65,7 @@ void 			clean_scene(t_rt *rt)
 	rt->scene.objs = (t_object*)malloc(sizeof(t_object));
 	ft_bzero(rt->scene.objs, sizeof(rt->scene.objs) * rt->scene.objnum);
 	add_new_disk(rt, (float3){{0, 5, 1}});
-	rt->scene.objs[0].material.s3 = 1;
+	rt->scene.objs[0].material = emission;
 	rt->scene.objs[0].color = (float3){{0.9, 0.9, 0.9}};
 	rt->scene.objs[0].prim.disk.normal = (float3){{0, 1, -0.1}};
 	rt->scene.objs[0].prim.disk.radius2 = 100;

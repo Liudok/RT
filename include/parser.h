@@ -18,6 +18,7 @@
 # include "kernel.h"
 
 float4			get_float4(json_value *value);
+t_material		get_material(json_value *value);
 float			get_number(json_value *value);
 float3			get_float3(json_value *value);
 int2			get_int2(json_value *value);

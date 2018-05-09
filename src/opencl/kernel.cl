@@ -48,6 +48,8 @@ static float3 radiance(global t_object* objs,
 			r = specular_reflection(surf, r);
 		else if (surf.material == transparent)
 			r.o = surf.pos;
+		else if (surf.material == glass)
+			r = glass_refraction(surf, r, seeds, &accum_ref);
 		else
 			r = diffuse_reflection(surf, seeds);
     }

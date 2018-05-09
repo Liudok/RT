@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 12:20:12 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/03 16:25:38 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/09 13:39:31 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int load_all_textures(t_rt* s)
 	"processor"TE, TP"BallCue"TE, TP"Ball1"TE, TP"Ball2"TE, TP"Ball3"TE, TP
 	"Ball4"TE, TP"Ball5"TE, TP"Ball6"TE, TP"Ball7"TE, TP"Ball8"TE, TP"Ball9"TE,
 	TP"Ball10"TE, TP"Ball11"TE, TP"Ball12"TE, TP"Ball13"TE, TP"Ball14"TE,
-	TP"BasketballColor"TE
-	};
+	TP"BasketballColor"TE };
 
 	int i = -1;
 	if (!(s->sdl.canvas = SDL_CreateTexture(s->sdl.renderer,

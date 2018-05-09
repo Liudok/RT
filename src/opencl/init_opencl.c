@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 15:26:45 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/05/07 16:41:45 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/09 17:19:54 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void			init_opencl(t_rt *rt)
 	rt->pixels_mem = rt_cl_malloc_read(&rt->info, sizeof(cl_int) * rt->job_size);
 	rt->tex_size_mem = rt_cl_malloc_write(&rt->info, sizeof(cl_uint2) * (2 + NUM_TEX),
 			&rt->texture_sizes);
+	rt->scene.camera.ambient = (float3){{.5f,.5f,.5f}};
 	while(++i < sizeof(ptrs) / sizeof(void *))
 		clSetKernelArg(rt->kernel.kernel, i, sizes[i], ptrs[i]);
 	clSetKernelArg(rt->effect_kernel.kernel, 0, sizeof(cl_mem), &rt->colors);

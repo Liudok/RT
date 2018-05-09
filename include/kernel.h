@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/08 20:03:49 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/09 17:19:56 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ typedef struct	s_camera
 	float3		dir;
 	float3		cx;
 	float3		cy;
+	float3		ambient;
 	int2		canvas;
 	float2 		rotate;
 }				t_camera;

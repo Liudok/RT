@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/04/27 12:41:42 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/08 20:03:49 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef enum	e_obj_type
 	bool_intersection,
 	cube,
 	parabaloid,
+	julia,
 	not_valid
 }				t_obj_type;
 
@@ -136,20 +137,26 @@ typedef struct	s_parabaloid
 	float 		max;
 }				t_parabaloid;
 
+typedef struct	s_julia
+{
+	//kek
+}				t_julia;
+
 typedef	union	u_primitive
 {
-	t_plane		plane;
-	t_sphere	sphere;
-	t_cylinder	cylinder;
-	t_cone		cone;
-	t_disk		disk;
-	t_torus		torus;
-	t_triangle	triangle;
-	t_mobius	mobius;
+	t_plane			plane;
+	t_sphere		sphere;
+	t_cylinder		cylinder;
+	t_cone			cone;
+	t_disk			disk;
+	t_torus			torus;
+	t_triangle		triangle;
+	t_mobius		mobius;
 	t_bool_substraction bool_substraction;
 //	t_bool_intersection bool_intersection;
-	t_cube		cube;
-	t_parabaloid parabaloid;
+	t_cube			cube;
+	t_parabaloid	parabaloid;
+	t_julia			julia;
 }				t_primitive;
 
 typedef struct	s_object

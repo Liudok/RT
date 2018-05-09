@@ -1,6 +1,38 @@
 
 #include "include/kernel.h"
 
+static float4 julia_normal(float4 qP) {
+	return normalize(qP);
+	/*
+	float4 N;
+	float gradX, gradY, gradZ;
+
+	float4 gx1 = qP - (float4)(1e-4f, 0.f, 0.f, 0.f);
+	float4 gx2 = qP + (float4)(1e-4f, 0.f, 0.f, 0.f);
+	float4 gy1 = qP - (float4)(0.f, 1e-4f, 0.f, 0.f);
+	float4 gy2 = qP + (float4)(0.f, 1e-4f, 0.f, 0.f);
+	float4 gz1 = qP - (float4)(0.f, 0.f, 1e-4f, 0.f);
+	float4 gz2 = qP + (float4)(0.f, 0.f, 1e-4f, 0.f);
+
+	for (uint i = 0; i < maxIterations; ++i) {
+		gx1 = QuatSqr(gx1) + c;
+		gx2 = QuatSqr(gx2) + c;
+		gy1 = QuatSqr(gy1) + c;
+		gy2 = QuatSqr(gy2) + c;
+		gz1 = QuatSqr(gz1) + c;
+		gz2 = QuatSqr(gz2) + c;
+	}
+
+	gradX = length(gx2) - length(gx1);
+	gradY = length(gy2) - length(gy1);
+	gradZ = length(gz2) - length(gz1);
+
+	N = normalize((float4)(gradX, gradY, gradZ, 0.f));
+
+	return N;
+	*/
+}
+
 static float3	sphere_normal(global t_sphere *obj, float3 pos)
 {
 	return (normalize(pos - obj->origin));
@@ -89,6 +121,8 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
             return (mobius_normal(&obj->prim.mobius, hit_pos));
         case cube:
             return (cube_normal(&obj->prim.cube, hit_pos, m));
+        case julia:
+            return (julia_normal((float4)(hit_pos, 1.f)).xyz);
 		default:
 			break;
 	}

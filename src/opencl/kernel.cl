@@ -2,6 +2,7 @@
 
 #include "include/kernel.h"
 #include "src/opencl/utils.cl"
+#include "src/opencl/julia.cl"
 #include "src/opencl/intersect.cl"
 #include "src/opencl/surface.cl"
 
@@ -15,6 +16,7 @@ static float3 radiance(global t_object* objs,
 	global t_object* obj;   // intersected object
 	float t;		    // distance to hit
 	float m;		    // half tangent ?
+	float total_dist = 0;   // total distance
 	float3 accum_col = {0, 0, 0};  // accumulated color
 	float3 accum_ref = {1, 1, 1};  // accumulated reflectance
 	t_surface surf;	 // surface propertiess
@@ -29,10 +31,11 @@ static float3 radiance(global t_object* objs,
 		if (!obj || t >= MAXFLOAT || t < EPSILON)
 			break;
 
+		total_dist += t;
         surf = get_surface_properties(obj, r, t, m, textures, sizes, seeds);
         if (surf.material == emission)
 			surf.emission = surf.ref;
-        accum_col += accum_ref * surf.emission;
+        accum_col += (accum_ref * surf.emission) / cbrt(cbrt(total_dist));
 
         if (++depth > 5)
         {

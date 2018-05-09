@@ -227,10 +227,10 @@ static int	fourth_degree_equation(float4 *t, float4 a)
 	im_re2 = e.im2 * e.im2 + e.real2 * e.real2;
 	komp = e.im1 * e.im2 - e.real1 * e.real2;
 	res = e.q2 * 0.125f * komp / im_re1 / im_re2;
-	(*t)[0] = e.real1 + e.real2 + res - a[0] * 0.25f;
-	(*t)[1] = -e.real1 - e.real2 + res - a[0] * 0.25f;
-	(*t)[2] = -e.real1 + e.real2 - res - a[0] * 0.25f;
-	(*t)[3] = e.real1 - e.real2 - res - a[0] * 0.25f;
+	t->s0 = e.real1 + e.real2 + res - a[0] * 0.25f;
+	t->s1 = -e.real1 - e.real2 + res - a[0] * 0.25f;
+	t->s2 = -e.real1 + e.real2 - res - a[0] * 0.25f;
+	t->s3 = e.real1 - e.real2 - res - a[0] * 0.25f;
 	if (!e.flag && e.l[0] >= 0.0f && e.l[1] >= 0.0f)
 		return (4);
 	else if (!e.flag)
@@ -649,6 +649,9 @@ static void intersect(global t_object* obj,
 			break;
 		case parabaloid:
 			dist = parabaloid_intersect(&obj->prim.parabaloid, ray,  &tmp_m);
+			break;
+		case julia:
+			dist = IntersectJulia(ray);
 			break;
 		default:
 			break;

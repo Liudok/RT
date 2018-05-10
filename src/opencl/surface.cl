@@ -49,16 +49,14 @@ static float3	triangle_normal(global t_triangle *obj)
 		cross(obj->vertex1 - obj->vertex0, obj->vertex2 - obj->vertex1)));
 }
 
-static float3	mobius_normal(global t_mobius *obj, float3 pos)
+static float3	mobius_normal(float3 p)
 {
-    float x = pos.x;
-    float y = pos.y;
-    float z = pos.z;
-    float R = obj->radius;
-    float3 ret =  {2 * x * y - 2 * R * z - 4 * x * z,
-		-R * R + x * x + 3 * y * y - 4 * y * z + z * z,
-		-2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z};
-    return (normalize(ret));
+	float3 ret;
+
+	ret.x = 2.0 * p.x * p.y - 2.0 * p.z - 4.0 * p.x * p.z;
+	ret.y = -1 + p.x * p.x + 3.0 * p.y * p.y - 4.0 * p.y * p.z + p.z * p.z;
+	ret.z = -2.0 * p.x - 2.0 * p.x * p.x - 2.0 * p.y * p.y + 2.0 * p.y * p.z;
+	return (normalize(ret));
 }
 
 static float3	cube_normal(global t_cube *obj, float3 pos, float m)
@@ -86,7 +84,7 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 		case triangle:
 			return (triangle_normal(&obj->prim.triangle));
         case mobius:
-            return (mobius_normal(&obj->prim.mobius, hit_pos));
+            return (mobius_normal(hit_pos));
         case cube:
             return (cube_normal(&obj->prim.cube, hit_pos, m));
 		default:

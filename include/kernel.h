@@ -185,22 +185,6 @@ typedef struct	s_camera
 
 # ifdef KERNEL_ONLY
 
-typedef struct			s_hit
-{
-	float3				pos;
-	float3				normal;
-	float 				m;
-	float3				old_dir;
-	float3				mask;
-	float3				color;
-	float3				color_accum;
-	unsigned long		samples;
-	constant t_object	*object;
-	uint				seeds[2];
-	unsigned char		iterations;
-	t_material			material;
-}						t_hit;
-
 typedef struct			s_surface
 {
 	global t_object		*obj;
@@ -214,6 +198,7 @@ typedef struct			s_surface
 	float3				ref;
 	float2				uv;
 	float 				m;
+	float 				ior;
 }						t_surface;
 
 typedef struct			s_ray

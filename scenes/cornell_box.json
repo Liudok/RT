@@ -31,13 +31,13 @@
 		},
 		{
 			"type": "plane",
-			"material": "diffuse",
+			"material": "emission",
 			"roughness": 0,
 			"ior": 1,
-			"color": [0.75, 0.75, 0.75],
+			"color": [1, 1, 1],
 			"origin": [0, 10, 0],
 			"normal": [0, -1, 0],
-			"texture": [0, 0, 0, 0]
+			"texture": [9, 0, 0, 0]
 		},
 		{
 			"type": "plane",
@@ -55,7 +55,7 @@
 			"roughness": 0,
 			"ior": 1,
 			"color": [0, 0, 0],
-			"origin": [0, 0, -10],
+			"origin": [0, 0, -6],
 			"normal": [0, 0, 1],
 			"texture": [0, 0, 0, 0]
 		},
@@ -73,21 +73,10 @@
 			"type": "sphere",
 			"material": "glass",
 			"roughness": 0,
-			"ior": 1,
+			"ior": 1.5,
 			"color": [1, 1, 1],
 			"origin": [5, -6, 42],
 			"radius": 4.0,
-			"texture": [0, 0, 0, 0]
-		},
-		{
-			"type": "disk",
-			"material": "emission",
-			"roughness": 0,
-			"ior": 1,
-			"color": [1, 1, 1],
-			"origin": [0, 10, 40],
-			"normal": [0, -1, 0],
-			"radius2": 40,
 			"texture": [0, 0, 0, 0]
 		}
 	],

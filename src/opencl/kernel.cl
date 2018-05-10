@@ -56,7 +56,7 @@ static float3 radiance(global t_object* objs,
 		if (depth > 5000)
 			break;
     }
-    return clamp(max(accum_col, accum_ref * ambient), 0.f, 1.f);
+    return max(accum_col, accum_ref * ambient);
 }
 
 static t_ray initRay(const int2 coords, const uchar2 sub, const t_camera cam, uint* seeds) {
@@ -111,7 +111,7 @@ void path_tracing(
 	ray = initRay(coords, (uint2)(sx, sy), camera, seeds);
 	rad = radiance(objs, objnum, ray, seeds, textures, sizes, camera.ambient);
 	*/
-    add_sample(colors, rad, currentSample, i);
+    add_sample(colors, clamp(rad, 0, 1.0f), currentSample, i);
 
 	input_seeds[i * 2] = seeds[0];
 	input_seeds[i * 2 + 1] = seeds[1];

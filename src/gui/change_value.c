@@ -88,6 +88,28 @@ void		change_origin_and_normal(t_rt* rt, int i, int btn, const char *val)
 	}
 }
 
+void		change_triangle_and_cone(t_rt* rt, int i, int btn, const char *val)
+{
+    if (rt->scene.objs[i].type == triangle)
+    {
+        rt->scene.objs[i].prim.triangle.vertex2.s0 = (btn == 26) ?
+            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.triangle.vertex2.s0;
+        rt->scene.objs[i].prim.triangle.vertex2.s1 = (btn == 27) ?
+            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.triangle.vertex2.s1;
+        rt->scene.objs[i].prim.triangle.vertex2.s2 = (btn == 28) ?
+            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.triangle.vertex2.s2;
+    }
+    else if (rt->scene.objs[i].type == cone)
+    {
+        rt->scene.objs[i].prim.cone.half_tangent = (btn == 26) ?
+            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cone.half_tangent;
+        rt->scene.objs[i].prim.cone.m1 = (btn == 27) ?
+            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cone.m1;
+        rt->scene.objs[i].prim.cone.m2 = (btn == 28) ?
+            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cone.m2;
+    }
+}
+
 void		change_value(t_rt* rt, int i, int btn)
 {
 	const char *val;
@@ -97,19 +119,8 @@ void		change_value(t_rt* rt, int i, int btn)
 	{
 		change_appearance(rt, i, btn, val);
 		change_origin_and_normal(rt, i, btn, val);
-
-		if (rt->scene.objs[i].type == triangle)
-		{
-			rt->scene.objs[i].prim.triangle.vertex2.s0 = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.triangle.vertex2.s0;
-			rt->scene.objs[i].prim.triangle.vertex2.s1 = (btn == 27) ? (cl_float)atof(val) : rt->scene.objs[i].prim.triangle.vertex2.s1;
-			rt->scene.objs[i].prim.triangle.vertex2.s2 = (btn == 28) ? (cl_float)atof(val) : rt->scene.objs[i].prim.triangle.vertex2.s2;
-		}
-		else if (rt->scene.objs[i].type == cone)
-		{
-			rt->scene.objs[i].prim.cone.half_tangent = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.half_tangent;
-			rt->scene.objs[i].prim.cone.m1 = (btn == 27) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.m1;
-			rt->scene.objs[i].prim.cone.m2 = (btn == 28) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cone.m2;
-		}
+		if (rt->scene.objs[i].type == triangle || rt->scene.objs[i].type == cone)
+            change_triangle_and_cone(rt, i, btn, val);
 		else if (rt->scene.objs[i].type == cylinder || rt->scene.objs[i].type == torus)
 		{
 			rt->scene.objs[i].prim.cylinder.radius = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cylinder.radius;

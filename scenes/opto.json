@@ -1,0 +1,65 @@
+{
+	"objects": [
+		{
+			"type": "cylinder",
+			"material": "glass",
+			"roughness": 0,
+			"ior": 1,
+			"color": [1, 1, 1],
+			"origin": [0, 0, 40],
+			"normal": [1, 0, 0],
+			"radius": 2,
+			"height": 10,
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "disk",
+			"material": "glass",
+			"roughness": 0,
+			"ior": 1,
+			"color": [1, 1, 1],
+			"origin": [0, 0, 40],
+			"normal": [-1, 0, 0],
+			"radius2": 4,
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "disk",
+			"material": "diffuse",
+			"roughness": 0,
+			"ior": 1,
+			"color": [1, 1, 1],
+			"origin": [35, 0, 40],
+			"normal": [-1, 0, 0],
+			"radius2": 60,
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "disk",
+			"material": "glass",
+			"roughness": 0,
+			"ior": 1,
+			"color": [1, 1, 1],
+			"origin": [10, 0, 40],
+			"normal": [1, 0, 0],
+			"radius2": 4,
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "disk",
+			"material": "emission",
+			"roughness": 0,
+			"ior": 1,
+			"color": [1, 1, 1],
+			"origin": [-14.4, 0, 40],
+			"normal": [1, 0, 0],
+			"radius2": 10,
+			"texture": [0, 0, 0, 0]
+		}
+	],
+	"camera": [{
+		"origin": [0, 4, -5],
+		"dir": [0, -0.08, 1],
+		"ambient": [0, 0, 0]
+	}]
+}

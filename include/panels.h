@@ -27,6 +27,8 @@
 # include "rt.h"
 
 # define BUTTON_SIZE 15
+# define MAXF 2000000
+# define MINF -2000000
 # define SHAPE_SIZE 500
 # define PROPERTIES 22
 
@@ -54,5 +56,7 @@ void				apply_after_effect(t_rt *rt, int i);
 void				apply_after_effect2(t_rt *rt, int i);
 void 				clean_scene(t_rt *rt);
 int 				this_figure_small_props(t_obj_type type);
+cl_float		    my_atof(const char *val, float min, float max);
+cl_uchar			my_uchar(const char *val, float min, float max);
 
 #endif

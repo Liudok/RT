@@ -27,6 +27,8 @@
 # include "rt.h"
 
 # define BUTTON_SIZE 15
+# define MAXF 2000000
+# define MINF -2000000
 # define SHAPE_SIZE 500
 # define PROPERTIES 22
 

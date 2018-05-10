@@ -55,13 +55,3 @@ void				init_camera(t_rt *pt, float3 origin)
 	cam->cx = (float3){{cam->canvas.x * .5135f / (float)cam->canvas.y, 0, 0}};
 	cam->cy = vmul(normalize(cross(cam->cx, cam->dir)), .5135f);
 }
-
-void 				print_cam(t_camera *o)
-{
-	printf("\n~~~~~~~~~~~~~~ CAMERA ~~~~~~~~~~~~~~\n");
-	printf("origin : { %f %f %f }\n", o->origin.s0, o->origin.s1, o->origin.s2);
-	printf("dir : { %f %f %f }\n", o->dir.s0, o->dir.s1, o->dir.s2);
-	printf("cx : { %f %f %f }\n", o->cx.s0, o->cx.s1, o->cx.s2);
-	printf("cy : { %f %f %f }\n", o->cy.s0, o->cy.s1, o->cy.s2);
-	printf("canvas : { %i %i }\n", o->canvas.s0, o->canvas.s1);
-}

@@ -105,7 +105,7 @@ void				init_default_scene(t_rt *rt)
 	struct stat		k;
 	char			*file_str;
 	uint			size;
-
+	
 	rt->scene.file = "scenes/parabaloid.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 	{

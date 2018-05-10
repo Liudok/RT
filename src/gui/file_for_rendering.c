@@ -1,13 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_for_rendering.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/10 17:18:02 by skamoza           #+#    #+#             */
+/*   Updated: 2018/05/10 17:41:14 by skamoza          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../include/parser.h"
 #include <sys/stat.h>
 
-void 			delete_old_scene(t_rt *rt)
-{
-	free(rt->scene.objs);
-}
-
-static char		*read_file(const char *filename, int size)
+static char			*read_file(const char *filename, int size)
 {
 	int			fd;
 	char		*file_content;
@@ -29,69 +35,76 @@ static char		*read_file(const char *filename, int size)
 	return (file_content);
 }
 
+static void			recreate_scene(t_rt *rt, struct stat *k)
+{
+	t_scene			tmp_scene;
+	char			*file_str;
+
+	tmp_scene = rt->scene;
+	file_str = read_file(rt->scene.file, k->st_size);
+	start_parsing(file_str, &tmp_scene, k->st_size);
+	if (g_error_flag)
+		ft_putendl_fd("Not valid map.", 2);
+	else
+	{
+		free(rt->scene.objs);
+		rt->scene = tmp_scene;
+		init_camera(rt, tmp_scene.camera.base_origin);
+		reinit_opencl(rt);
+	}
+}
+
 void				file_choosing(t_rt *rt)
 {
-	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
+	char const		*l_filter_patterns[2] = { "*.json", "*.rt" };
 	struct stat		k;
-	char			*file_str;
-	t_scene			tmp_scene;
 
-	rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
+	rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file",
+			"", 2, l_filter_patterns, NULL, 0);
 	if (rt->scene.file)
 	{
-		if (ft_strcmp(".json", (rt->scene.file + ft_strlen(rt->scene.file) - 5)))
+		if (ft_strstr(".json", rt->scene.file))
 		{
 			ft_putendl("Wrong file format. Please choose file *.json");
-			choosing_dialog(rt);//GOODBYE CHANGE
+			choosing_dialog(rt);
 		}
 		if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 			ft_error("File not found.");
 		else
-		{
-			tmp_scene = rt->scene;
-			file_str = read_file(rt->scene.file, k.st_size);
-			start_parsing(file_str, &tmp_scene, k.st_size);
-			if (g_error_flag)
-				ft_putendl_fd("Not valid map.", 2);
-			else
-			{
-				delete_old_scene(rt);
-				rt->scene = tmp_scene;
-				init_camera(rt, tmp_scene.camera.base_origin);
-				reinit_opencl(rt);
-			}
-		}
+			recreate_scene(rt, &k);
 	}
 }
 
-void choosing_dialog(t_rt *rt)
+void				choosing_dialog(t_rt *rt)
 {
 	struct stat		k;
-	char const		*lFilterPatterns[2] = { "*.json", "*.rt" };
-	rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
+	const char		*l_filter_patterns[2] = {"*.json", "*.rt"};
 
+	rt->scene.file = (char *)tinyfd_openFileDialog(
+			"Please choose .json file", "", 2, l_filter_patterns, NULL, 0);
 	if (rt->scene.file)
 	{
-		while (ft_strcmp(".json", (rt->scene.file + ft_strlen(rt->scene.file) - 5)))
+		while (ft_strstr(".json", rt->scene.file))
 		{
 			ft_putendl("Wrong file format. Please choose file *.json");
-			rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json file", "", 2, lFilterPatterns, NULL, 0);
+			rt->scene.file = (char *)tinyfd_openFileDialog("Please choose .json"
+					" file", "", 2, l_filter_patterns, NULL, 0);
 			if (rt->scene.file == NULL)
-				break;
+				break ;
 		}
-		if (rt->scene.file == NULL || (stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
+		if (rt->scene.file == NULL ||
+				(stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 			ft_error("File not found.");
 	}
 	else
 		ft_error("Good bye");
 }
 
-void	init_default_scene(t_rt *rt)
+void				init_default_scene(t_rt *rt)
 {
 	struct stat		k;
 	char			*file_str;
-	uint 			size;
-
+	uint			size;
 
 	rt->scene.file = "scenes/default.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))

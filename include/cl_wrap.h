@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:34:10 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/03 16:58:29 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/10 19:01:59 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct			s_kernel
 	cl_kernel			kernel;
 	cl_uint				args;
 }						t_kernel;
+
+void					check_error(cl_int status);
 
 /*
 ** Funcion to initialize the struct, getting the platform, devices,

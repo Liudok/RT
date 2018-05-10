@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/07 16:37:32 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/10 15:52:49 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_rt t_rt;
 # include "kernel.h"
 # include <stdio.h>
 # include <errno.h>
+# include <time.h>
 
 # define XSTR(s) STR(s)
 # define STR(s) #s

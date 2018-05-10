@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 11:20:17 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/08 11:20:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/10 16:04:57 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,5 @@ void		apply_after_effect2(t_rt *rt, int i)
 		rt->buttons[19].pressed = 0;
 	}
 	clSetKernelArg(rt->effect_kernel.kernel, 2,
-				   sizeof(cl_uchar), &rt->effect_type);
+			sizeof(cl_uchar), &rt->effect_type);
 }

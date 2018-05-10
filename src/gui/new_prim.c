@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 13:04:46 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/03 13:04:50 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/10 17:17:52 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,25 @@ t_primitive			new_plane(float3 origin, float3 normal)
 	return (prim);
 }
 
-t_primitive			new_cylinder(float3 origin, float3 normal, float radius, float height)
+t_primitive			new_cylinder(float3 origin, float3 n, float r, float h)
 {
 	t_primitive		prim;
 
 	prim.cylinder.origin = origin;
-	prim.cylinder.normal = normal;
-	prim.cylinder.radius = radius;
-	prim.cylinder.height = height;
+	prim.cylinder.normal = n;
+	prim.cylinder.radius = r;
+	prim.cylinder.height = h;
 	prim.cylinder.r2 = prim.cylinder.radius * prim.cylinder.radius;
 	return (prim);
 }
 
-t_primitive			new_cone(float3 origin, float3 normal, float m1, float m2)
+t_primitive			new_cone(float3 origin, float3 n, float m1, float m2)
 {
 	t_primitive		prim;
 
 	prim.cone.origin = origin;
 	prim.cone.origin.x = prim.cone.origin.x * (-1);
-	prim.cone.normal = normal;
+	prim.cone.normal = n;
 	prim.cone.m1 = m1;
 	prim.cone.m2 = m2;
 	prim.cone.half_tangent = 0.5;

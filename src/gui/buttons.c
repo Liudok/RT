@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 11:15:29 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/08 11:15:31 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/10 16:23:32 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,29 @@ void		create_buttons(t_rt *s)
 
 void		create_subbuttons(t_rt *s)
 {
-	int		i;
-	int		k;
+	int		i[2];
 
-	i = 4;
-	k = 0;
-	while (i < BUTTONS_AMOUNT)
+	i[0] = 4;
+	i[1] = 0;
+	while (i[0] < BUTTONS_AMOUNT)
 	{
-		if (i < 8)
-			s->buttons[i].rect = make_rect((10 + k * 20),
-											50, BUTTON_SIZE, BUTTON_SIZE);
-		else if (i < 12)
-			s->buttons[i].rect = make_rect((10 + k * 20),
-											80, BUTTON_SIZE, BUTTON_SIZE);
-		else if (i < 16)
-			s->buttons[i].rect = make_rect((10 + k * 20),
-											120, BUTTON_SIZE, BUTTON_SIZE);
-		else if (i < 20)
-			s->buttons[i].rect = make_rect((106 + (k % 4) * 20),
-											10, BUTTON_SIZE, BUTTON_SIZE);
-		else if (i < 21)
-			s->buttons[i].rect = make_rect(188, 10, BUTTON_SIZE, BUTTON_SIZE);
-		i++;
-		k++;
-		if (i >= 8 && k == 4)
-			k = 0;
+		if (i[0] < 8)
+			s->buttons[i[0]].rect = make_rect((10 + i[1] * 20),
+					50, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i[0] < 12)
+			s->buttons[i[0]].rect = make_rect((10 + i[1] * 20),
+					80, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i[0] < 16)
+			s->buttons[i[0]].rect = make_rect((10 + i[1] * 20),
+					120, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i[0] < 20)
+			s->buttons[i[0]].rect = make_rect((106 + (i[1] % 4) * 20),
+					10, BUTTON_SIZE, BUTTON_SIZE);
+		else if (i[0] < 21)
+			s->buttons[*i].rect = make_rect(188, 10, BUTTON_SIZE, BUTTON_SIZE);
+		i[0]++;
+		i[1]++;
+		if (i[0] >= 8 && i[1] == 4)
+			i[1] = 0;
 	}
 }

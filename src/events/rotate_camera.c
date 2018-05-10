@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:16:09 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 19:16:11 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/05/10 16:02:08 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	rotate_camera(t_rt *rt)
 {
 	t_camera	*c;
-	float3 		matrix[3];
+	float3		matrix[3];
 
 	c = &rt->scene.camera;
 	init_camera(rt, c->origin);

@@ -6,7 +6,7 @@
 /*   By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/19 19:03:35 by ftymchyn          #+#    #+#             */
-/*   Updated: 2018/04/19 19:03:37 by ftymchyn         ###   ########.fr       */
+/*   Updated: 2018/05/10 17:41:53 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	create_rotation_matrix(t_rt *rt, float3 *m)
 {
-	float3	tmp[3];
+	float3		tmp[3];
 	int			i;
 	double		x;
 	double		y;

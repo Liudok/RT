@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 12:14:39 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/10 15:52:48 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ int			main(void)
 {
 	t_rt	rt;
 
+	srand(time(0));
 	rt.sdl.win_w = WINDOW_WIDTH;
 	rt.sdl.win_h = WINDOW_HEIGHT;
 	rt.scene.file = NULL;
-	if (BUTTONS_AMOUNT > 255)
-		ft_error("Incorrect BUTTONS_AMOUNT");
 	if (!sdl_init_everything(&rt))
 		ft_error("Failed SDL initialization");
 	init_default_scene(&rt);
@@ -36,10 +35,11 @@ void		rt_check_error(int flag, char *err1, char *err2)
 {
 	if (flag)
 	{
-		if (err2 != NULL)
-			fprintf(stderr, "%s %s\n", err1, err2);
-		else
-			fprintf(stderr, "%s\n", err1);
+		ft_putstr_fd(err1, 2);
+		ft_putstr_fd(" ", 2);
+		if (err2)
+			ft_putstr_fd(err2, 2);
+		ft_putendl_fd("", 2);
 		exit(0);
 	}
 }
@@ -47,10 +47,10 @@ void		rt_check_error(int flag, char *err1, char *err2)
 void		ft_error(char *s)
 {
 	ft_putendl_fd(s, 2);
-	exit(1);
+	exit(0);
 }
 
-void	destroy(t_rt *pt)
+void		destroy(t_rt *pt)
 {
 	free(pt->icon);
 	SDL_DestroyTexture(pt->sdl.canvas);

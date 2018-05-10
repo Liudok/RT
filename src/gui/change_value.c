@@ -114,7 +114,7 @@ void		change_value(t_rt* rt, int i, int btn)
 {
 	const char *val;
 
-	val = tinyfd_inputBox("", "put value", "0");
+	val = tinyfd_inputBox("", "Put value:", "0");
 	if (val != NULL)
 	{
 		change_appearance(rt, i, btn, val);
@@ -123,13 +123,17 @@ void		change_value(t_rt* rt, int i, int btn)
             change_triangle_and_cone(rt, i, btn, val);
 		else if (rt->scene.objs[i].type == cylinder || rt->scene.objs[i].type == torus)
 		{
-			rt->scene.objs[i].prim.cylinder.radius = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cylinder.radius;
-			rt->scene.objs[i].prim.cylinder.r2 = rt->scene.objs[i].prim.cylinder.radius * rt->scene.objs[i].prim.cylinder.radius;
-			rt->scene.objs[i].prim.cylinder.height = (btn == 27) ? (cl_float)atof(val) : rt->scene.objs[i].prim.cylinder.height;
+			rt->scene.objs[i].prim.cylinder.radius = (btn == 26) ?
+				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cylinder.radius;
+			rt->scene.objs[i].prim.cylinder.r2 =
+				rt->scene.objs[i].prim.cylinder.radius * rt->scene.objs[i].prim.cylinder.radius;
+			rt->scene.objs[i].prim.cylinder.height = (btn == 27) ?
+				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cylinder.height;
 		}
 		else if (rt->scene.objs[i].type == disk)
 		{
-			rt->scene.objs[i].prim.disk.radius2 = (btn == 26) ? (cl_float)atof(val) : rt->scene.objs[i].prim.disk.radius2;
+			rt->scene.objs[i].prim.disk.radius2 = (btn == 26) ?
+				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.disk.radius2;
 		}
 	}
 }

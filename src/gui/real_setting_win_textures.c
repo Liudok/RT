@@ -173,7 +173,7 @@ void		real_create_color_texture(t_rt *rt, t_sdl *sdl, t_rec *recs, int i)
 	texture_from_text(text, sdl, &recs[13]);
 	sprintf(text, "%.0f       ", rt->scene.objs[i].roughness);
 	texture_from_text(text, sdl, &recs[14]);
-	sprintf(text, "%.0f       ", rt->scene.objs[i].ior);
+	sprintf(text, "%.1f       ", rt->scene.objs[i].ior);
 	texture_from_text(text, sdl, &recs[15]);
 
 	sprintf(text, "%.0f       ", (double)rt->scene.objs[i].texture.s0);

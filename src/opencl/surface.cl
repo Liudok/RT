@@ -126,9 +126,11 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 	return ((float3)(0,0,0));
 }
 
-static t_material  get_material(global t_object *obj)
+static t_material  get_material(global t_object *obj, uint *seeds)
 {
-	return (obj->material);
+	return (get_random(&seeds[0], &seeds[1]) < obj->roughness ?
+			diffuse :
+			obj->material);
 }
 
 static void map_normal(read_only image2d_array_t textures,
@@ -200,10 +202,11 @@ static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t
     s.m = m;
     s.n = find_normal(obj, s.pos, s.m);
     s.nl = (dot(s.n, r.d) < 0) ? s.n : -s.n;
-    s.material = get_material(obj);
+    s.material = get_material(obj, seeds);
 	s.ref = apply_textures(&s, textures, sizes, seeds);
     s.maxref = fmax(fmax(s.ref.x, s.ref.y), s.ref.z);
     s.maxref -= (s.maxref > 0.75f) ? (s.maxref - 0.75f) * 0.1f : 0;
+    s.ior = obj->ior;
     return (s);
 }
 
@@ -250,10 +253,9 @@ static t_ray   glass_refraction(t_surface surf, t_ray r, uint *seeds,  float3 *a
 {
 	t_ray   refracted_ray;
     t_ray	reflected_ray = specular_reflection(surf, r);
-    uchar	into = dot(surf.n, surf.nl) < 0;
+    uchar	into = dot(surf.n, surf.nl) > 0;
     float	nc = 1;
-    float	ior = 1.5;
-    float	nnt = into ? ior / nc : nc / ior;
+    float	nnt = into ? nc / surf.ior : surf.ior / nc;
     float	ddn = dot(r.d, surf.nl);
     float 	cos2t = 1 - nnt * nnt * (1 - ddn * ddn);
 
@@ -262,13 +264,13 @@ static t_ray   glass_refraction(t_surface surf, t_ray r, uint *seeds,  float3 *a
 
     refracted_ray.o = surf.pos;
     refracted_ray.d = 
-    	normalize((r.d * nnt - surf.n * ((into ? -1 : 1) * (ddn * nnt + sqrt(cos2t)))));
+    	normalize((r.d * nnt - surf.n * ((into ? 1 : -1) * (ddn * nnt + sqrt(cos2t)))));
 
-    float 	a = ior - nc;
-    float 	b = ior + nc;
-    float 	c = 1 - (into ? dot(refracted_ray.d, surf.n) : -ddn);
+    float 	a = surf.ior - nc;
+    float 	b = surf.ior + nc;
+    float 	c = 1 - (into ? -ddn : dot(refracted_ray.d, surf.n));
     float 	R0 = a * a / (b * b);
-    float 	Rfres = R0 + (1 - R0) * pow(c, 5);
+    float 	Rfres = R0 + (1 - R0) * c * c * c * c * c;
     float 	P = 0.25 + 0.5 * Rfres;
     float 	RP = Rfres / P;
     float 	TP = (1 - Rfres) / (1 - P);

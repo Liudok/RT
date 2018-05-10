@@ -112,7 +112,7 @@ static int to_int(float3 v)
 		uint value;
 	} color;
 
-	v = native_powr(min(v, 1.0f), native_recip(2.2f));
+	v = native_powr(v, native_recip(2.2f));
 	color.byte[0] = (int)(v.z * 255.0f + .5f);
 	color.byte[1] = (int)(v.y * 255.0f + .5f);
 	color.byte[2] = (int)(v.x * 255.0f + .5f);

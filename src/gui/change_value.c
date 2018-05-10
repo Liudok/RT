@@ -11,7 +11,21 @@
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
-//void		change_origin_
+
+void		change_appearance(t_rt* rt, int i, int btn, const char *val)
+{
+	rt->scene.objs[i].color.s0 = (btn == 10) ? (cl_float)atof(val) : rt->scene.objs[i].color.s0;
+	rt->scene.objs[i].color.s1 = (btn == 11) ? (cl_float)atof(val) : rt->scene.objs[i].color.s1;
+	rt->scene.objs[i].color.s2 = (btn == 12) ? (cl_float)atof(val) : rt->scene.objs[i].color.s2;
+	rt->scene.objs[i].material = (btn == 13) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].material;
+	rt->scene.objs[i].roughness = (btn == 14) ? (cl_float)atof(val) : rt->scene.objs[i].roughness;
+	rt->scene.objs[i].ior = (btn == 15) ? (cl_float)atof(val) : rt->scene.objs[i].ior;
+	rt->scene.objs[i].texture.s0 = (btn == 16) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s0;
+	rt->scene.objs[i].texture.s1 = (btn == 17) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s1;
+	rt->scene.objs[i].texture.s2 = (btn == 18) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s2;
+	rt->scene.objs[i].texture.s3 = (btn == 19) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s2;
+}
+
 void		change_value(t_rt* rt, int i, int btn)
 {
 	const char *val;
@@ -19,16 +33,7 @@ void		change_value(t_rt* rt, int i, int btn)
 	val = tinyfd_inputBox("", "put value", "0");
 	if (val != NULL)
 	{
-		rt->scene.objs[i].color.s0 = (btn == 10) ? (cl_float)atof(val) : rt->scene.objs[i].color.s0;
-		rt->scene.objs[i].color.s1 = (btn == 11) ? (cl_float)atof(val) : rt->scene.objs[i].color.s1;
-		rt->scene.objs[i].color.s2 = (btn == 12) ? (cl_float)atof(val) : rt->scene.objs[i].color.s2;
-		rt->scene.objs[i].material = (btn == 13) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].material;
-		rt->scene.objs[i].roughness = (btn == 14) ? (cl_float)atof(val) : rt->scene.objs[i].roughness;
-		rt->scene.objs[i].ior = (btn == 15) ? (cl_float)atof(val) : rt->scene.objs[i].ior;
-		rt->scene.objs[i].texture.s0 = (btn == 16) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s0;
-		rt->scene.objs[i].texture.s1 = (btn == 17) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s1;
-		rt->scene.objs[i].texture.s2 = (btn == 18) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s2;
-		rt->scene.objs[i].texture.s3 = (btn == 19) ? (cl_uchar)ft_atoi(val) : rt->scene.objs[i].texture.s2;
+		change_appearance(rt, i, btn, val);
 		rt->scene.objs[i].prim.plane.origin.s0 = (btn == 20) ? (cl_float)atof(val) : rt->scene.objs[i].prim.plane.origin.s0;
 		rt->scene.objs[i].prim.plane.origin.s1 = (btn == 21) ? (cl_float)atof(val) : rt->scene.objs[i].prim.plane.origin.s1;
 		rt->scene.objs[i].prim.plane.origin.s2 = (btn == 22) ? (cl_float)atof(val) : rt->scene.objs[i].prim.plane.origin.s2;

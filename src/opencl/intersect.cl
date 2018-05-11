@@ -319,90 +319,146 @@ static float  triangle_intersect(global t_triangle *obj, t_ray ray)
 	return (-1);
 }
 
-static float	third_degree_equation(float A, float B, float C, float D)
+static void		coeffs(float3 *coeff, float3 pos, float3 dir)
 {
-    float p = (3.0f * A * C - B * B) / 3.0f/ A / A;
-    float q = (2 * B * B * B - 9 * A * B * C + 27.0f * A * A * D) / 27.0f / A / A / A;
-    float d = pow(p / 3.0f, 3) + pow(q / 2.0f, 2);
-    if (d < 0.0f)
-        return (-1);
-    float a = cbrt(-q / 2.0f + sqrt(d));
-    float b = cbrt(-q / 2.0f - sqrt(d));
-    float y = a + b;
-    float x = y - B / 3.0f / A;
-    return (x);
+	float	d_x2;
+	float	d_y2;
+	float	d_z2;
+	float	d_y3;
+	int		legth;
+	float3	rx;
+	float	o_x2;
+	float	o_y2;
+	float	o_z2;
+
+	float	c3;
+	float 	kk;
+	float	k;
+	float	k1;
+	float	k2;
+	float	k3;
+	float	k4;
+	float	k5;
+
+	legth = 1;
+	rx = pos;
+	d_x2 = dir.x * dir.x;
+	d_y2 = dir.y * dir.y;
+	d_z2 = dir.z * dir.z;
+	d_y3 = dir.y * dir.y * dir.y;
+	c3 = d_x2 * dir.y + d_y3 - 2.0f * d_x2 * dir.z - 2.0f * d_y2 * dir.z + dir.y * d_z2;
+	o_x2 = rx.x * rx.x;
+	o_y2 = rx.y * rx.y;
+	o_z2 = rx.z * rx.z;
+	(*coeff)[2] = (o_x2 * rx.y + rx.y * rx.y * rx.y - 2.0f * o_x2 * rx.z - 2.0f * o_y2 * rx.z + rx.y * o_z2 - 2.0f * pos.x * pos.z - pos.y) / c3;
+
+	kk = 2.0f * dir.z * o_x2;
+	k = dir.y * o_x2 - kk;
+	kk = 3.0f * dir.y * o_y2;
+	k1 = 2.0f * dir.x * rx.x * rx.y + kk;
+	k2 = 2.0f * dir.z * o_y2;
+	kk = 4.0f * dir.y * rx.y * rx.z;
+	k3 = 4.0f * dir.x * rx.x * rx.z + kk;
+	kk = dir.y * o_z2;
+	k4 = 2.0f * dir.z * rx.y * rx.z + kk;
+	kk = 2.0f * dir.x * rx.z * legth;
+	k5 = 2.0f * dir.z * rx.x * legth + kk + dir.y * legth * legth;
+	(*coeff)[1] = (k + k1 - k2 - k3 + k4 - k5) / c3;
+
+	kk = 2.0f * dir.x * dir.y * rx.x;
+	k = kk - 4.0f * dir.x * dir.z * rx.x;
+	kk = d_x2 * rx.y + 3.0f * d_y2 * rx.y;
+	k1 = kk - 4.0f * dir.y * dir.z * rx.y;
+	kk = d_z2 * rx.y - 2.0f * d_x2 * rx.z;
+	k2 = kk - 2.0f * d_y2 * rx.z;
+	kk = 2.0f * dir.y * dir.z * rx.z;
+	k3 = kk - 2.0f * dir.x * dir.z * legth;
+	(*coeff)[0] = (k + k1 + k2 + k3) / c3;
+
 }
 
-static int dblsgn(float x)
+static int			calculation_coefficients(float3 qa, float3 *s, float q, float r)
 {
-    float epsilon = 1e-8;
-    return (x < -epsilon) ? (-1) : (x > epsilon);
-}
+	float	beta;
+	float	ba;
+	int		n;
 
-static bool inside(float3 pt, global t_mobius *obj)
-{
-float epsilon = 1e-8;
-	float x = pt.x;
-	float y = pt.y;
-	float z = pt.z;
-	float t = atan2(y, x);
-	float s;
-	if (dblsgn(sin(t / 2)) != 0)
+	q = (qa[0] * qa[0] - 3.0f * qa[1]) / 9.0f;
+	r = (2.0f * pow(qa[0], 3) - 9.0f * qa[0] * qa[1] + 27.0f * qa[2]) / 54.0f;
+	n = -1;
+	if (r >= 0.0f)
+		n = 1;
+	if (pow(r, 2) < pow(q, 3))
 	{
-		s = z / sin(t / 2);
+		beta = acos(n * sqrt(pow(r, 2) / pow(q, 3)));
+		(*s)[0] = -2.0f * sqrt(q) * cos(beta / 3.0f) - qa[0] / 3.0f;
+		(*s)[1] = -2.0f * sqrt(q) * cos((beta + 2.0 * M_PI) / 3.0f) - qa[0] / 3.0f;
+		(*s)[2] = -2.0f * sqrt(q) * cos((beta - 2.0 * M_PI) / 3.0f) - qa[0] / 3.0f;
+		return (3);
 	}
 	else
 	{
-		if (dblsgn(cos(t)) != 0)
-		{
-			s = (x / cos(t) - obj->radius) / cos(t / 2);
-		}
-		else
-		{
-			s = (y / sin(t) - obj->radius) / cos(t / 2);
-		}
+		ba = -n * cbrt(fabs(r) + sqrt(pow(r, 2) - pow(q, 3)));
+		(*s)[0] = ba + (q / ba) - qa[0] / 3.0f;
+		return (1);
 	}
-	x -= (obj->radius + s * cos(t / 2)) * cos(t);
-	y -= (obj->radius + s * cos(t / 2)) * sin(t);
-	z -= s * sin(t / 2);
-	if (dblsgn(x * x + y * y + z * z) != 0)
-	{
-		return false;
-	}
-	return (s >= -obj->half_width - epsilon  && s <= obj->half_width + epsilon);
+	return (0);
 }
 
-static float  mobius_intersect(global t_mobius *obj, t_ray ray)
+static float	ft_s(float t, float3 p0)
 {
-    float epsilon = 1e-8;
-    float ox = ray.o.x;
-    float oy = ray.o.y;
-    float oz = ray.o.z;
-    float dx = ray.d.x;
-    float dy = ray.d.y;
-    float dz = ray.d.z;
-    float R = obj->radius;
+	if (sin(t / 2.0f) > 0.0f)
+		return (p0.z / sin(t / 2.0f));
+	else
+	{
+		if (cos(t) > 0.001)
+			return ((p0.x / cos(t) - 1) / cos(t / 2));
+		else
+			return ((p0.y / sin(t) - 1) / cos(t / 2));
+	}
+}
+static int				check_point(float3 p0, float max)
+{
+	float t;
+	float s;
 
-    float coef_0 = 0;
-    float coef_1 = 0;
-    float coef_2 = 0;
-    float coef_3 = 0;
+	t = atan2(p0.y, p0.x);
+	s = ft_s(t, p0);
+	p0.x -= (1 + s * cos(t / 2)) * cos(t);
+	p0.y -= (1 + s * cos(t / 2)) * sin(t);
+	p0.z -= s * sin(t / 2);
+	t = dot(p0, p0);
+	if (t > 0.0000001)
+		return (0);
+	if (s >= -max && s <= max)
+		return (1);
+	else
+		return (0);
+}
 
-coef_3 = dx * dx * dy + dy * dy * dy - 2 * dx * dx * dz - 2 * dy * dy * dz + dy * dz * dz;
-coef_0 = (ox * ox * oy + oy * oy * oy - 2 * ox * ox * oz - 2 * oy * oy * oz + oy * oz * oz - 2 * ox * oz * R - oy * R * R) / coef_3;
-coef_1 = dy * ox * ox - 2 * dz * ox * ox + 2 * dx * ox * oy + 3 * dy * oy * oy - 2 * dz * oy * oy - 4 * dx * ox * oz - 4 * dy * oy * oz + 2 * dz * oy * oz + dy * oz * oz - 2 * dz * ox * R - 2 * dx * oz * R - dy * R * R;
-coef_2 = 2 * dx * dy * ox - 4 * dx * dz * ox + dx * dx * oy + 3 * dy * dy * oy - 4 * dy * dz * oy + dz * dz * oy - 2 * dx * dx * oz - 2 * dy * dy * oz + 2 * dy * dz * oz - 2 * dx * dz * R;
+static float  mobius_intersect(global t_mobius* obj, t_ray ray)
+{
+	float3		a;
+	float3		t;
+	float3		p0;
+	float3		u;
 
-
-//    coef_0 = ox * ox * oy + oy * oy * oy - 2 * ox * ox * oz - 2 * oy * oy * oz + oy * oz * oz - 2 * ox * oz * R - oy * R * R;
-//    coef_1 = dy * ox * ox - 2 * dz * ox * ox + 2 * dx * ox * oy + 3 * dy * oy * oy - 2 * dz * oy * oy - 4 * dx * ox * oz - 4 * dy * oy * oz + 2 * dz * oy * oz + dy * oz * oz - 2 * dz * ox * R - 2 * dx * oz * R - dy * R * R;
-//    coef_2 = 2 * dx * dy * ox - 4 * dx * dz * ox + dx * dx * oy + 3 * dy * dy * oy - 4 * dy * dz * oy + dz * dz * oy - 2 * dx * dx * oz - 2 * dy * dy * oz + 2 * dy * dz * oz - 2 * dx * dz * R;
-//    coef_3 = dx * dx * dy + dy * dy * dy - 2 * dx * dx * dz - 2 * dy * dy * dz + dy * dz * dz;
-    float t = third_degree_equation(coef_3, coef_2, coef_1, coef_0);
-    float3 pos = ray.o + t * ray.d;
-    if (t > epsilon && inside(pos, obj))
-        return (t);
-    return (-1);
+	ray.o = ray.o - obj->origin;
+	coeffs(&a, ray.o, ray.d);
+	a[1] = calculation_coefficients(a, &t, 0.0, 0.0);
+	a[0] = 0;
+	while (a[0] < a[1])
+	{
+		if (t[(int)a[0]] > 0.001f)
+		{
+			u = r.d * t[(int)a[0]];
+			p0 = u + r.o;
+			if (check_point(p0, obj->size))
+				return (t[(int)a[0]]);
+		}
+		a[0]++;
+	}
+	return (-1);
 }
 
 static void swap(float* a, float* b)

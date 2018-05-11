@@ -451,8 +451,8 @@ static float  mobius_intersect(global t_mobius* obj, t_ray ray)
 	{
 		if (t[(int)a[0]] > 0.001f)
 		{
-			u = r.d * t[(int)a[0]];
-			p0 = u + r.o;
+			u = ray.d * t[(int)a[0]];
+			p0 = u + ray.o;
 			if (check_point(p0, obj->size))
 				return (t[(int)a[0]]);
 		}

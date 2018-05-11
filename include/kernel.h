@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/09 17:19:56 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 12:36:26 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #  define M_PI 3.141595f
 # endif
 # ifndef KERNEL_ONLY
-#  define float cl_float
+#  include <OpenCL/cl.h>
 #  define float2 cl_float2
 #  define float3 cl_float3
 #  define float4 cl_float4
@@ -34,14 +34,8 @@
 typedef enum	e_obj_type
 {
 	sphere, plane, cylinder, cone, disk,
-	torus,
-	triangle,
-	mobius,
-	bool_substraction,
-	bool_intersection,
-	cube,
-	parabaloid,
-	julia,
+	torus, triangle, mobius, bool_substraction,
+	bool_intersection, cube, parabaloid, julia,
 	not_valid
 }				t_obj_type;
 
@@ -109,24 +103,17 @@ typedef struct	s_mobius
 	float 		half_width;
 }				t_mobius;
 
-typedef struct	s_bool_substraction
+typedef struct	s_bool
 {
 	struct s_object	*obj1;
 	struct s_object	*obj2;
-}				t_bool_substraction;
-
-typedef struct	s_bool_intersection
-{
-	struct s_object	*obj1;
-	struct s_object	*obj2;
-}				t_bool_intersection;
+}				t_bool;
 
 typedef struct	s_cube
 {
 	float3		min;
 	float3		max;
 	int 		pipes_number;
-	struct s_object	*objs;
 }				t_cube;
 
 typedef struct	s_parabaloid
@@ -139,7 +126,7 @@ typedef struct	s_parabaloid
 
 typedef struct	s_julia
 {
-	//kek
+	float4		c;
 }				t_julia;
 
 typedef	union	u_primitive
@@ -152,8 +139,7 @@ typedef	union	u_primitive
 	t_torus			torus;
 	t_triangle		triangle;
 	t_mobius		mobius;
-	t_bool_substraction bool_substraction;
-//	t_bool_intersection bool_intersection;
+	t_bool			bool_prim;
 	t_cube			cube;
 	t_parabaloid	parabaloid;
 	t_julia			julia;

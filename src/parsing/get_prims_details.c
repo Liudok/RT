@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/04 11:41:26 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/07 16:53:13 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 12:27:24 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void		get_primitives_details4(t_object *o, char *n, struct _json_value *val)
 		o->prim.cube.max = !ft_strncmp(n, "max", 3) ? get_float3(val) : o->prim.cube.max;
 		o->prim.cube.min = !ft_strncmp(n, "min", 3) ? get_float3(val) : o->prim.cube.min;
 		o->prim.cube.pipes_number = !ft_strncmp(n, "pipes_number", 12) ? get_number(val) : o->prim.cube.pipes_number;
-		o->prim.cube.objs = NULL;
 	}
 
 }

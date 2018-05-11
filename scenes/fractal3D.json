@@ -11,20 +11,11 @@
 		},
 		{
 			"type": "julia",
-			"material": "diffuse",
-			"roughness": 0,
-			"ior": 1,
+			"material": "julia",
+			"roughness": 0.1,
+			"ior": 1.1,
 			"color": [0.75, 0.75, 0.75],
 			"texture": [255, 0, 0, 0]
-		},
-		{
-			"type": "disk",
-			"material": "emission",
-			"color": [0.9, 0.9, 0.9],
-			"origin": [0, 5, -5],
-			"radius2": 60,
-			"normal": [0, 1, 1],
-			"texture": [0, 0.0, 0.0, 0.0]
 		},
 		{
 			"type": "sphere",

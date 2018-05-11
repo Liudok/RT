@@ -101,8 +101,15 @@ void path_tracing(
         {
             // Init ray dir on 'table tent' term
             ray = initRay(coords, (uchar2)(sx, sy), camera, seeds);
+#ifdef STEREO
+		ray.o += (sy ? camera.cx * 0.1f : 0);
+#endif
             // Compute sub-pixel radiance and save, divide by 4
-            rad += radiance(objs, objnum, ray, seeds, textures, sizes, camera.ambient) * 0.25f;
+            rad += radiance(objs, objnum, ray, seeds, textures, sizes, camera.ambient)
+#ifdef STEREO
+	*			(sy ? (float3)(1,0.5,0) : (float3)(0,0.5,1))
+#endif
+				* 0.25f;
         }
     }
 	/*

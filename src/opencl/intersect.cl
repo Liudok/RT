@@ -393,8 +393,8 @@ static int			calculation_coefficients(float3 qa, float3 *s, float q, float r)
 	{
 		beta = acos(n * sqrt(pow(r, 2) / pow(q, 3)));
 		(*s)[0] = -2.0f * sqrt(q) * cos(beta / 3.0f) - qa[0] / 3.0f;
-		(*s)[1] = -2.0f * sqrt(q) * cos((beta + 2.0 * M_PI) / 3.0f) - qa[0] / 3.0f;
-		(*s)[2] = -2.0f * sqrt(q) * cos((beta - 2.0 * M_PI) / 3.0f) - qa[0] / 3.0f;
+		(*s)[1] = -2.0f * sqrt(q) * cos((beta + 2.0f * M_PI) / 3.0f) - qa[0] / 3.0f;
+		(*s)[2] = -2.0f * sqrt(q) * cos((beta - 2.0f * M_PI) / 3.0f) - qa[0] / 3.0f;
 		return (3);
 	}
 	else
@@ -429,7 +429,7 @@ static int				check_point(float3 p0, float max)
 	p0.y -= (1 + s * cos(t / 2)) * sin(t);
 	p0.z -= s * sin(t / 2);
 	t = dot(p0, p0);
-	if (t > 0.0000001)
+	if (t > EPSILON)
 		return (0);
 	if (s >= -max && s <= max)
 		return (1);
@@ -446,11 +446,11 @@ static float  mobius_intersect(global t_mobius* obj, t_ray ray)
 
 	ray.o = ray.o - obj->origin;
 	coeffs(&a, ray.o, ray.d);
-	a[1] = calculation_coefficients(a, &t, 0.0, 0.0);
+	a[1] = calculation_coefficients(a, &t, 0.0f, 0.0f);
 	a[0] = 0;
 	while (a[0] < a[1])
 	{
-		if (t[(int)a[0]] > 0.001f)
+		if (t[(int)a[0]] > 0.1f)
 		{
 			u = ray.d * t[(int)a[0]];
 			p0 = u + ray.o;

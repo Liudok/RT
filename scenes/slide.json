@@ -3,9 +3,9 @@
 			"type": "sphere",
 			"material": "glass",
 			"roughness": 0,
-			"ior": 1,
+			"ior": 1.2,
 			"color": [1, 1, 1],
-			"origin": [0, 0, 40],
+			"origin": [5, 0, 40],
 			"radius": 4.0,
 			"texture": [0, 0, 0, 0]
 		},
@@ -26,9 +26,9 @@
 			"roughness": 0,
 			"ior": 1,
 			"color": [1, 1, 1],
-			"origin": [-4.2, 0, 40],
+			"origin": [9.5, 0, 40],
 			"normal": [1, 0, 0],
-			"radius2": 10,
+			"radius2": 16,
 			"texture": [1, 0, 0, 0]
 		},
 		{
@@ -37,9 +37,9 @@
 			"roughness": 0,
 			"ior": 1,
 			"color": [1, 1, 1],
-			"origin": [-4.4, 0, 40],
+			"origin": [0, 0, 40],
 			"normal": [1, 0, 0],
-			"radius2": 1,
+			"radius2": 6,
 			"texture": [0, 0, 0, 0]
 		}
 	],

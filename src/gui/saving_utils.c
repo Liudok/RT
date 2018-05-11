@@ -1,6 +1,24 @@
 
 #include "../../include/panels.h"
 
+void		print_prim_info3(int fd, t_object *o, int i)
+{
+	if (o[i].type == 10) {
+		dprintf(fd, "\t\t\t\"min\": [%f, %f, %f],\n", o[i].prim.cube.min.s0, o[i].prim.cube.min.s1,
+				o[i].prim.cube.min.s2);
+		dprintf(fd, "\t\t\t\"max\": [%f, %f, %f],\n", o[i].prim.cube.max.s0, o[i].prim.cube.max.s1,
+				o[i].prim.cube.max.s2);
+		dprintf(fd, "\t\t\t\"pipes_number\": %d,\n", o[i].prim.cube.pipes_number);
+	}
+	else if (o[i].type == 11)
+	{
+		dprintf(fd,"\t\t\t\"origin\": [%f, %f, %f],\n", o[i].prim.parabaloid.origin.s0, o[i].prim.parabaloid.origin.s1, o[i].prim.parabaloid.origin.s2);
+		dprintf(fd,"\t\t\t\"normal\": [%f, %f, %f],\n", o[i].prim.parabaloid.normal.s0, o[i].prim.parabaloid.normal.s1, o[i].prim.parabaloid.normal.s2);
+		dprintf(fd,"\t\t\t\"radius\": %f,\n", o[i].prim.parabaloid.radius);
+		dprintf(fd,"\t\t\t\"max\": %f,\n", o[i].prim.parabaloid.max);
+	}
+}
+
 void		print_prim_info2(int fd, t_object *o, int i)
 {
 	if (o[i].type == 3)
@@ -24,6 +42,8 @@ void		print_prim_info2(int fd, t_object *o, int i)
 		dprintf(fd,"\t\t\t\"big_radius2\": %f,\n", o[i].prim.torus.big_radius2);
 		dprintf(fd,"\t\t\t\"small_radius2\": %f,\n", o[i].prim.torus.small_radius2);
 	}
+	else
+		print_prim_info3(fd, o, i);
 }
 
 void		print_prim_info(int fd, t_object *o, int i)

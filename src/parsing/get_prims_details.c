@@ -72,4 +72,8 @@ void		get_primitives_details5(t_object *o, char *n, struct _json_value *val)
 		o->prim.parabaloid.max = !ft_strncmp(n, "max", 3) ? get_number(val) : o->prim.parabaloid.max;
 		o->prim.parabaloid.radius = !ft_strncmp(n, "radius", 6) ? get_number(val) : o->prim.parabaloid.radius;
 	}
+	else if (o->type == julia)
+	{
+		o->prim.julia.c = !ft_strcmp(n, "c") ? get_float4(val) : o->prim.julia.c;
+	}
 }

@@ -44,5 +44,9 @@ void 	validation_cone(t_cone *o);
 void 	validation_disk(t_disk *o);
 void 	validation_torus(t_torus *o);
 void 	validation_triangle(t_triangle *o);
+void 	validation_mobius(t_mobius *o);
+void 	validation_cube(t_cube *o);
+void 	validation_parabaloid(t_parabaloid *o);
+void 	validation_julia(t_julia *o);
 
 #endif

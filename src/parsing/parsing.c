@@ -130,14 +130,13 @@ static void			parse_value(json_value *value, t_scene *s)
 			(void (*)(void *))validation_disk,
 			(void (*)(void *))validation_torus,
 			(void (*)(void *))validation_triangle,
+			(void (*)(void *))validation_mobius,
 			(void (*)(void *))validation_sphere,
 			(void (*)(void *))validation_sphere,
-			(void (*)(void *))validation_sphere,
-			(void (*)(void *))validation_sphere,
-			(void (*)(void *))validation_sphere,
-			(void (*)(void *))validation_sphere,
-			(void (*)(void *))validation_sphere,
-			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_cube,
+			(void (*)(void *))validation_parabaloid,
+			(void (*)(void *))validation_julia,
+			(void (*)(void *))validation_sphere
 
 	};
 

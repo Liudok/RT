@@ -146,15 +146,6 @@ static float2 sphere_tex_coords(t_surface* surf)
 			0.5f - asinpi(surf->nl.y)));
 }
 
-static float2 cylinder_tex_coords(t_surface* surf)
-{
-	// ETO ZAGLUSHKA NEED HELP
-	float3 nl = fract(surf->pos - surf->obj->prim.cylinder.origin, (float3*)NULL);
-	return ((float2)(
-			native_divide(atan2pi(nl.z, nl.x), 2.f) + 0.5f,
-			0.5f - asinpi(nl.y)));
-}
-
 static float2 cone_tex_coords(t_surface* surf, float3 pos)
 {
 	global t_cone *cone = &surf->obj->prim.cone;
@@ -183,12 +174,14 @@ static float2 get_tex_coords(t_surface* surf)
 			return (sphere_tex_coords(surf));
 		case plane:
 			return (planar_tex_coords(surf, surf->obj->prim.plane.origin));
+		case cylinder:
+			return (cone_tex_coords(surf, surf->obj->prim.cylinder.origin));
 		case cone:
 			return (cone_tex_coords(surf, surf->obj->prim.cone.origin));
 		case disk:
 			return (planar_tex_coords(surf, surf->obj->prim.disk.origin));
-		case cylinder:
-			return (cylinder_tex_coords(surf));
+		case cube:
+			return (planar_tex_coords(surf, surf->obj->prim.cube.min));
 		default:
 			break;
 	}

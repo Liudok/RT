@@ -112,6 +112,6 @@ void 	validation_julia(t_julia *o)
 			o->c.s3 > 1 || o->c.s3 < -1)
 	{
 		ft_putendl_fd("C of fractal julia is invalid", 2);
-		o->c = (float4){{0, 0, 0, 0}};
+		o->c = (float4){{-0.450,-0.447,0.181,0.306}};
 	}
 }

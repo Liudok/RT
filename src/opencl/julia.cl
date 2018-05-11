@@ -21,11 +21,9 @@ static float4 QuatSqr(const float4 q) {
 }
 
 constant uint maxIterations = 10;
-
-constant float4 c = {0.285f, 0.485f, 0.f, 0.f};
 constant float epsilon = 0.003f * 0.75f;
 
-static void IterateIntersect(float4 *q, float4 *qp) {
+static void IterateIntersect(float4 *q, float4 *qp, const float4 c) {
 	float4 q0 = *q;
 	float4 qp0 = *qp;
 
@@ -66,7 +64,7 @@ static float IntersectBoundingSphere(const t_ray ray) {
 	}
 }
 
-static float IntersectJulia(const t_ray ray) {
+static float intersect_julia(const float4 c, const t_ray ray) {
 	float dist = IntersectBoundingSphere(ray);
 	if (dist < 0)
 		return (INFINITY);
@@ -76,7 +74,7 @@ static float IntersectJulia(const t_ray ray) {
 		float4 z = r;
 		float4 zp = { 1.f, 0.f, 0.f, 0.f };
 
-		IterateIntersect(&z, &zp);
+		IterateIntersect(&z, &zp, c);
 
 		const float normZP = length(zp);
 

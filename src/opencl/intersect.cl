@@ -770,7 +770,7 @@ static void intersect(global t_object* obj,
 			dist = parabaloid_intersect(&obj->prim.parabaloid, ray,  &tmp_m);
 			break;
 		case julia:
-			dist = IntersectJulia(ray);
+			dist = intersect_julia(obj->prim.julia.c, ray);
 			break;
 		default:
 			break;

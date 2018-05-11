@@ -6,7 +6,7 @@
 #    By: ftymchyn <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/03/19 12:28:37 by ftymchyn          #+#    #+#              #
-#    Updated: 2018/05/10 18:57:52 by skamoza          ###   ########.fr        #
+#    Updated: 2018/05/11 21:50:14 by skamoza          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ HEADERS     = rt.h panels.h tinyfiledialogs.h cl_wrap.h parser.h kernel.h
 HEADERS    := $(addprefix $(HEADERS_DIR)/, $(HEADERS))
 
 SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c validation.c \
-              new_scene.c parsing.c parser_utils.c create.c tinyfiledialogs.c \
+              new_scene.c parsing.c parser_utils.c tinyfiledialogs.c \
               primitive.c camera.c cross.c dot.c normalize.c vadd.c vlen.c \
               vrotate.c vsub.c create_rotation_matrix.c cl_wrapper.c cl_wrapper2.c cl_wrapper3.c \
               save_to_json.c saving_utils.c save_to_png.c sdl_utils.c get_prims_details.c \

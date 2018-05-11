@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 14:37:46 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/10 19:04:24 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 21:41:55 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ cl_int					rt_cl_compile(t_cl_info *info, char *path)
 				(const char**)&seeker, (const size_t*)&size, &status);
 		check_error(status);
 		status = clBuildProgram(info->program, 1, &info->device_id, "-I includ"
-		"es/ -I src/opencl/ -Werror -D NUM_TEX=" XSTR(NUM_TEX), NULL, NULL);
+		"es/ -I src/opencl/ -Werror -D STE"XSTR(REO)" -D NUM_TEX=" XSTR(NUM_TEX), NULL, NULL);
 		if (status)
 			rt_cl_print_debug(info);
 		close(fd);

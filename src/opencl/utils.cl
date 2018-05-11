@@ -141,18 +141,28 @@ static void put_pixel(global int* pixels, float3 color, int id)
 
 static float2 sphere_tex_coords(t_surface* surf)
 {
-	return (float2)(
+	return ((float2)(
 			native_divide(atan2pi(surf->nl.z, surf->nl.x), 2.f) + 0.5f,
-			0.5f - asinpi(surf->nl.y));
+			0.5f - asinpi(surf->nl.y)));
 }
 
 static float2 cylinder_tex_coords(t_surface* surf)
 {
 	// ETO ZAGLUSHKA NEED HELP
 	float3 nl = fract(surf->pos - surf->obj->prim.cylinder.origin, (float3*)NULL);
-	return (float2)(
+	return ((float2)(
 			native_divide(atan2pi(nl.z, nl.x), 2.f) + 0.5f,
-			0.5f - asinpi(nl.y));
+			0.5f - asinpi(nl.y)));
+}
+
+static float2 cone_tex_coords(t_surface* surf, float3 pos)
+{
+	global t_cone *cone = &surf->obj->prim.cone;
+	float3 u = cone->normal;
+	float3 vec = surf->pos - pos;
+	float t = fabs(fract(dot(vec, (float3)(0,0,1)), (float *)NULL));
+	float s = fract(dot(u, vec), (float *)NULL);
+	return ((float2)(t,s));
 }
 
 static float2 planar_tex_coords(t_surface* surf, float3 pos)
@@ -173,6 +183,8 @@ static float2 get_tex_coords(t_surface* surf)
 			return (sphere_tex_coords(surf));
 		case plane:
 			return (planar_tex_coords(surf, surf->obj->prim.plane.origin));
+		case cone:
+			return (cone_tex_coords(surf, surf->obj->prim.cone.origin));
 		case disk:
 			return (planar_tex_coords(surf, surf->obj->prim.disk.origin));
 		case cylinder:

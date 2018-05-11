@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/02 17:34:10 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/11 12:05:43 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 21:34:48 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ void					rt_cl_drop_arg(t_kernel *kernel);
 ** Start working with "size" number of threads.
 */
 void					rt_cl_push_task(t_kernel *kernel, size_t *size);
-
-cl_mem					rt_cl_create_image(t_cl_info *info, cl_int2);
 
 cl_mem					rt_cl_create_image_tex(t_cl_info *info,
 							SDL_Surface **textures, cl_uint2 *sizes);

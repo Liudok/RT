@@ -35,6 +35,18 @@ void				get_primitives_details(t_object *o, char *n, struct _json_value *val)
 	}
 }
 
+void		get_primitives_details6(t_object *o, char *n, struct _json_value *val)
+{
+	if (o->type == bool_substraction || o->type == bool_intersection)
+	{
+		o->prim.sphere.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.sphere.origin;
+		o->prim.sphere.radius = 2;
+		o->prim.sphere.r2 = o->prim.sphere.radius * o->prim.sphere.radius;
+
+	}
+}
+
+
 void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 {
 	o->type = !ft_strcmp(n, "type") ? get_type(val) : o->type;
@@ -50,8 +62,8 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details3(o, n, val);
 	else if  (o->type == triangle || o->type == cube)
 		get_primitives_details4(o, n, val);
-//	else if  (o->type == bool_substraction || o->type == bool_intersection)
-//		get_primitives_details5(o);
+	else if  (o->type == bool_substraction || o->type == bool_intersection)
+		get_primitives_details6(o, n, val);
 	else if  (o->type == parabaloid)
 		get_primitives_details5(o, n, val);
 	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;

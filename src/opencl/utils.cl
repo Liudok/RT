@@ -102,7 +102,7 @@ static void ft_roots(float2* t, float a, float b, float c)
 		*t = (float2)(native_divide(-b + native_sqrt(deskr), 2 * a),
 				native_divide(-b - native_sqrt(deskr), 2 * a));
 	else
-		*t = (float2)(INFINITY, INFINITY);
+		*t = (float2)(-1, -1);
 }
 
 static int to_int(float3 v)

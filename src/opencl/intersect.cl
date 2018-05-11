@@ -263,6 +263,7 @@ static float  torus_intersect(global t_torus* obj, t_ray ray)
 		if (t < EPSILON)
 			return (INFINITY);
 	}
+	ray.o = ray.o + ray.d * (t - 2.f * EPSILON);
 	oc = ray.o - obj->origin;
 	dots[0] = dot(oc, normalize(obj->normal));
 	dots[1] = dot(ray.d, normalize(obj->normal));
@@ -567,7 +568,7 @@ static float  cube_intersect(global t_cube *obj, t_ray ray, float* m, global t_o
     return (t_min);
 }
 
-static float  sphere_intersect1(t_sphere *obj, t_ray ray, float2* roots)
+static float  sphere_intersect1(global t_sphere *obj, t_ray ray, float2* roots)
 {
 	float	a;
 	float	b;
@@ -581,51 +582,85 @@ static float  sphere_intersect1(t_sphere *obj, t_ray ray, float2* roots)
 	c = dot(oc, oc) - (obj->radius * obj->radius);
 	ft_roots(&t, a, b, c);
 	if (roots)
-	*roots = t;
+		*roots = t;
 	if ((t.x < 0.0 && t.y >= 0.0) || (t.y < 0.0 && t.x >= 0.0))
-	return t.x > t.y ? t.x : t.y;
+		return t.x > t.y ? t.x : t.y;
 	else
-	return t.x < t.y ? t.x : t.y;
+		return t.x < t.y ? t.x : t.y;
 }
 
-constant	t_object	death_star[] = {
-	{sphere, {.sphere = {{3,3,3}, 2, 4}}, diffuse, 0, 1, {1,1,1}, {0,0,0,0}},
-	{sphere, {.sphere = {{3,5,3}, 2, 4}}, diffuse, 0, 1, {1,0.5,1}, {0,0,0,0}}
-};
-
-static float	bool_substraction_intersect(global t_bool *obj, t_ray ray,
+static float	bool_substraction_intersect(global t_object *ptr, t_ray ray,
 											global t_object **closest)
 {
 	float2	roots1;
 	float2	roots2;
 	float 	t1;
 	float 	t2;
-	global	t_object *ptr = NULL;
 
-	ptr = (global t_object *)((void *)obj - (void *)&ptr->prim);
+	t1 = sphere_intersect1(&ptr->prim.sphere, ray, &roots1);
 	ptr++;
-	t1 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots1);
-	ptr++;
-	t2 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots2);
-	if (t1 <= 0)
-		return(INFINITY);
-	if (t2 <= 0)
+	t2 = sphere_intersect1(&ptr->prim.sphere, ray, &roots2);
+	if (t1 <= EPSILON)
+		return(-1);
+	if (t2 <= EPSILON)
 	{
 		*closest = --ptr;
 		return (t1);
 	}
 	roots1 = (roots1.x > roots1.y) ? roots1.yx : roots1;
 	roots2 = (roots2.x > roots2.y) ? roots2.yx : roots2;
-	if (roots1.x < 0)
-		return (INFINITY);
-	if (roots1.x > roots2.x && roots1.x < roots2.y)
+	if (roots1.x < EPSILON)
+		return (-1);
+	if (roots2.y < roots1.x)
 	{
-		*closest = ++ptr;
+		*closest = --ptr;
+		return (roots1.x);
+	}
+	else if (roots1.x > roots2.x && roots2.y < roots1.y)
+	{
+		*closest = ptr;
 		return (roots2.y);
+	}
+	else if (roots2.x < roots1.x && roots2.y > roots1.y)
+		return (-1);
+	else if (roots1.x < roots2.x && roots2.y < roots1.y)
+	{
+		*closest = --ptr;
+		return (roots1.x);
 	}
 	*closest = --ptr;
 	return (t1);
 }
+
+static float	bool_intersection_intersect(global t_object *ptr, t_ray ray, global t_object **closest)
+{
+	float2	roots1;
+	float2	roots2;
+	float 	t1;
+	float 	t2;
+
+	t1 = sphere_intersect1(&ptr->prim.sphere, ray, &roots1);
+	ptr++;
+	t2 = sphere_intersect1(&ptr->prim.sphere, ray, &roots2);
+	if (t1 <= EPSILON || t2 <= EPSILON)
+		return(-1);
+	roots1 = (roots1.x > roots1.y) ? roots1.yx : roots1;
+	roots2 = (roots2.x > roots2.y) ? roots2.yx : roots2;
+	if (roots1.x < EPSILON && roots2.x < EPSILON)
+		return (-1);
+	if (roots1.x > EPSILON && roots1.x > roots2.x && roots1.x < roots2.y)
+	{
+		*closest = --ptr;
+		return (roots1.x);
+	}
+	if (roots2.x > 0 && roots2.x > roots1.x && roots2.x < roots1.y)
+	{
+		*closest = ptr;
+		return (roots2.x);
+	}
+	return (-1);
+}
+
 
 static float parabaloid_intersect(global t_parabaloid* obj, t_ray ray, float* t) {
 	float2		roots;
@@ -726,7 +761,10 @@ static void intersect(global t_object* obj,
 			dist = cube_intersect(&obj->prim.cube, ray, &tmp_m, &closest_obj);
 			break;
 		case bool_substraction:
-			dist = bool_substraction_intersect(&obj->prim.bool_prim, ray,  &closest_obj);
+			dist = bool_substraction_intersect(obj, ray,  &closest_obj);
+			break;
+		case bool_intersection:
+			dist = bool_intersection_intersect(obj, ray,  &closest_obj);
 			break;
 		case parabaloid:
 			dist = parabaloid_intersect(&obj->prim.parabaloid, ray,  &tmp_m);
@@ -740,7 +778,7 @@ static void intersect(global t_object* obj,
 	if (dist <= EPSILON || dist > *closest_dist)
 		return;
 	*closest_dist = dist;
-	if (obj->type == bool_substraction || obj->type == bool_intersection || (obj->type == cube && closest_obj))
+	if (obj->type == bool_substraction || obj->type == second || obj->type == bool_intersection || (obj->type == cube && closest_obj))
 		*closest = closest_obj;
 	else
 		*closest = obj;

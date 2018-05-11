@@ -6,12 +6,14 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 18:11:20 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/10 15:52:49 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 21:41:54 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
+
+# define REO STEREO
 
 extern int g_error_flag;
 

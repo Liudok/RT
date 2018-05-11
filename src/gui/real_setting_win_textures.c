@@ -80,12 +80,12 @@ void		real_set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
 		sprintf(text, "%.2f       ", o[0].prim.sphere.radius);
 		texture_from_text(text, sdl, &recs[23]);
 	}
-	if (o[0].type == cylinder || o[0].type == disk || o[0].type == torus || o[0].type == cone)
+	if (o[0].type == cylinder || o[0].type == disk || o[0].type == cone)
 	{
 		sprintf(text, "%.2f       ", o[0].prim.disk.radius2);
 		texture_from_text(text, sdl, &recs[26]);
 	}
-	if (o[0].type == cylinder || o[0].type == torus)
+	if (o[0].type == cylinder)
 	{
 		sprintf(text, "%.2f       ", o[0].prim.cylinder.height);
 		texture_from_text(text, sdl, &recs[27]);
@@ -98,7 +98,12 @@ void		real_set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text(text, sdl, &recs[28]);
 	}
 	else if (o[0].type == torus)
-		texture_from_text("Big radius:", sdl, &recs[6]);
+	{
+		sprintf(text, "%.2f       ", o[0].prim.torus.big_radius2);
+		texture_from_text(text, sdl, &recs[26]);
+		sprintf(text, "%.2f       ", o[0].prim.torus.small_radius2);
+		texture_from_text(text, sdl, &recs[27]);
+	}
 }
 
 

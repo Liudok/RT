@@ -64,7 +64,7 @@ void			get_objects_details(t_object *o, char *n, struct _json_value *val)
 		get_primitives_details4(o, n, val);
 	else if  (o->type == bool_substraction || o->type == bool_intersection)
 		get_primitives_details6(o, n, val);
-	else if  (o->type == parabaloid)
+	else if  (o->type == parabaloid || o->type == julia)
 		get_primitives_details5(o, n, val);
 	o->texture = !ft_strcmp(n, "texture") ? get_uchar4(val) : o->texture;
 }

@@ -107,7 +107,6 @@ float4			get_float4(json_value *value)
 			ret.s2 > 1 || ret.s2 < 0 || ret.s3 > 1 || ret.s3 < 0)
 	{
 		ft_putendl_fd("The value in material can not be more than 1 or less than 0", 2);
-		g_error_flag = 1;
 		return (ret);
 	}
 	return (ret);

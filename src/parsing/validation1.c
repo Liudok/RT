@@ -48,18 +48,18 @@ void 	validation_plane(t_plane *o)
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > MAXF || o->normal.s0 < MINF ||
-		o->normal.s1 > MAXF || o->normal.s1 < MINF ||
-		o->normal.s2 > MAXF || o->normal.s2 < MINF)
+	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
+		o->normal.s1 > 1 || o->normal.s1 < -1 ||
+		o->normal.s2 > 1 || o->normal.s2 < -1)
 	{
 		ft_putendl_fd("NORMAL of plane is invalid", 2);
 	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
-	o->normal.s0 = (o->normal.s0 < 0) ? 0 : o->normal.s0;
-	o->normal.s1 = (o->normal.s1 < 0) ? 1 : o->normal.s1;
-	o->normal.s2 = (o->normal.s2 < 0) ? 0 : o->normal.s2;
+	o->normal.s0 = (o->normal.s0 < -1) ? -1 : o->normal.s0;
+	o->normal.s1 = (o->normal.s1 < -1) ? -1 : o->normal.s1;
+	o->normal.s2 = (o->normal.s2 < -1) ? -1 : o->normal.s2;
 }
 
 void 	validation_cylinder(t_cylinder *o)
@@ -76,18 +76,18 @@ void 	validation_cylinder(t_cylinder *o)
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > 1 || o->normal.s0 < 0 ||
-		o->normal.s1 > 1 || o->normal.s1 < 0 ||
-		o->normal.s2 > 1 || o->normal.s2 < 0)
+	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
+		o->normal.s1 > 1 || o->normal.s1 < -1 ||
+		o->normal.s2 > 1 || o->normal.s2 < -1)
 	{
 		ft_putendl_fd("NORMAL of cylinder is invalid", 2);
 	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
-	o->normal.s0 = (o->normal.s0 < 0) ? 0 : o->normal.s0;
-	o->normal.s1 = (o->normal.s1 < 0) ? 1 : o->normal.s1;
-	o->normal.s2 = (o->normal.s2 < 0) ? 0 : o->normal.s2;
+	o->normal.s0 = (o->normal.s0 < -1) ? -1 : o->normal.s0;
+	o->normal.s1 = (o->normal.s1 < -1) ? -1 : o->normal.s1;
+	o->normal.s2 = (o->normal.s2 < -1) ? -1 : o->normal.s2;
 	if (o->radius > MAXF || o->radius < MINF)
 	{
 		ft_putendl_fd("Invalid radius of cylinder", 2);
@@ -115,18 +115,18 @@ void 	validation_cone(t_cone *o)
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > 1 || o->normal.s0 < 0 ||
-		o->normal.s1 > 1 || o->normal.s1 < 0 ||
-		o->normal.s2 > 1 || o->normal.s2 < 0)
+	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
+		o->normal.s1 > 1 || o->normal.s1 < -1 ||
+		o->normal.s2 > 1 || o->normal.s2 < -1)
 	{
 		ft_putendl_fd("NORMAL of cone is invalid", 2);
 	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
-	o->normal.s0 = (o->normal.s0 < 0) ? 0 : o->normal.s0;
-	o->normal.s1 = (o->normal.s1 < 0) ? -1 : o->normal.s1;
-	o->normal.s2 = (o->normal.s2 < 0) ? 0 : o->normal.s2;
+	o->normal.s0 = (o->normal.s0 < -1) ? -1 : o->normal.s0;
+	o->normal.s1 = (o->normal.s1 < -1) ? -1 : o->normal.s1;
+	o->normal.s2 = (o->normal.s2 < -1) ? -1 : o->normal.s2;
 	if (o->half_tangent > MAXF || o->half_tangent < 0)
 	{
 		ft_putendl_fd("Invalid half_tangent of cone", 2);
@@ -158,18 +158,18 @@ void 	validation_disk(t_disk *o)
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > 1 || o->normal.s0 < 0 ||
-		o->normal.s1 > 1 || o->normal.s1 < 0 ||
-		o->normal.s2 > 1 || o->normal.s2 < 0)
+	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
+		o->normal.s1 > 1 || o->normal.s1 < -1 ||
+		o->normal.s2 > 1 || o->normal.s2 < -1)
 	{
 		ft_putendl_fd("NORMAL of disk is invalid", 2);
 	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
-	o->normal.s0 = (o->normal.s0 < 0) ? 0 : o->normal.s0;
-	o->normal.s1 = (o->normal.s1 < 0) ? 1 : o->normal.s1;
-	o->normal.s2 = (o->normal.s2 < 0) ? 0 : o->normal.s2;
+	o->normal.s0 = (o->normal.s0 < -1) ? -1 : o->normal.s0;
+	o->normal.s1 = (o->normal.s1 < -1) ? 1 : o->normal.s1;
+	o->normal.s2 = (o->normal.s2 < -1) ? -1 : o->normal.s2;
 	if (o->radius2 > MAXF || o->radius2 < MINF)
 	{
 		ft_putendl_fd("Invalid radius of disk", 2);
@@ -191,18 +191,18 @@ void 	validation_torus(t_torus *o)
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > 1 || o->normal.s0 < 0 ||
-		o->normal.s1 > 1 || o->normal.s1 < 0 ||
-		o->normal.s2 > 1 || o->normal.s2 < 0)
+	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
+		o->normal.s1 > 1 || o->normal.s1 < -1 ||
+		o->normal.s2 > 1 || o->normal.s2 < -1)
 	{
 		ft_putendl_fd("NORMAL of torus is invalid", 2);
 	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
-	o->normal.s0 = (o->normal.s0 < 0) ? 0 : o->normal.s0;
-	o->normal.s1 = (o->normal.s1 < 0) ? 1 : o->normal.s1;
-	o->normal.s2 = (o->normal.s2 < 0) ? 0 : o->normal.s2;
+	o->normal.s0 = (o->normal.s0 < -1) ? -1 : o->normal.s0;
+	o->normal.s1 = (o->normal.s1 < -1) ? -1 : o->normal.s1;
+	o->normal.s2 = (o->normal.s2 < -1) ? -1 : o->normal.s2;
 	if (o->big_radius2 > MAXF || o->big_radius2 < MINF)
 	{
 		ft_putendl_fd("Invalid radius of torus", 2);

@@ -52,7 +52,7 @@ void		set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text("M2:", sdl, &recs[9]);
 	}
 	else if (o[0].type == torus)
-		texture_from_text("Big radius:", sdl, &recs[8]);
+		texture_from_text("Small radius:", sdl, &recs[8]);
 }
 
 void		settings_rect_params(t_rec *recs)

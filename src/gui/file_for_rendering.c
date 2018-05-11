@@ -106,10 +106,10 @@ void				init_default_scene(t_rt *rt)
 	char			*file_str;
 	uint			size;
 
-	rt->scene.file = "scenes/default.json";
+	rt->scene.file = "scenes/cornell_box.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 	{
-		ft_putendl("Default file not found at scenes/default.json");
+		ft_putendl("Default file not found at scenes/cornell_box.json");
 		choosing_dialog(rt);
 		stat(rt->scene.file, &k);
 	}

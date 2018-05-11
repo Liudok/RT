@@ -121,7 +121,7 @@ void		change_value(t_rt* rt, int i, int btn)
 		change_origin_and_normal(rt, i, btn, val);
 		if (rt->scene.objs[i].type == triangle || rt->scene.objs[i].type == cone)
             change_triangle_and_cone(rt, i, btn, val);
-		else if (rt->scene.objs[i].type == cylinder || rt->scene.objs[i].type == torus)
+		else if (rt->scene.objs[i].type == cylinder)
 		{
 			rt->scene.objs[i].prim.cylinder.radius = (btn == 26) ?
 				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cylinder.radius;
@@ -129,6 +129,13 @@ void		change_value(t_rt* rt, int i, int btn)
 				rt->scene.objs[i].prim.cylinder.radius * rt->scene.objs[i].prim.cylinder.radius;
 			rt->scene.objs[i].prim.cylinder.height = (btn == 27) ?
 				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cylinder.height;
+		}
+		else if (rt->scene.objs[i].type == torus)
+		{
+			rt->scene.objs[i].prim.torus.big_radius2 = (btn == 26) ?
+													 my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.torus.big_radius2;
+			rt->scene.objs[i].prim.torus.small_radius2 = (btn == 27) ?
+													 my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.torus.small_radius2;
 		}
 		else if (rt->scene.objs[i].type == disk)
 		{

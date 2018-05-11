@@ -588,6 +588,11 @@ static float  sphere_intersect1(t_sphere *obj, t_ray ray, float2* roots)
 	return t.x < t.y ? t.x : t.y;
 }
 
+constant	t_object	death_star[] = {
+	{sphere, {.sphere = {{3,3,3}, 2, 4}}, diffuse, 0, 1, {1,1,1}, {0,0,0,0}},
+	{sphere, {.sphere = {{3,5,3}, 2, 4}}, diffuse, 0, 1, {1,0.5,1}, {0,0,0,0}}
+};
+
 static float	bool_substraction_intersect(global t_bool *obj, t_ray ray,
 											global t_object **closest)
 {

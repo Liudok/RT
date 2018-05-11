@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/07 17:44:49 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/04/25 12:44:19 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/11 15:11:23 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,22 @@ float3			get_float3(json_value *value);
 int2			get_int2(json_value *value);
 uchar4			get_uchar4(json_value *value);
 t_obj_type		get_type(json_value *value);
-void			get_objects_details(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details2(t_object *o, char *n, struct _json_value *val);
+void			get_objects_details(t_object *o, char *n,
+					struct _json_value *val);
+void			get_primitives_details(t_object *o, char *n,
+					struct _json_value *val);
+void			get_primitives_details2(t_object *o, char *n,
+					struct _json_value *val);
 void			parse_camera(json_value *value, t_scene *s);
-void			get_primitives_details(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details2(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details3(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details4(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details5(t_object *o, char *n, struct _json_value *val);
-int 			validation(t_object *o);
+void			get_primitives_details(t_object *o, char *n,
+					struct _json_value *val);
+void			get_primitives_details2(t_object *o, char *n,
+					struct _json_value *val);
+void			get_primitives_details3(t_object *o, char *n,
+					struct _json_value *val);
+void			get_primitives_details4(t_object *o, char *n,
+					struct _json_value *val);
+void			get_primitives_details5(t_object *o, char *n,
+					struct _json_value *val);
+int				validation(t_object *o);
 #endif

@@ -155,6 +155,17 @@ static float2 cylinder_tex_coords(t_surface* surf)
 			0.5f - asinpi(nl.y));
 }
 
+static float2 cone_tex_coords(t_surface* surf, float3 pos)
+{
+	global t_cone *cone = &surf->obj->prim.cone;
+	float3 u = cone->normal;
+	float3 vec = surf->pos - pos;
+	float t;
+	float s = fract(dot(u, vec), &t);
+	t /= max(cone->m1, cone->m2);
+	return ((float2)(t,s));
+}
+
 static float2 planar_tex_coords(t_surface* surf, float3 pos)
 {
 	float3 u = cross(surf->nl, (float3)(0.f, 1.f, 0.f));
@@ -173,6 +184,8 @@ static float2 get_tex_coords(t_surface* surf)
 			return (sphere_tex_coords(surf));
 		case plane:
 			return (planar_tex_coords(surf, surf->obj->prim.plane.origin));
+		case cone:
+			return (cone_tex_coords(surf, surf->obj->prim.cone.origin));
 		case disk:
 			return (planar_tex_coords(surf, surf->obj->prim.disk.origin));
 		case cylinder:

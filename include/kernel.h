@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/11 13:10:49 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 20:49:37 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ typedef struct	s_mobius
 
 typedef struct	s_bool
 {
-	struct s_object	*obj1;
-	struct s_object	*obj2;
+	float3		o1;
+	float3		o2;
 }				t_bool;
 
 typedef struct	s_cube

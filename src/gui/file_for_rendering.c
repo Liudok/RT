@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/10 17:18:02 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/10 17:41:14 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 13:35:05 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				init_default_scene(t_rt *rt)
 	char			*file_str;
 	uint			size;
 
-	rt->scene.file = "scenes/parabaloid.json";
+	rt->scene.file = "scenes/default.json";
 	if ((stat(rt->scene.file, &k) != 0) || !(S_ISREG(k.st_mode)))
 	{
 		ft_putendl("Default file not found at scenes/default.json");

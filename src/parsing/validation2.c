@@ -35,30 +35,30 @@ void 	validation_mobius(t_mobius *o)
 
 void 	validation_cube(t_cube *o)
 {
-	if (o->min.s0 > MAXF || o->min.s0 < MINF ||
-		o->min.s1 > MAXF || o->min.s1 < MINF ||
-		o->min.s2 > MAXF || o->min.s2 < MINF)
+	if (o->min.s0 > 500 || o->min.s0 < -500 ||
+		o->min.s1 > 500 || o->min.s1 < -500 ||
+		o->min.s2 > 500 || o->min.s2 < -500)
 	{
 		ft_putendl_fd("MIN of cube is invalid", 2);
 	}
-	o->min.s0 = (o->min.s0 > MAXF) ? MAXF : o->min.s0;
-	o->min.s1 = (o->min.s1 > MAXF) ? MAXF : o->min.s1;
-	o->min.s2 = (o->min.s2 > MAXF) ? MAXF : o->min.s2;
-	o->min.s0 = (o->min.s0 < MINF) ? MINF : o->min.s0;
-	o->min.s1 = (o->min.s1 < MINF) ? MINF : o->min.s1;
-	o->min.s2 = (o->min.s2 < MINF) ? MINF : o->min.s2;
-	if (o->max.s0 > MAXF || o->max.s0 < MINF ||
-		o->max.s1 > MAXF || o->max.s1 < MINF ||
-		o->max.s2 > MAXF || o->max.s2 < MINF)
+	o->min.s0 = (o->min.s0 > 500) ? 500 : o->min.s0;
+	o->min.s1 = (o->min.s1 > 500) ? 500 : o->min.s1;
+	o->min.s2 = (o->min.s2 > 500) ? 500 : o->min.s2;
+	o->min.s0 = (o->min.s0 < -500) ? -500 : o->min.s0;
+	o->min.s1 = (o->min.s1 < -500) ? -500 : o->min.s1;
+	o->min.s2 = (o->min.s2 < -500) ? -500 : o->min.s2;
+	if (o->max.s0 > 500 || o->max.s0 < -500 ||
+		o->max.s1 > 500 || o->max.s1 < -500 ||
+		o->max.s2 > 500 || o->max.s2 < -500)
 	{
 		ft_putendl_fd("MIN of cube is invalid", 2);
 	}
-	o->max.s0 = (o->max.s0 > MAXF) ? MAXF : o->max.s0;
-	o->max.s1 = (o->max.s1 > MAXF) ? MAXF : o->max.s1;
-	o->max.s2 = (o->max.s2 > MAXF) ? MAXF : o->max.s2;
-	o->max.s0 = (o->max.s0 < MINF) ? MINF : o->max.s0;
-	o->max.s1 = (o->max.s1 < MINF) ? MINF : o->max.s1;
-	o->max.s2 = (o->max.s2 < MINF) ? MINF : o->max.s2;
+	o->max.s0 = (o->max.s0 > 500) ? 500 : o->max.s0;
+	o->max.s1 = (o->max.s1 > 500) ? 500 : o->max.s1;
+	o->max.s2 = (o->max.s2 > 500) ? 500 : o->max.s2;
+	o->max.s0 = (o->max.s0 < -500) ? -500 : o->max.s0;
+	o->max.s1 = (o->max.s1 < -500) ? -500 : o->max.s1;
+	o->max.s2 = (o->max.s2 < -500) ? -500 : o->max.s2;
 	if (o->pipes_number > 14 || o->pipes_number < 0)
 	{
 		ft_putendl_fd("Invalid pipes_number of cube", 2);

@@ -36,7 +36,7 @@ typedef enum	e_obj_type
 	sphere, plane, cylinder, cone, disk,
 	torus, triangle, mobius, bool_substraction,
 	bool_intersection, cube, parabaloid, julia,
-	not_valid
+	second,	not_valid
 }				t_obj_type;
 
 typedef enum	e_material
@@ -103,12 +103,6 @@ typedef struct	s_mobius
 	float 		size;
 }				t_mobius;
 
-typedef struct	s_bool
-{
-	struct s_object	*obj1;
-	struct s_object	*obj2;
-}				t_bool;
-
 typedef struct	s_cube
 {
 	float3		min;
@@ -139,7 +133,6 @@ typedef	union	u_primitive
 	t_torus			torus;
 	t_triangle		triangle;
 	t_mobius		mobius;
-	t_bool			bool_prim;
 	t_cube			cube;
 	t_parabaloid	parabaloid;
 	t_julia			julia;

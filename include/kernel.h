@@ -99,8 +99,8 @@ typedef struct	s_triangle
 
 typedef struct	s_mobius
 {
-	float 		radius;
-	float 		half_width;
+	float3 		origin;
+	float 		size;
 }				t_mobius;
 
 typedef struct	s_bool

@@ -39,9 +39,9 @@ void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 	}
 	else if (o[0].type == mobius)
 	{
-		sprintf(text, "%.2f       ", o[0].prim.mobius.radius);
+		sprintf(text, "%.2f       ", o[0].prim.mobius.origin.s0);
 		texture_from_text(text, sdl, &recs[18]);
-		sprintf(text, "%.2f       ", o[0].prim.mobius.half_width);
+		sprintf(text, "%.2f       ", o[0].prim.mobius.origin.s1);
 		texture_from_text(text, sdl, &recs[19]);
 	}
 	else if (o[0].type == cube)

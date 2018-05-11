@@ -41,8 +41,8 @@ void		get_primitives_details3(t_object *o, char *n, struct _json_value *val)
 	}
 	else if (o->type == mobius)
 	{
-		o->prim.mobius.radius = !ft_strncmp(n, "radius", 6) ? get_number(val) : o->prim.mobius.radius;
-		o->prim.mobius.half_width = !ft_strncmp(n, "half_width", 10) ? get_number(val) : o->prim.mobius.half_width;
+		o->prim.mobius.origin = !ft_strncmp(n, "origin", 6) ? get_float3(val) : o->prim.mobius.origin;
+		o->prim.mobius.size = !ft_strncmp(n, "size", 4) ? get_number(val) : o->prim.mobius.size;
 	}
 }
 

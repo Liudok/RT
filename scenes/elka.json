@@ -1,7 +1,9 @@
 {
 	"objects": [{
 			"type": "plane",
-			"material": [0.0, 0.0, 0.0, 0],
+			"material": "emission",
+			"roughness": 0.000000,
+			"ior": 1.000000,
 			"color": [0.7, 0.7, 0.7],
 			"origin": [0, -4, 0],
 			"normal": [0, 1, 0],
@@ -9,7 +11,9 @@
 		},
 		{
 			"type": "cone",
-			"material": [0.0, 0.0, 0.0, 0.0],
+			"material": "diffuse",
+			"roughness": 0.000000,
+			"ior": 1.000000,
 			"color": [0.1 ,0.8, 0.2],
 			"origin": [0, 1.8, 0],
 			"normal": [0, -1, 0],

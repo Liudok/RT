@@ -46,7 +46,7 @@ void				add_new_torus(t_rt *rt, float3 origin)
 	rt->scene.objs[rt->scene.objnum - 1].ior = 1;
 	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
 	rt->scene.objs[rt->scene.objnum - 1].prim = new_torus(origin,
-										(float3){{0, 1, 0}}, 1, 1.2);
+										(float3){{0, 1, 0}}, 1, 2);
 }
 
 t_primitive			new_cube(float3 origin, float3 min,

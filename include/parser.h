@@ -34,4 +34,12 @@ void			get_primitives_details3(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details4(t_object *o, char *n, struct _json_value *val);
 void			get_primitives_details5(t_object *o, char *n, struct _json_value *val);
 int 			validation(t_object *o);
+void 			validation_sphere(t_sphere *o);
+void 	validation_plane(t_plane *o);
+void 	validation_cylinder(t_cylinder *o);
+void 	validation_cone(t_cone *o);
+void 	validation_disk(t_disk *o);
+void 	validation_torus(t_torus *o);
+void 	validation_triangle(t_triangle *o);
+
 #endif

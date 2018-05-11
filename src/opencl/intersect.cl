@@ -533,7 +533,8 @@ static float	bool_substraction_intersect(global t_bool *obj, t_ray ray,
 	float2	roots2;
 	float 	t1;
 	float 	t2;
-	global t_object *ptr = NULL;
+	global	t_object *ptr = NULL;
+
 	ptr = (global t_object *)((void *)obj - (void *)&ptr->prim);
 	ptr++;
 	t1 = sphere_intersect1((t_sphere *)&ptr->prim.sphere, ray, &roots1);

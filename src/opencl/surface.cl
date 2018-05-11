@@ -1,33 +1,6 @@
-static float3 julia_normal(float4 qP) {
-	return normalize(qP.xyz);
-	/*
-	float3 N;
-	float gradX, gradY, gradZ;
-
-	float4 gx1 = qP - (float4)(1e-4f, 0.f, 0.f, 0.f);
-	float4 gx2 = qP + (float4)(1e-4f, 0.f, 0.f, 0.f);
-	float4 gy1 = qP - (float4)(0.f, 1e-4f, 0.f, 0.f);
-	float4 gy2 = qP + (float4)(0.f, 1e-4f, 0.f, 0.f);
-	float4 gz1 = qP - (float4)(0.f, 0.f, 1e-4f, 0.f);
-	float4 gz2 = qP + (float4)(0.f, 0.f, 1e-4f, 0.f);
-
-	for (uint i = 0; i < maxIterations; ++i) {
-		gx1 = QuatSqr(gx1) + c;
-		gx2 = QuatSqr(gx2) + c;
-		gy1 = QuatSqr(gy1) + c;
-		gy2 = QuatSqr(gy2) + c;
-		gz1 = QuatSqr(gz1) + c;
-		gz2 = QuatSqr(gz2) + c;
-	}
-
-	gradX = length(gx2) - length(gx1);
-	gradY = length(gy2) - length(gy1);
-	gradZ = length(gz2) - length(gz1);
-
-	N = normalize((float3)(gradX, gradY, gradZ));
-
-	return N;
-	*/
+static float3 julia_normal(float4 qP)
+{
+	return (fast_normalize(qP.xyz));
 }
 
 static float3	sphere_normal(global t_sphere *obj, float3 pos)
@@ -37,7 +10,7 @@ static float3	sphere_normal(global t_sphere *obj, float3 pos)
 
 static float3	plane_normal(global t_plane *obj)
 {
-	return (obj->normal);
+	return (fast_normalize(obj->normal));
 }
 
 static float3	cylinder_normal(global t_cylinder *obj, float3 pos, float m)
@@ -53,7 +26,7 @@ static float3	cone_normal(global t_cone *obj, float3 pos, float m)
 
 static float3	disk_normal(global t_disk *obj)
 {
-	return (obj->normal);
+	return (fast_normalize(obj->normal));
 }
 
 static float3	torus_normal(global t_torus *obj, float3 pos)
@@ -213,9 +186,7 @@ static t_surface   get_surface_properties(global t_object *obj, t_ray r, float t
 static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
 {
     float 	r1, r2, r2s;
-    float 	cos_a, sin_a, k;
     float3	w, u, v, d;
-    t_ray	rand_ray;
 
     r1 = 2 * M_PI * get_random(&seeds[0], &seeds[1]);
     r2 = get_random(&seeds[0], &seeds[1]);
@@ -226,17 +197,12 @@ static t_ray   diffuse_reflection(t_surface surf, uint *seeds)
 					(float3)(0, 1, 0) : (float3)(1, 0, 0)), w));
 	v = cross(w, u);
 
-	cos_a = native_cos(r1);
-	sin_a = native_sin(r1);
-	k = native_sqrt(1 - r2);
-
-	u = u * cos_a * r2s;
-	v = v * sin_a * r2s;
-	w = w * k;
+	u = u * native_cos(r1) * r2s;
+	v = v * native_sin(r1) * r2s;
+	w = w * native_sqrt(1 - r2);
 
 	d = normalize(u + v + w);
-	rand_ray.o = surf.pos;
-	rand_ray.d = d;
+    t_ray	rand_ray = (t_ray){ surf.pos, d };
 	return (rand_ray);
 }
 

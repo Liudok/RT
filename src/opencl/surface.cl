@@ -58,6 +58,7 @@ static float3	disk_normal(global t_disk *obj)
 
 static float3	torus_normal(global t_torus *obj, float3 pos)
 {
+/*
 	float3	cent;
 	float	k;
 	float3	a;
@@ -70,6 +71,13 @@ static float3	torus_normal(global t_torus *obj, float3 pos)
 	k = 1 / sqrt(k) * sqrt(obj->big_radius2);
 	cent = pos - a - (obj->origin - a) * k / (sqrt(obj->big_radius2) + k);
 	return (normalize(cent));
+	*/
+	float3	ret;
+
+    	ret.x = 4 * pos.x * (dot(pos, pos) - (obj->big_radius2 + obj->small_radius2));
+    	ret.y = 4 * pos.y * (dot(pos, pos) - (obj->big_radius2 + obj->small_radius2) + 2 * obj->big_radius2);
+    	ret.z = 4 * pos.z * (dot(pos, pos) - (obj->big_radius2 + obj->small_radius2));
+    	return (ret);
 }
 
 static float3	triangle_normal(global t_triangle *obj)
@@ -77,9 +85,29 @@ static float3	triangle_normal(global t_triangle *obj)
 	return (normalize(
 		cross(obj->vertex1 - obj->vertex0, obj->vertex2 - obj->vertex1)));
 }
-
-static float3	mobius_normal(global t_mobius *obj, float3 pos)
+float3	vec3_fmul(float3 v, double m);
+float3	vec3_sub(float3 va, float3 vb);
+float3	vec3_fmul(float3 v, double m)
 {
+	float3	r;
+
+	r.x = v.x * m;
+	r.y = v.y * m;
+	r.z = v.z * m;
+	return (r);
+}
+float3	vec3_sub(float3 va, float3 vb)
+{
+	float3	v;
+
+	v.x = va.x - vb.x;
+	v.y = va.y - vb.y;
+	v.z = va.z - vb.z;
+	return (v);
+}
+static float3	paraboloid_normal(global t_parabaloid *obj, float3 pos, float m)
+{
+/*
     float x = pos.x;
     float y = pos.y;
     float z = pos.z;
@@ -87,7 +115,34 @@ static float3	mobius_normal(global t_mobius *obj, float3 pos)
     float3 ret =  {2 * x * y - 2 * R * z - 4 * x * z,
 		-R * R + x * x + 3 * y * y - 4 * y * z + z * z,
 		-2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z};
+*/
+	float3	ret;
+
+    	ret = pos;
+    	ret = vec3_sub(ret, vec3_fmul(obj->normal, m));
+    	return (ret);
+
+    return ((ret));
+}
+
+static float3	mobius_normal(global t_mobius *obj, float3 pos)
+{
+   float x = pos.x;
+    float y = pos.y;
+    float z = pos.z;
+    float R = obj->radius;
+    float3 ret =  {2 * x * y - 2 * R * z - 4 * x * z,
+		-R * R + x * x + 3 * y * y - 4 * y * z + z * z,
+		-2 * R * x - 2 * x * x - 2 * y * y + 2 * y * z};
     return (normalize(ret));
+    /*
+    float3	ret;
+
+    	ret.x = 4 * pos->x * (vec3_dot(*t, *t) - (obj->gr + obj->pr));
+    	ret.y = 4 * pos->y * (vec3_dot(*t, *t) - (obj->gr + obj->pr) + 2 * obj->gr);
+    	ret.z = 4 * pos->z * (vec3_dot(*t, *t) - (obj->gr + obj->pr));
+    	return (ret);
+    	*/
 }
 
 static float3	cube_normal(global t_cube *obj, float3 pos, float m)
@@ -118,6 +173,8 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
             return (mobius_normal(&obj->prim.mobius, hit_pos));
         case cube:
             return (cube_normal(&obj->prim.cube, hit_pos, m));
+        case parabaloid:
+            return (paraboloid_normal(&obj->prim.parabaloid, hit_pos, m));
         case julia:
             return (julia_normal((float4)(hit_pos, 1.f)).xyz);
 		default:

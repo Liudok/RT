@@ -227,10 +227,10 @@ static int	fourth_degree_equation(float4 *t, float4 a)
 	im_re2 = e.im2 * e.im2 + e.real2 * e.real2;
 	komp = e.im1 * e.im2 - e.real1 * e.real2;
 	res = e.q2 * 0.125f * komp / im_re1 / im_re2;
-	t->s0 = e.real1 + e.real2 + res - a[0] * 0.25f;
-	t->s1 = -e.real1 - e.real2 + res - a[0] * 0.25f;
-	t->s2 = -e.real1 + e.real2 - res - a[0] * 0.25f;
-	t->s3 = e.real1 - e.real2 - res - a[0] * 0.25f;
+	(*t)[0] = e.real1 + e.real2 + res - a[0] * 0.25f;
+	(*t)[1] = -e.real1 - e.real2 + res - a[0] * 0.25f;
+	(*t)[2] = -e.real1 + e.real2 - res - a[0] * 0.25f;
+	(*t)[3] = e.real1 - e.real2 - res - a[0] * 0.25f;
 	if (!e.flag && e.l[0] >= 0.0f && e.l[1] >= 0.0f)
 		return (4);
 	else if (!e.flag)
@@ -375,10 +375,16 @@ static float  mobius_intersect(global t_mobius *obj, t_ray ray)
     float coef_2 = 0;
     float coef_3 = 0;
 
-    coef_0 = ox * ox * oy + oy * oy * oy - 2 * ox * ox * oz - 2 * oy * oy * oz + oy * oz * oz - 2 * ox * oz * R - oy * R * R;
-    coef_1 = dy * ox * ox - 2 * dz * ox * ox + 2 * dx * ox * oy + 3 * dy * oy * oy - 2 * dz * oy * oy - 4 * dx * ox * oz - 4 * dy * oy * oz + 2 * dz * oy * oz + dy * oz * oz - 2 * dz * ox * R - 2 * dx * oz * R - dy * R * R;
-    coef_2 = 2 * dx * dy * ox - 4 * dx * dz * ox + dx * dx * oy + 3 * dy * dy * oy - 4 * dy * dz * oy + dz * dz * oy - 2 * dx * dx * oz - 2 * dy * dy * oz + 2 * dy * dz * oz - 2 * dx * dz * R;
-    coef_3 = dx * dx * dy + dy * dy * dy - 2 * dx * dx * dz - 2 * dy * dy * dz + dy * dz * dz;
+coef_3 = dx * dx * dy + dy * dy * dy - 2 * dx * dx * dz - 2 * dy * dy * dz + dy * dz * dz;
+coef_0 = (ox * ox * oy + oy * oy * oy - 2 * ox * ox * oz - 2 * oy * oy * oz + oy * oz * oz - 2 * ox * oz * R - oy * R * R) / coef_3;
+coef_1 = dy * ox * ox - 2 * dz * ox * ox + 2 * dx * ox * oy + 3 * dy * oy * oy - 2 * dz * oy * oy - 4 * dx * ox * oz - 4 * dy * oy * oz + 2 * dz * oy * oz + dy * oz * oz - 2 * dz * ox * R - 2 * dx * oz * R - dy * R * R;
+coef_2 = 2 * dx * dy * ox - 4 * dx * dz * ox + dx * dx * oy + 3 * dy * dy * oy - 4 * dy * dz * oy + dz * dz * oy - 2 * dx * dx * oz - 2 * dy * dy * oz + 2 * dy * dz * oz - 2 * dx * dz * R;
+
+
+//    coef_0 = ox * ox * oy + oy * oy * oy - 2 * ox * ox * oz - 2 * oy * oy * oz + oy * oz * oz - 2 * ox * oz * R - oy * R * R;
+//    coef_1 = dy * ox * ox - 2 * dz * ox * ox + 2 * dx * ox * oy + 3 * dy * oy * oy - 2 * dz * oy * oy - 4 * dx * ox * oz - 4 * dy * oy * oz + 2 * dz * oy * oz + dy * oz * oz - 2 * dz * ox * R - 2 * dx * oz * R - dy * R * R;
+//    coef_2 = 2 * dx * dy * ox - 4 * dx * dz * ox + dx * dx * oy + 3 * dy * dy * oy - 4 * dy * dz * oy + dz * dz * oy - 2 * dx * dx * oz - 2 * dy * dy * oz + 2 * dy * dz * oz - 2 * dx * dz * R;
+//    coef_3 = dx * dx * dy + dy * dy * dy - 2 * dx * dx * dz - 2 * dy * dy * dz + dy * dz * dz;
     float t = third_degree_equation(coef_3, coef_2, coef_1, coef_0);
     float3 pos = ray.o + t * ray.d;
     if (t > epsilon && inside(pos, obj))

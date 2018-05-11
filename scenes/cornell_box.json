@@ -37,7 +37,7 @@
 			"color": [1, 1, 1],
 			"origin": [0, 10, 0],
 			"normal": [0, -1, 0],
-			"texture": [9, 0, 0, 0]
+			"texture": [0, 0, 0, 0]
 		},
 		{
 			"type": "plane",

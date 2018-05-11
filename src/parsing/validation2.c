@@ -80,18 +80,18 @@ void 	validation_parabaloid(t_parabaloid *o)
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > 1 || o->normal.s0 < 0 ||
-		o->normal.s1 > 1 || o->normal.s1 < 0 ||
-		o->normal.s2 > 1 || o->normal.s2 < 0)
+	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
+		o->normal.s1 > 1 || o->normal.s1 < -1 ||
+		o->normal.s2 > 1 || o->normal.s2 < -1)
 	{
 		ft_putendl_fd("NORMAL of parabaloid is invalid", 2);
 	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
-	o->normal.s0 = (o->normal.s0 < 0) ? 0 : o->normal.s0;
-	o->normal.s1 = (o->normal.s1 < 0) ? -1 : o->normal.s1;
-	o->normal.s2 = (o->normal.s2 < 0) ? 0 : o->normal.s2;
+	o->normal.s0 = (o->normal.s0 < -1) ? -1 : o->normal.s0;
+	o->normal.s1 = (o->normal.s1 < -1) ? -1 : o->normal.s1;
+	o->normal.s2 = (o->normal.s2 < -1) ? -1 : o->normal.s2;
 	if (o->radius > MAXF || o->radius < MINF)
 	{
 		ft_putendl_fd("Invalid radius of parabaloid", 2);

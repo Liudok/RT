@@ -6,7 +6,7 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/11 12:36:26 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 13:10:49 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef struct	s_cylinder
 	float3		origin;
 	float3		normal;
 	float		radius;
-	float 		height;
 	float		r2;
+	float 		height;
 }				t_cylinder;
 
 typedef struct	s_cone

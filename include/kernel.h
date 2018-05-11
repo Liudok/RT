@@ -17,7 +17,7 @@
 #  define NULL ((void *)0)
 # endif
 
-# define EPSILON 1e-3
+# define EPSILON 1e-3f
 # ifndef M_PI
 #  define M_PI 3.141595f
 # endif

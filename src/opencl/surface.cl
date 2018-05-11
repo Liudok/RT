@@ -85,6 +85,7 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 	switch (obj->type) {
 		case sphere:
 		case bool_substraction:
+		case bool_intersection:
 		case second:
 			return (sphere_normal(&obj->prim.sphere, hit_pos));
 		case plane:

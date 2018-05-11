@@ -6,75 +6,60 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 15:43:38 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/02 15:43:41 by lberezyn         ###   ########.fr       */
+/*   Updated: 2018/05/11 23:36:42 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
 
+void		fill_texture(const float **ptr, t_sdl *s, t_rec *recs, cl_uint2 n)
+{
+	uint		i;
+	char		text[20];
+
+	i = (uint)-1;
+	while (++i < n.x)
+	{
+		sprintf(text, "%.2f       ", *(ptr[i]));
+		texture_from_text(text, s, &recs[i + n.y]);
+	}
+
+}
+
 void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 {
-	char text[20];
+	const float *triangle_ptr[] = {&o->prim.triangle.vertex0.s0,
+		&o->prim.triangle.vertex0.s1, &o->prim.triangle.vertex0.s2,
+		&o->prim.triangle.vertex1.s0, &o->prim.triangle.vertex1.s1,
+		&o->prim.triangle.vertex1.s2, &o->prim.triangle.vertex2.s0,
+		&o->prim.triangle.vertex2.s1, &o->prim.triangle.vertex2.s2};
+	const float *cube_ptr[] = {&o->prim.cube.min.s0, &o->prim.cube.min.s1,
+		&o->prim.cube.min.s2, &o->prim.cube.max.s0, &o->prim.cube.max.s1,
+		&o->prim.cube.max.s2};
+	const float *mobius_ptr[] = {&o->prim.mobius.origin.s0,
+		&o->prim.mobius.origin.s1};
 
-	if (o[0].type == triangle)
-	{
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex0.s0);
-		texture_from_text(text, sdl, &recs[20]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex0.s1);
-		texture_from_text(text, sdl, &recs[21]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex0.s2);
-		texture_from_text(text, sdl, &recs[22]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex1.s0);
-		texture_from_text(text, sdl, &recs[23]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex1.s1);
-		texture_from_text(text, sdl, &recs[24]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex1.s2);
-		texture_from_text(text, sdl, &recs[25]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s0);
-		texture_from_text(text, sdl, &recs[26]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s1);
-		texture_from_text(text, sdl, &recs[27]);
-		sprintf(text, "%.2f       ", o[0].prim.triangle.vertex2.s2);
-		texture_from_text(text, sdl, &recs[28]);
-	}
-	else if (o[0].type == mobius)
-	{
-		sprintf(text, "%.2f       ", o[0].prim.mobius.origin.s0);
-		texture_from_text(text, sdl, &recs[18]);
-		sprintf(text, "%.2f       ", o[0].prim.mobius.origin.s1);
-		texture_from_text(text, sdl, &recs[19]);
-	}
-	else if (o[0].type == cube)
-	{
-		sprintf(text, "%.2f       ", o[0].prim.cube.min.s0);
-		texture_from_text(text, sdl, &recs[20]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.min.s1);
-		texture_from_text(text, sdl, &recs[21]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.min.s2);
-		texture_from_text(text, sdl, &recs[22]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.max.s0);
-		texture_from_text(text, sdl, &recs[23]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.max.s1);
-		texture_from_text(text, sdl, &recs[24]);
-		sprintf(text, "%.2f       ", o[0].prim.cube.max.s2);
-		texture_from_text(text, sdl, &recs[25]);
-	}
+	if (o->type == triangle)
+		fill_texture(triangle_ptr, sdl, recs,
+				(cl_uint2){{ sizeof(triangle_ptr) / sizeof(void *), 20}});
+	else if (o->type == mobius)
+		fill_texture(triangle_ptr, sdl, recs,
+				(cl_uint2){{ sizeof(mobius_ptr) / sizeof(void *), 20}});
+	else if (o->type == cube)
+		fill_texture(triangle_ptr, sdl, recs,
+				(cl_uint2){{ sizeof(cube_ptr) / sizeof(void *), 18}});
 }
 
 void		real_set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
 {
+	const float *ptrs[] = {&o->prim.plane.normal.x, &o->prim.plane.normal.y,
+		&o->prim.plane.normal.z};
 	char text[20];
 
 	if (o[0].type == plane || o[0].type == cylinder ||
 		o[0].type == cone || o[0].type == disk || o[0].type == torus)
-	{
-		sprintf(text, "%.2f       ", o[0].prim.plane.normal.s0);
-		texture_from_text(text, sdl, &recs[23]);
-		sprintf(text, "%.2f       ", o[0].prim.plane.normal.s1);
-		texture_from_text(text, sdl, &recs[24]);
-		sprintf(text, "%.2f       ", o[0].prim.plane.normal.s2);
-		texture_from_text(text, sdl, &recs[25]);
-	}
+		fill_texture(ptrs, sdl, recs,
+				(cl_uint2){{ sizeof(ptrs) / sizeof(void *), 23}});
 	else if (o[0].type == sphere)
 	{
 		sprintf(text, "%.2f       ", o[0].prim.sphere.radius);
@@ -105,7 +90,6 @@ void		real_set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
 		texture_from_text(text, sdl, &recs[27]);
 	}
 }
-
 
 void		real_settings_rect_params(t_rec *recs, int prop)
 {

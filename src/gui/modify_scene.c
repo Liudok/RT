@@ -6,29 +6,11 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 12:20:59 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/11 22:51:40 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 22:52:42 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/panels.h"
-
-void		remalloc_objs(t_rt *rt)
-{
-	t_object		*tmp_objs;
-	unsigned int	i;
-
-	tmp_objs = rt->scene.objs;
-	rt->scene.objnum++;
-	rt->scene.objs = (t_object*)malloc(sizeof(t_object) * rt->scene.objnum);
-	ft_bzero(rt->scene.objs, sizeof(rt->scene.objs) * rt->scene.objnum);
-	i = 0;
-	while (i < rt->scene.objnum - 1)
-	{
-		rt->scene.objs[i] = tmp_objs[i];
-		i++;
-	}
-	free(tmp_objs);
-}
 
 void		add_ambient(t_rt *rt, int i)
 {

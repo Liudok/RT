@@ -105,7 +105,7 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
         case cube:
             return (cube_normal(&obj->prim.cube, hit_pos, m));
         case parabaloid:
-            return (paraboloid_normal(&obj->prim.parabaloid, hit_pos, m));
+            return (sphere_normal(&obj->prim.sphere, hit_pos));
         case julia:
             return (julia_normal((float4)(hit_pos, 1.f)).xyz);
 		default:

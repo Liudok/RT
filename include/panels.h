@@ -58,8 +58,9 @@ int					this_figure_props(t_obj_type type);
 void				change_value(t_rt *rt, int i, int btn);
 void				apply_after_effect(t_rt *rt, int i);
 void				apply_after_effect2(t_rt *rt, int i);
-void				clean_scene(t_rt *rt);
-int					this_figure_small_props(t_obj_type type);
-cl_float			my_atof(const char *val, float min, float max);
-
+void 				clean_scene(t_rt *rt);
+int 				this_figure_small_props(t_obj_type type);
+cl_float		    my_atof(const char *val, float min, float max);
+cl_uchar			my_uchar(const char *val, float min, float max);
+void 				validation_fix(t_object *o);
 #endif

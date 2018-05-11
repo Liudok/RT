@@ -141,7 +141,7 @@ void        		create_settings_textures(t_rt* rt, t_sdl *sdl, t_rec *recs, int i)
 void				set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs);
 void				other_prim_3_texture(t_object *o, t_sdl *sdl, t_rec *recs);
 void				texture_from_text(char *text, t_sdl *sdl, t_rec *rec);
-void				start_parsing(char *file_str, t_scene *s, int size, t_rt *rt);
+void				start_parsing(char *file_str, t_scene *s, int size);
 void 				save_scene_to_file(t_rt *s);
 char 				*type_to_str(int n);
 void				print_prim_info(int fd, t_object *o, int i);

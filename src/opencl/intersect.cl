@@ -283,7 +283,7 @@ static float  torus_intersect(global t_torus* obj, t_ray ray)
 	while (count_roots > ++i)
 		if (x[i] < ret && x[i] > EPSILON)
 			ret = x[i];
-	return (ret);
+	return (ret + t);
 }
 
 static float  triangle_intersect(global t_triangle *obj, t_ray ray)

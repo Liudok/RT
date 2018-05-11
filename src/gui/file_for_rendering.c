@@ -42,7 +42,7 @@ static void			recreate_scene(t_rt *rt, struct stat *k)
 
 	tmp_scene = rt->scene;
 	file_str = read_file(rt->scene.file, k->st_size);
-	start_parsing(file_str, &tmp_scene, k->st_size, rt);
+	start_parsing(file_str, &tmp_scene, k->st_size);
 	if (g_error_flag)
 		ft_putendl_fd("Not valid map.", 2);
 	else
@@ -115,6 +115,6 @@ void				init_default_scene(t_rt *rt)
 	}
 	size = k.st_size;
 	file_str = read_file(rt->scene.file, size);
-	start_parsing(file_str, &rt->scene, size, rt);
+	start_parsing(file_str, &rt->scene, size);
 	init_camera(rt, rt->scene.camera.base_origin);
 }

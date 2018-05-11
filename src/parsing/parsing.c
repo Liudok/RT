@@ -81,7 +81,7 @@ void				second_cylinder(int j, t_scene *s)
 	}
 }
 
-void				parse_objects(json_value *value, t_scene *s, t_rt *rt)
+void				parse_objects(json_value *value, t_scene *s)
 {
 	int				i;
 	int				j;
@@ -116,13 +116,30 @@ void				parse_objects(json_value *value, t_scene *s, t_rt *rt)
 		}
 		++j;
 	}
-	(void)rt;
 }
 
-static void			parse_value(json_value *value, t_scene *s, t_rt *rt)
+static void			parse_value(json_value *value, t_scene *s)
 {
 	int				length;
 	int				i;
+	static void (*validators[])(void *) = {
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_plane,
+			(void (*)(void *))validation_cylinder,
+			(void (*)(void *))validation_cone,
+			(void (*)(void *))validation_disk,
+			(void (*)(void *))validation_torus,
+			(void (*)(void *))validation_triangle,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+			(void (*)(void *))validation_sphere,
+
+	};
 
 	if (value == NULL)
 		return ;
@@ -131,20 +148,27 @@ static void			parse_value(json_value *value, t_scene *s, t_rt *rt)
 	while (++i < length)
 	{
 		if (!ft_strcmp(value->u.object.values[i].name, "objects"))
-			parse_objects(value->u.object.values[i].value, s, rt);
+			parse_objects(value->u.object.values[i].value, s);
 		else if (!ft_strcmp(value->u.object.values[i].name, "camera"))
 			parse_camera(value->u.object.values[i].value, s);
 	}
+	i = -1;
+	while (++i < (int)s->objnum)
+	{
+		validation(&s->objs[i]);
+		validation_fix(&s->objs[i]);
+		validators[s->objs[i].type](&s->objs[i].prim);
+	}
 }
 
-static void			check_json_value(json_value *value, t_scene *s, t_rt *rt)
+static void			check_json_value(json_value *value, t_scene *s)
 {
 	if (value == NULL)
 		return ;
 	if (value->type == json_none)
 		ft_putendl("none");
 	else if (value->type == json_object)
-		parse_value(value, s, rt);
+		parse_value(value, s);
 	else if (value->type == json_array)
 		ft_error("Unexpected array.");
 	else if (value->type == json_integer)
@@ -157,7 +181,7 @@ static void			check_json_value(json_value *value, t_scene *s, t_rt *rt)
 		ft_error("Unexpected boolean.");
 }
 
- void				start_parsing(char *file_str, t_scene *s, int size, t_rt *rt)
+ void				start_parsing(char *file_str, t_scene *s, int size)
  {
 	 json_char		*json;
 	 json_value		*value;
@@ -169,7 +193,7 @@ static void			check_json_value(json_value *value, t_scene *s, t_rt *rt)
 		 free(file_str);
 		 ft_error("Unable to parse json data");
 	 }
-	 check_json_value(value, s, rt);
+	 check_json_value(value, s);
 	 json_value_free(value);
 	 free(file_str);
  }

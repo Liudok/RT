@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/28 17:06:32 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/11 22:48:12 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 22:51:43 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void				after_effect_panel(t_rt *s)
 	background_pos.w = 230;
 	background_pos.h = 70;
 	background_pos.x = 192;
-	SDL_RenderCopy(s->sdl.renderer, bg, NULL, &background_pos);
+	SDL_RenderCopy(s->sdl.renderer, (SDL_Texture *)bg, NULL, &background_pos);
 	i = 15;
 	while (++i < BUTTONS_AMOUNT)
 		if (!s->buttons[i].pressed)

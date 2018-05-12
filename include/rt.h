@@ -182,4 +182,9 @@ int					mouse_ray(t_rt *rt, int x, int y);
 void				choosing_dialog(t_rt *rt);
 void				real_values(t_object *o, t_sdl *sdl, t_rec *recs);
 int					check_pressing_setting(int prop, t_rec *recs, int x, int y);
+void				fill_texture(const float **ptr, t_sdl *s, t_rec *recs, cl_uint2 n);
+void				real_settings_rect_params(t_rec *recs, int prop);
+void				real_settings_rect_params2(t_rec *recs, int i);
+void				recs_correction(t_rec *recs, t_object *o);
+
 #endif

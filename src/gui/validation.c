@@ -12,7 +12,7 @@
 
 #include "../../include/parser.h"
 
-int 	validation(t_object *o)
+int		validation(t_object *o)
 {
 	if (o->material > 5)
 	{
@@ -40,7 +40,7 @@ int 	validation(t_object *o)
 	return (1);
 }
 
-void 	validation_fix(t_object *o)
+void	validation_fix(t_object *o)
 {
 	if (o->material > 5)
 		o->material = 0;

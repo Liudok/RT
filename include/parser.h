@@ -48,5 +48,6 @@ void 			validation_mobius(t_mobius *o);
 void 			validation_cube(t_cube *o);
 void 			validation_parabaloid(t_parabaloid *o);
 void 			validation_julia(t_julia *o);
+float			get_number(json_value *value);
 
 #endif

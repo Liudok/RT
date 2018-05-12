@@ -63,4 +63,5 @@ int 				this_figure_small_props(t_obj_type type);
 cl_float		    my_atof(const char *val, float min, float max);
 cl_uchar			my_uchar(const char *val, float min, float max);
 void 				validation_fix(t_object *o);
+
 #endif

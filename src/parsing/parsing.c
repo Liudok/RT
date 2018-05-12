@@ -20,10 +20,10 @@ static void			get_object_info(json_value *value, t_object *o)
 	}
 }
 
-void        remalloc_objscene(t_scene *scene)
+void				remalloc_objscene(t_scene *scene)
 {
 	t_object		*tmp_objs;
-	unsigned int i;
+	unsigned int	i;
 
 	tmp_objs = scene->objs;
 	scene->objnum++;
@@ -40,7 +40,7 @@ void        remalloc_objscene(t_scene *scene)
 
 t_object			second_sphere(t_object *o)
 {
-	t_object tmp;
+	t_object		tmp;
 
 	tmp.type = second;
 	tmp.prim = o->prim;
@@ -55,10 +55,10 @@ t_object			second_sphere(t_object *o)
 
 void				second_cylinder(int j, t_scene *s)
 {
-	t_object tmp;
-	float3 normal;
-	int i;
-	t_object *o;
+	t_object		tmp;
+	float3			normal;
+	int				i;
+	t_object		*o;
 
 	i = -1;
 	o = &s->objs[j];
@@ -70,7 +70,8 @@ void				second_cylinder(int j, t_scene *s)
 		normal.s[i % 3] = 1;
 		tmp.type = cylinder;
 		tmp.prim = new_cylinder(vadd(o->prim.cube.min,
-	vmul(vsub(o->prim.cube.max, o->prim.cube.min), i / (float)o->prim.cube.pipes_number / (float)2 + 0.5f)), normal, 0.2f, 2);
+	vmul(vsub(o->prim.cube.max, o->prim.cube.min), i /
+		(float)o->prim.cube.pipes_number / (float)2 + 0.5f)), normal, 0.2f, 2);
 		tmp.prim.cylinder.origin.s[i % 3] = o->prim.cube.max.s[i % 3];
 		tmp.color = o->color;
 		tmp.texture = o->texture;
@@ -103,7 +104,8 @@ void				parse_objects(json_value *value, t_scene *s)
 		s->objs[i].texture = (uchar4){{0, 0, 0, 0}};
 		s->objs[i].prim.sphere.origin = (float3){{0.0, 0.0, 5}};
 		get_object_info(value->u.array.values[j], &s->objs[i]);
-		if (s->objs[i].type == bool_substraction || s->objs[i].type == bool_intersection)
+		if (s->objs[i].type == bool_substraction ||
+				s->objs[i].type == bool_intersection)
 		{
 			++i;
 			remalloc_objscene(s);
@@ -118,10 +120,32 @@ void				parse_objects(json_value *value, t_scene *s)
 	}
 }
 
+void				parsing_while(json_value *value, t_scene *s,
+									void (*validators[])(void *))
+{
+	int				i;
+	int				length;
+
+	i = -1;
+	length = value->u.object.length;
+	while (++i < length)
+	{
+		if (!ft_strcmp(value->u.object.values[i].name, "objects"))
+			parse_objects(value->u.object.values[i].value, s);
+		else if (!ft_strcmp(value->u.object.values[i].name, "camera"))
+			parse_camera(value->u.object.values[i].value, s);
+	}
+	i = -1;
+	while (++i < (int)s->objnum)
+	{
+		validation(&s->objs[i]);
+		validation_fix(&s->objs[i]);
+		validators[s->objs[i].type](&s->objs[i].prim);
+	}
+}
+
 static void			parse_value(json_value *value, t_scene *s)
 {
-	int				length;
-	int				i;
 	static void (*validators[])(void *) = {
 			(void (*)(void *))validation_sphere,
 			(void (*)(void *))validation_plane,
@@ -137,27 +161,11 @@ static void			parse_value(json_value *value, t_scene *s)
 			(void (*)(void *))validation_parabaloid,
 			(void (*)(void *))validation_julia,
 			(void (*)(void *))validation_sphere
-
 	};
 
 	if (value == NULL)
 		return ;
-	length = value->u.object.length;
-	i = -1;
-	while (++i < length)
-	{
-		if (!ft_strcmp(value->u.object.values[i].name, "objects"))
-			parse_objects(value->u.object.values[i].value, s);
-		else if (!ft_strcmp(value->u.object.values[i].name, "camera"))
-			parse_camera(value->u.object.values[i].value, s);
-	}
-	i = -1;
-	while (++i < (int)s->objnum)
-	{
-		validation(&s->objs[i]);
-		validation_fix(&s->objs[i]);
-		validators[s->objs[i].type](&s->objs[i].prim);
-	}
+	parsing_while(value, s, validators);
 }
 
 static void			check_json_value(json_value *value, t_scene *s)
@@ -180,19 +188,19 @@ static void			check_json_value(json_value *value, t_scene *s)
 		ft_error("Unexpected boolean.");
 }
 
- void				start_parsing(char *file_str, t_scene *s, int size)
- {
-	 json_char		*json;
-	 json_value		*value;
+void				start_parsing(char *file_str, t_scene *s, int size)
+{
+	json_char		*json;
+	json_value		*value;
 
-	 json = (json_char*)file_str;
-	 value = json_parse(json, size);
-	 if (value == NULL)
-	 {
-		 free(file_str);
-		 ft_error("Unable to parse json data");
-	 }
-	 check_json_value(value, s);
-	 json_value_free(value);
-	 free(file_str);
- }
+	json = (json_char*)file_str;
+	value = json_parse(json, size);
+	if (value == NULL)
+	{
+		free(file_str);
+		ft_error("Unable to parse json data");
+	}
+	check_json_value(value, s);
+	json_value_free(value);
+	free(file_str);
+}

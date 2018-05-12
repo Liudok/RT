@@ -55,7 +55,7 @@ void				add_new_cube(t_rt *rt, float3 origin);
 void				add_new_torus(t_rt *rt, float3 origin);
 void				add_new_disk(t_rt *rt, float3 origin);
 int					this_figure_props(t_obj_type type);
-void				change_value(t_rt *rt, int i, int btn);
+void				change_value(t_object *o, int btn);
 void				apply_after_effect(t_rt *rt, int i);
 void				apply_after_effect2(t_rt *rt, int i);
 void 				clean_scene(t_rt *rt);

@@ -12,7 +12,7 @@
 
 #include "../../include/panels.h"
 
-void		remalloc_objs(t_rt *rt)
+void				remalloc_objs(t_rt *rt)
 {
 	t_object		*tmp_objs;
 	unsigned int	i;

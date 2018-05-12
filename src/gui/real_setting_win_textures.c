@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/02 15:43:38 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/11 23:36:42 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/11 23:37:45 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void		real_tria_mobius_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 				(cl_uint2){{ sizeof(triangle_ptr) / sizeof(void *), 20}});
 	else if (o->type == mobius)
 		fill_texture(triangle_ptr, sdl, recs,
-				(cl_uint2){{ sizeof(mobius_ptr) / sizeof(void *), 20}});
+				(cl_uint2){{ sizeof(mobius_ptr) / sizeof(void *), 18}});
 	else if (o->type == cube)
 		fill_texture(triangle_ptr, sdl, recs,
-				(cl_uint2){{ sizeof(cube_ptr) / sizeof(void *), 18}});
+				(cl_uint2){{ sizeof(cube_ptr) / sizeof(void *), 20}});
 }
 
 void		real_set_other_prims_fields(t_object *o, t_sdl *sdl, t_rec *recs)
@@ -147,60 +147,60 @@ void		real_settings_rect_params(t_rec *recs, int prop)
 	}
 }
 
-void		real_create_color_texture(t_rt *rt, t_sdl *sdl, t_rec *recs, int i)
+void		real_create_color_texture(t_object *o, t_sdl *sdl, t_rec *recs)
 {
 	char text[20];
 
-	sprintf(text, "%.2f       ", rt->scene.objs[i].color.x);
+	sprintf(text, "%.2f       ", o->color.x);
 	texture_from_text(text, sdl, &recs[10]);
-	sprintf(text, "%.2f       ", rt->scene.objs[i].color.y);
+	sprintf(text, "%.2f       ", o->color.y);
 	texture_from_text(text, sdl, &recs[11]);
-	sprintf(text, "%.2f       ", rt->scene.objs[i].color.z);
+	sprintf(text, "%.2f       ", o->color.z);
 	texture_from_text(text, sdl, &recs[12]);
 
-	sprintf(text, "%i       ", rt->scene.objs[i].material);
+	sprintf(text, "%i       ", o->material);
 	texture_from_text(text, sdl, &recs[13]);
-	sprintf(text, "%.2f       ", rt->scene.objs[i].roughness);
+	sprintf(text, "%.2f       ", o->roughness);
 	texture_from_text(text, sdl, &recs[14]);
-	sprintf(text, "%.1f       ", rt->scene.objs[i].ior);
+	sprintf(text, "%.1f       ", o->ior);
 	texture_from_text(text, sdl, &recs[15]);
 
-	sprintf(text, "%.0f       ", (double)rt->scene.objs[i].texture.s0);
+	sprintf(text, "%.0f       ", (double)o->texture.s0);
 	texture_from_text(text, sdl, &recs[16]);
-	sprintf(text, "%.0f       ", (double)rt->scene.objs[i].texture.s1);
+	sprintf(text, "%.0f       ", (double)o->texture.s1);
 	texture_from_text(text, sdl, &recs[17]);
-	sprintf(text, "%.0f       ", (double)rt->scene.objs[i].texture.s2);
+	sprintf(text, "%.0f       ", (double)o->texture.s2);
 	texture_from_text(text, sdl, &recs[18]);
-	sprintf(text, "%.0f       ", (double)rt->scene.objs[i].texture.s3);
+	sprintf(text, "%.0f       ", (double)o->texture.s3);
 	texture_from_text(text, sdl, &recs[19]);
 }
 
-void		real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i)
+void		real_values(t_object *o, t_sdl *sdl, t_rec *recs)
 {
 	int		prop;
 	char text[20];
 
-	prop = this_figure_props(rt->scene.objs[i].type);
-	real_create_color_texture(rt, sdl, recs, i);
-	if (rt->scene.objs[i].type != triangle && rt->scene.objs[i].type != mobius && rt->scene.objs[i].type != cube)
+	prop = this_figure_props(o->type);
+	real_create_color_texture(o, sdl, recs);
+	if (o->type != triangle && o->type != mobius && o->type != cube)
 	{
-		sprintf(text, "%.2f       ", rt->scene.objs[i].prim.plane.origin.x);
+		sprintf(text, "%.2f       ", o->prim.plane.origin.x);
 		texture_from_text(text, sdl, &recs[20]);
-		sprintf(text, "%.2f       ", rt->scene.objs[i].prim.plane.origin.y);
+		sprintf(text, "%.2f       ", o->prim.plane.origin.y);
 		texture_from_text(text, sdl, &recs[21]);
-		sprintf(text, "%.2f       ", rt->scene.objs[i].prim.plane.origin.z);
+		sprintf(text, "%.2f       ", o->prim.plane.origin.z);
 		texture_from_text(text, sdl, &recs[22]);
-		real_set_other_prims_fields(&rt->scene.objs[i], sdl, recs);
+		real_set_other_prims_fields(o, sdl, recs);
 	}
 	else
-		real_tria_mobius_texture(&rt->scene.objs[i], sdl, recs);
+		real_tria_mobius_texture(o, sdl, recs);
 	real_settings_rect_params(recs, prop);
-	if (rt->scene.objs[i].type == cone)
+	if (o->type == cone)
 	{
 		recs[28].rect.x = 200;
 		recs[28].rect.y = 400;
 	}
-	else if (rt->scene.objs[i].type == triangle)
+	else if (o->type == triangle)
 	{
 		recs[27].rect.x = 300;
 		recs[27].rect.y = 320;

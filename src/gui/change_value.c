@@ -12,7 +12,7 @@
 
 #include "../../include/panels.h"
 
-cl_float		my_atof(const char *val, float min, float max)
+cl_float	my_atof(const char *val, float min, float max)
 {
 	cl_float ret;
 
@@ -24,123 +24,82 @@ cl_float		my_atof(const char *val, float min, float max)
 	return (ret);
 }
 
-cl_uchar		my_uchar(const char *val, float min, float max)
+void		change_appearance(t_object *o, int btn, const char *val)
 {
-	cl_uchar	ret;
-	int			int_ret;
-
-	int_ret = ft_atoi(val);
-	if (int_ret < min)
-		int_ret = min;
-	else if (int_ret > max)
-		int_ret = max;
-	ret = (cl_uchar)int_ret;
-	return (ret);
+	o->color.s0 = (btn == 10) ? my_atof(val, 0, 1) : o->color.s0;
+	o->color.s1 = (btn == 11) ? my_atof(val, 0, 1) : o->color.s1;
+	o->color.s2 = (btn == 12) ? my_atof(val, 0, 1) : o->color.s2;
+	o->material = (btn == 13) ? my_atof(val, 0, 4) : o->material;
+	o->roughness = (btn == 14) ? my_atof(val, 0, 1) : o->roughness;
+	o->ior = (btn == 15) ? my_atof(val, 1, 2.6) : o->ior;
+	o->texture.s0 = (btn == 16) ? my_atof(val, 0, 255) : o->texture.s0;
+	o->texture.s1 = (btn == 17) ? my_atof(val, 0, 255) : o->texture.s1;
+	o->texture.s2 = (btn == 18) ? my_atof(val, 0, 255) : o->texture.s2;
+	o->texture.s3 = (btn == 19) ? my_atof(val, 0, 255) : o->texture.s2;
 }
 
-void		change_appearance(t_rt* rt, int i, int btn, const char *val)
+void		change_origin_and_normal(t_object *o, int btn, const char *val)
 {
-	rt->scene.objs[i].color.s0 = (btn == 10) ?
-								 my_atof(val, 0, 1) : rt->scene.objs[i].color.s0;
-	rt->scene.objs[i].color.s1 = (btn == 11) ?
-								 my_atof(val, 0, 1) : rt->scene.objs[i].color.s1;
-	rt->scene.objs[i].color.s2 = (btn == 12) ?
-								 my_atof(val, 0, 1) : rt->scene.objs[i].color.s2;
-	rt->scene.objs[i].material = (btn == 13) ?
-								 my_uchar(val, 0, 4) : rt->scene.objs[i].material;
-	rt->scene.objs[i].roughness = (btn == 14) ?
-								  my_atof(val, 0, 1) : rt->scene.objs[i].roughness;
-	rt->scene.objs[i].ior = (btn == 15) ?
-							my_atof(val, 1, 2.6) : rt->scene.objs[i].ior;
-	rt->scene.objs[i].texture.s0 = (btn == 16) ? my_uchar(val, 0, 255) :
-								   rt->scene.objs[i].texture.s0;
-	rt->scene.objs[i].texture.s1 = (btn == 17) ? my_uchar(val, 0, 255) :
-								   rt->scene.objs[i].texture.s1;
-	rt->scene.objs[i].texture.s2 = (btn == 18) ? my_uchar(val, 0, 255) :
-								   rt->scene.objs[i].texture.s2;
-	rt->scene.objs[i].texture.s3 = (btn == 19) ? my_uchar(val, 0, 255) :
-								   rt->scene.objs[i].texture.s2;
+	if (btn == 20)
+		o->prim.plane.origin.s0 = my_atof(val, MINF, MAXF);
+	if (btn == 21)
+		o->prim.plane.origin.s1 = my_atof(val, MINF, MAXF);
+	if (btn == 22)
+		o->prim.plane.origin.s2 = my_atof(val, MINF, MAXF);
+	if (btn == 23)
+		o->prim.plane.normal.s0 = my_atof(val, MINF, MAXF);
+	if (o->type == sphere && btn == 23)
+		o->prim.sphere.radius = my_atof(val, MINF, MAXF);
+	else if (btn == 24)
+		o->prim.plane.normal.s1 = my_atof(val, MINF, MAXF);
+	else if (btn == 25)
+		o->prim.plane.normal.s2 = my_atof(val, MINF, MAXF);
+	o->prim.sphere.r2 = o->prim.sphere.radius * o->prim.sphere.radius;
 }
 
-void		change_origin_and_normal(t_rt* rt, int i, int btn, const char *val)
+void		change_triangle_and_cone(t_object *o, int btn, const char *val)
 {
-	rt->scene.objs[i].prim.plane.origin.s0 = (btn == 20) ?
-		my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.plane.origin.s0;
-	rt->scene.objs[i].prim.plane.origin.s1 = (btn == 21) ?
-        my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.plane.origin.s1;
-	rt->scene.objs[i].prim.plane.origin.s2 = (btn == 22) ?
-        my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.plane.origin.s2;
-	rt->scene.objs[i].prim.plane.normal.s0 = (btn == 23) ?
-        my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.plane.normal.s0;
-	if (rt->scene.objs[i].type == sphere)
+	if (o->type == triangle)
 	{
-		rt->scene.objs[i].prim.sphere.radius = (btn == 23) ?
-          my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.sphere.radius;
-		rt->scene.objs[i].prim.sphere.r2 = rt->scene.objs[i].prim.sphere.radius *
-                rt->scene.objs[i].prim.sphere.radius;
+		o->prim.triangle.vertex2.s0 = (btn == 26) ?
+		my_atof(val, MINF, MAXF) : o->prim.triangle.vertex2.s0;
+		o->prim.triangle.vertex2.s1 = (btn == 27) ?
+		my_atof(val, MINF, MAXF) : o->prim.triangle.vertex2.s1;
+		o->prim.triangle.vertex2.s2 = (btn == 28) ?
+		my_atof(val, MINF, MAXF) : o->prim.triangle.vertex2.s2;
 	}
-	else
+	else if (o->type == cone)
 	{
-		rt->scene.objs[i].prim.plane.normal.s1 = (btn == 24) ?
-          my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.plane.normal.s1;
-		rt->scene.objs[i].prim.plane.normal.s2 = (btn == 25) ?
-          my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.plane.normal.s2;
+		o->prim.cone.half_tangent = (btn == 26) ?
+		my_atof(val, MINF, MAXF) : o->prim.cone.half_tangent;
+		o->prim.cone.m1 = (btn == 27) ?
+		my_atof(val, MINF, MAXF) : o->prim.cone.m1;
+		o->prim.cone.m2 = (btn == 28) ?
+		my_atof(val, MINF, MAXF) : o->prim.cone.m2;
 	}
 }
 
-void		change_triangle_and_cone(t_rt* rt, int i, int btn, const char *val)
-{
-    if (rt->scene.objs[i].type == triangle)
-    {
-        rt->scene.objs[i].prim.triangle.vertex2.s0 = (btn == 26) ?
-            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.triangle.vertex2.s0;
-        rt->scene.objs[i].prim.triangle.vertex2.s1 = (btn == 27) ?
-            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.triangle.vertex2.s1;
-        rt->scene.objs[i].prim.triangle.vertex2.s2 = (btn == 28) ?
-            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.triangle.vertex2.s2;
-    }
-    else if (rt->scene.objs[i].type == cone)
-    {
-        rt->scene.objs[i].prim.cone.half_tangent = (btn == 26) ?
-            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cone.half_tangent;
-        rt->scene.objs[i].prim.cone.m1 = (btn == 27) ?
-            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cone.m1;
-        rt->scene.objs[i].prim.cone.m2 = (btn == 28) ?
-            my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cone.m2;
-    }
-}
-
-void		change_value(t_rt* rt, int i, int btn)
+void		change_value(t_object *o, const int btn)
 {
 	const char *val;
 
 	val = tinyfd_inputBox("", "Put value:", "0");
 	if (val != NULL)
 	{
-		change_appearance(rt, i, btn, val);
-		change_origin_and_normal(rt, i, btn, val);
-		if (rt->scene.objs[i].type == triangle || rt->scene.objs[i].type == cone)
-            change_triangle_and_cone(rt, i, btn, val);
-		else if (rt->scene.objs[i].type == cylinder)
-		{
-			rt->scene.objs[i].prim.cylinder.radius = (btn == 26) ?
-				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cylinder.radius;
-			rt->scene.objs[i].prim.cylinder.r2 =
-				rt->scene.objs[i].prim.cylinder.radius * rt->scene.objs[i].prim.cylinder.radius;
-			rt->scene.objs[i].prim.cylinder.height = (btn == 27) ?
-				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.cylinder.height;
-		}
-		else if (rt->scene.objs[i].type == torus)
-		{
-			rt->scene.objs[i].prim.torus.big_radius2 = (btn == 26) ?
-													 my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.torus.big_radius2;
-			rt->scene.objs[i].prim.torus.small_radius2 = (btn == 27) ?
-													 my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.torus.small_radius2;
-		}
-		else if (rt->scene.objs[i].type == disk)
-		{
-			rt->scene.objs[i].prim.disk.radius2 = (btn == 26) ?
-				my_atof(val, MINF, MAXF) : rt->scene.objs[i].prim.disk.radius2;
-		}
+		change_appearance(o, btn, val);
+		change_origin_and_normal(o, btn, val);
+		if (o->type == triangle || o->type == cone)
+			change_triangle_and_cone(o, btn, val);
+		else if (o->type == cylinder && btn == 26)
+			o->prim.cylinder.radius = my_atof(val, MINF, MAXF);
+		else if (o->type == cylinder && btn == 27)
+			o->prim.cylinder.height = my_atof(val, MINF, MAXF);
+		else if (o->type == torus && btn == 26)
+			o->prim.torus.big_radius2 = my_atof(val, MINF, MAXF);
+		else if (o->type == torus && btn == 27)
+			o->prim.torus.small_radius2 = my_atof(val, MINF, MAXF);
+		else if (o->type == disk && btn == 26)
+			o->prim.disk.radius2 = my_atof(val, MINF, MAXF);
+		o->prim.cylinder.r2 = o->prim.cylinder.radius * o->prim.cylinder.radius;
 	}
 }

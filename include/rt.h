@@ -118,7 +118,7 @@ int 				sdl_init_everything(t_rt *s);
 void				init_default_scene(t_rt *rt);
 SDL_Rect			make_rect(int x, int y, int h, int w);
 int					within_rect(SDL_Rect rect, int x, int y);
-int 				run_ui(t_rt *s);
+void 				run_ui(t_rt *s);
 void				set_panel(t_rt *s);
 void				set_buttons(t_rt *s);
 void				render_buttons(t_rt *s);
@@ -144,8 +144,7 @@ void				texture_from_text(char *text, t_sdl *sdl, t_rec *rec);
 void				start_parsing(char *file_str, t_scene *s, int size);
 void 				save_scene_to_file(t_rt *s);
 char 				*type_to_str(int n);
-void				print_prim_info(int fd, t_object *o, int i);
-void				print_prim_info2(int fd, t_object *o, int i);
+void				print_prim_info(int fd, t_object *o);
 void 				save_scene_to_png(t_rt *s);
 
 void				init_sdl(t_rt *pt, int width, int height);
@@ -181,6 +180,6 @@ void				destroy(t_rt *pt);
 void				reinit_opencl(t_rt *pt);
 int					mouse_ray(t_rt *rt, int x, int y);
 void				choosing_dialog(t_rt *rt);
-void				real_create_settings_textures(t_rt *rt, t_sdl *sdl, t_rec *recs, int i);
+void				real_values(t_object *o, t_sdl *sdl, t_rec *recs);
 int					check_pressing_setting(int prop, t_rec *recs, int x, int y);
 #endif

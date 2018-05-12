@@ -25,8 +25,7 @@ int			main(void)
 	if (!sdl_init_everything(&rt))
 		ft_error("Failed SDL initialization");
 	init_default_scene(&rt);
-	if (!run_ui(&rt))
-		ft_error("Running failure");
+	run_ui(&rt);
 	destroy(&rt);
 	return (0);
 }

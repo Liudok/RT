@@ -81,3 +81,12 @@ void			save_scene_to_file(t_rt *s)
 	dprintf(fd, "\t}]\n}");
 	close(fd);
 }
+
+char			*type_to_str(int n)
+{
+	const char *types[] = {"sphere", "plane", "cylinder", "cone", "disk",
+						   "torus", "triangle", "mobius", "bool_substraction",
+						   "bool_intersection", "cube", "parabaloid", "julia", "sphere", "not_valid"};
+
+	return ((char *)types[n]);
+}

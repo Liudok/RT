@@ -142,12 +142,3 @@ void			print_prim_info(int fd, t_object *o)
 	else
 		print_prim_info2(fd, o);
 }
-
-char			*type_to_str(int n)
-{
-	const char *types[] = {"sphere", "plane", "cylinder", "cone", "disk",
-		"torus", "triangle", "mobius", "bool_substraction",
-		"bool_intersection", "cube", "parabaloid", "julia", "sphere", "not_valid"};
-
-	return ((char *)types[n]);
-}

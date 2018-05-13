@@ -12,6 +12,22 @@
 
 #include "../../include/panels.h"
 
+static void		print_prim_info5(int fd, t_object *o)
+{
+	if (o->type == 6)
+	{
+		dprintf(fd, "\t\t\t\"vertex0\": [%f, %f, %f],\n",
+				o->prim.triangle.vertex0.s0, o->prim.triangle.vertex0.s1,
+				o->prim.triangle.vertex0.s2);
+		dprintf(fd, "\t\t\t\"vertex1\": [%f, %f, %f],\n",
+				o->prim.triangle.vertex1.s0, o->prim.triangle.vertex1.s1,
+				o->prim.triangle.vertex1.s2);
+		dprintf(fd, "\t\t\t\"vertex2\": [%f, %f, %f],\n",
+				o->prim.triangle.vertex2.s0, o->prim.triangle.vertex2.s1,
+				o->prim.triangle.vertex2.s2);
+	}
+}
+
 static void		print_prim_info4(int fd, t_object *o)
 {
 	if (o->type == 4)
@@ -37,6 +53,8 @@ static void		print_prim_info4(int fd, t_object *o)
 		dprintf(fd, "\t\t\t\"small_radius2\": %f,\n",
 				o->prim.torus.small_radius2);
 	}
+	else
+		print_prim_info5(fd, o);
 }
 
 static void		print_prim_info3(int fd, t_object *o)
@@ -80,6 +98,18 @@ static void		print_prim_info2(int fd, t_object *o)
 		dprintf(fd, "\t\t\t\"m1\": %f,\n", o->prim.cone.m1);
 		dprintf(fd, "\t\t\t\"m2\": %f,\n", o->prim.cone.m2);
 	}
+	else if (o->type == 6)
+	{
+		dprintf(fd, "\t\t\t\"vertex0\": [%f, %f, %f],\n",
+				o->prim.triangle.vertex0.s0, o->prim.triangle.vertex0.s1,
+				o->prim.triangle.vertex0.s2);
+		dprintf(fd, "\t\t\t\"vertex1\": [%f, %f, %f],\n",
+				o->prim.triangle.vertex1.s0, o->prim.triangle.vertex1.s1,
+				o->prim.triangle.vertex1.s2);
+		dprintf(fd, "\t\t\t\"vertex2\": [%f, %f, %f],\n",
+				o->prim.triangle.vertex2.s0, o->prim.triangle.vertex2.s1,
+				o->prim.triangle.vertex2.s2);
+	}
 	else
 		print_prim_info3(fd, o);
 }
@@ -117,7 +147,7 @@ char			*type_to_str(int n)
 {
 	const char *types[] = {"sphere", "plane", "cylinder", "cone", "disk",
 		"torus", "triangle", "mobius", "bool_substraction",
-		"bool_intersection", "cube", "parabaloid", "julia", "not_valid"};
+		"bool_intersection", "cube", "parabaloid", "julia", "sphere", "not_valid"};
 
 	return ((char *)types[n]);
 }

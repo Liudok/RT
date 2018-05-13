@@ -18,14 +18,6 @@
 			"texture": [0, 0, 0, 0]
 		},
 		{
-			"type": "not_valid",
-			"material": "glass",
-			"roughness": 0.000000,
-			"ior": 1.500000,
-			"color": [1.000000, 1.000000, 1.000000],
-			"texture": [0, 0, 0, 0]
-		},
-		{
 			"type": "cone",
 			"material": "diffuse",
 			"roughness": 0.000000,

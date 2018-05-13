@@ -56,7 +56,7 @@ void		check_pressing(t_rt *s, int x, int y)
 		}
 	}
 	fig = mouse_ray(s, x, y);
-	if (fig > 0)
+	if (fig >= 0)
 	{
 		start_settings_win(s, fig);
 	}

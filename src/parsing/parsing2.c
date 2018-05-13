@@ -72,7 +72,8 @@ t_object			second_sphere(t_object *o)
 	tmp.prim.sphere.origin.s0 += o->prim.sphere.r2 / 2.f;
 	tmp.color = o->color;
 	tmp.texture = o->texture;
-	tmp.material = o->material;
+	tmp.texture.s0 = 255;
+	tmp.material = 3;
 	tmp.ior = o->ior;
 	tmp.roughness = o->roughness;
 	return (tmp);

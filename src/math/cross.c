@@ -12,9 +12,9 @@
 
 #include "rt.h"
 
-float3	cross(float3 a, float3 b)
+cl_float3	cross(cl_float3 a, cl_float3 b)
 {
-	float3 v;
+	cl_float3 v;
 
 	v.x = a.y * b.z - a.z * b.y;
 	v.y = a.z * b.x - a.x * b.z;

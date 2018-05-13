@@ -53,6 +53,6 @@ void	validation_fix(t_object *o)
 		o->texture.s2 > 255 || o->texture.s2 < 0 ||
 		o->texture.s3 > 255 || o->texture.s3 < 0)
 	{
-		o->texture = (uchar4){{0, 0, 0, 0}};
+		o->texture = (cl_uchar4){{0, 0, 0, 0}};
 	}
 }

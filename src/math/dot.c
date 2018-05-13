@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-double	dot(float3 a, float3 b)
+double	dot(cl_float3 a, cl_float3 b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }

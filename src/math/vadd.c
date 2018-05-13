@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-float3	vadd(float3 a, float3 b)
+cl_float3	vadd(cl_float3 a, cl_float3 b)
 {
-	return ((float3){{a.x + b.x, a.y + b.y, a.z + b.z}});
+	return ((cl_float3){{a.x + b.x, a.y + b.y, a.z + b.z}});
 }

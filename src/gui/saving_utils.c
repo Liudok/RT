@@ -98,18 +98,6 @@ static void		print_prim_info2(int fd, t_object *o)
 		dprintf(fd, "\t\t\t\"m1\": %f,\n", o->prim.cone.m1);
 		dprintf(fd, "\t\t\t\"m2\": %f,\n", o->prim.cone.m2);
 	}
-	else if (o->type == 6)
-	{
-		dprintf(fd, "\t\t\t\"vertex0\": [%f, %f, %f],\n",
-				o->prim.triangle.vertex0.s0, o->prim.triangle.vertex0.s1,
-				o->prim.triangle.vertex0.s2);
-		dprintf(fd, "\t\t\t\"vertex1\": [%f, %f, %f],\n",
-				o->prim.triangle.vertex1.s0, o->prim.triangle.vertex1.s1,
-				o->prim.triangle.vertex1.s2);
-		dprintf(fd, "\t\t\t\"vertex2\": [%f, %f, %f],\n",
-				o->prim.triangle.vertex2.s0, o->prim.triangle.vertex2.s1,
-				o->prim.triangle.vertex2.s2);
-	}
 	else
 		print_prim_info3(fd, o);
 }

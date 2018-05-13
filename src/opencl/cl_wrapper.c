@@ -101,7 +101,7 @@ void					rt_cl_bind_textures(t_cl_info *info, cl_mem mem,
 	origin[2] = i + 1;
 }
 
-void				rt_cl_print_debug(t_cl_info *info)
+void					rt_cl_print_debug(t_cl_info *info)
 {
 	size_t				log_size;
 	char				*log;

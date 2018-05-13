@@ -12,19 +12,19 @@
 
 #include "../../include/panels.h"
 
-void				add_new_disk(t_rt *rt, float3 origin)
+void				add_new_disk(t_rt *rt, cl_float3 origin)
 {
 	rt->scene.objs[rt->scene.objnum - 1].type = disk;
-	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.3, 0.8, 0.6}};
+	rt->scene.objs[rt->scene.objnum - 1].color = (cl_float3){{0.3, 0.8, 0.6}};
 	rt->scene.objs[rt->scene.objnum - 1].material = diffuse;
 	rt->scene.objs[rt->scene.objnum - 1].roughness = 0;
 	rt->scene.objs[rt->scene.objnum - 1].ior = 1;
-	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].texture = (cl_uchar4){{0, 0, 0, 0}};
 	rt->scene.objs[rt->scene.objnum - 1].prim = new_disk(origin,
-														(float3){{0, 1, 0}}, 3);
+									(cl_float3){{0, 1, 0}}, 3);
 }
 
-t_primitive			new_torus(float3 origin, float3 normal,
+t_primitive			new_torus(cl_float3 origin, cl_float3 normal,
 								float small_radius2, float big_radius2)
 {
 	t_primitive		prim;
@@ -37,20 +37,20 @@ t_primitive			new_torus(float3 origin, float3 normal,
 	return (prim);
 }
 
-void				add_new_torus(t_rt *rt, float3 origin)
+void				add_new_torus(t_rt *rt, cl_float3 origin)
 {
 	rt->scene.objs[rt->scene.objnum - 1].type = torus;
-	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.9, 0.8, 0.2}};
+	rt->scene.objs[rt->scene.objnum - 1].color = (cl_float3){{0.9, 0.8, 0.2}};
 	rt->scene.objs[rt->scene.objnum - 1].material = diffuse;
 	rt->scene.objs[rt->scene.objnum - 1].roughness = 0;
 	rt->scene.objs[rt->scene.objnum - 1].ior = 1;
-	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].texture = (cl_uchar4){{0, 0, 0, 0}};
 	rt->scene.objs[rt->scene.objnum - 1].prim = new_torus(origin,
-										(float3){{0, 1, 0}}, 1, 2);
+										(cl_float3){{0, 1, 0}}, 1, 2);
 }
 
-t_primitive			new_cube(float3 origin, float3 min,
-								float3 max, int pipes_number)
+t_primitive			new_cube(cl_float3 origin, cl_float3 min,
+								cl_float3 max, int pipes_number)
 {
 	t_primitive		prim;
 
@@ -62,14 +62,14 @@ t_primitive			new_cube(float3 origin, float3 min,
 	return (prim);
 }
 
-void				add_new_cube(t_rt *rt, float3 origin)
+void				add_new_cube(t_rt *rt, cl_float3 origin)
 {
 	rt->scene.objs[rt->scene.objnum - 1].type = cube;
-	rt->scene.objs[rt->scene.objnum - 1].color = (float3){{0.9, 0.8, 0.2}};
+	rt->scene.objs[rt->scene.objnum - 1].color = (cl_float3){{0.9, 0.8, 0.2}};
 	rt->scene.objs[rt->scene.objnum - 1].material = diffuse;
 	rt->scene.objs[rt->scene.objnum - 1].roughness = 0;
 	rt->scene.objs[rt->scene.objnum - 1].ior = 1;
-	rt->scene.objs[rt->scene.objnum - 1].texture = (uchar4){{0, 0, 0, 0}};
+	rt->scene.objs[rt->scene.objnum - 1].texture = (cl_uchar4){{0, 0, 0, 0}};
 	rt->scene.objs[rt->scene.objnum - 1].prim = new_cube(origin,
-				(float3){{-1, 1, 4}}, (float3){{-3, 3, 6}}, 0);
+				(cl_float3){{-1, 1, 4}}, (cl_float3){{-3, 3, 6}}, 0);
 }

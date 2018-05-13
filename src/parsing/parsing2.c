@@ -37,11 +37,11 @@ void				put_default(json_value *value, t_scene *s, int i, int j)
 		ft_error("Not valid json object.");
 	s->objs[i].type = not_valid;
 	s->objs[i].material = 0;
-	s->objs[i].color = (float3){{0.0, 0.9, 0.8}};
+	s->objs[i].color = (cl_float3){{0.0, 0.9, 0.8}};
 	s->objs[i].roughness = 0;
 	s->objs[i].ior = 1;
-	s->objs[i].texture = (uchar4){{0, 0, 0, 0}};
-	s->objs[i].prim.sphere.origin = (float3){{0.0, 0.0, 5}};
+	s->objs[i].texture = (cl_uchar4){{0, 0, 0, 0}};
+	s->objs[i].prim.sphere.origin = (cl_float3){{0.0, 0.0, 5}};
 	get_object_info(value->u.array.values[j], &s->objs[i]);
 }
 
@@ -86,7 +86,7 @@ t_object			second_sphere(t_object *o)
 void				second_cylinder(int j, t_scene *s)
 {
 	t_object		tmp;
-	float3			normal;
+	cl_float3		normal;
 	int				i;
 	t_object		*o;
 
@@ -96,7 +96,7 @@ void				second_cylinder(int j, t_scene *s)
 	{
 		remalloc_objscene(s);
 		o = &s->objs[j];
-		normal = (float3){{0, 0, 0}};
+		normal = (cl_float3){{0, 0, 0}};
 		normal.s[i % 3] = 1;
 		tmp.type = cylinder;
 		tmp.prim = new_cylinder(vadd(o->prim.cube.min,

@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-double	vlen(float3 v)
+double	vlen(cl_float3 v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }

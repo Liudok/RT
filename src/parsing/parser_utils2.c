@@ -13,7 +13,7 @@
 #include "../../libJSON/include/json.h"
 #include "../../include/rt.h"
 
-float			get_number(json_value *value)
+float				get_number(json_value *value)
 {
 	float		ret;
 
@@ -30,11 +30,11 @@ float			get_number(json_value *value)
 	return (ret);
 }
 
-float4			get_float4(json_value *value)
+cl_float4			get_float4(json_value *value)
 {
-	float4		ret;
+	cl_float4		ret;
 
-	ret = (float4){{0, 0, 0, 0}};
+	ret = (cl_float4){{0, 0, 0, 0}};
 	if (value == NULL || value->type != json_array ||
 		value->u.array.length != 4)
 		ft_error("No value for float4.");
@@ -51,11 +51,11 @@ float4			get_float4(json_value *value)
 	return (ret);
 }
 
-float3			get_float3(json_value *value)
+cl_float3			get_float3(json_value *value)
 {
-	float3		ret;
+	cl_float3		ret;
 
-	ret = (float3){{0, 0, 0}};
+	ret = (cl_float3){{0, 0, 0}};
 	if (value == NULL || value->type != json_array ||
 		value->u.array.length != 3)
 	{
@@ -69,11 +69,11 @@ float3			get_float3(json_value *value)
 	return (ret);
 }
 
-uchar4			get_uchar4(json_value *value)
+cl_uchar4			get_uchar4(json_value *value)
 {
-	uchar4		ret;
+	cl_uchar4		ret;
 
-	ret = (uchar4){{0, 0, 0, 0}};
+	ret = (cl_uchar4){{0, 0, 0, 0}};
 	if (value == NULL || value->type != json_array ||
 		value->u.array.length != 4)
 	{

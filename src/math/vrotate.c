@@ -12,9 +12,9 @@
 
 #include "rt.h"
 
-float3	vrotate(float3 v, float3 *matrix)
+cl_float3	vrotate(cl_float3 v, cl_float3 *matrix)
 {
-	float3 res;
+	cl_float3 res;
 
 	res = vadd(
 			vmul(matrix[0], v.x),

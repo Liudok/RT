@@ -12,10 +12,10 @@
 
 #include "rt.h"
 
-void	rotate_camera(t_rt *rt)
+void			rotate_camera(t_rt *rt)
 {
 	t_camera	*c;
-	float3		matrix[3];
+	cl_float3	matrix[3];
 
 	c = &rt->scene.camera;
 	init_camera(rt, c->origin);

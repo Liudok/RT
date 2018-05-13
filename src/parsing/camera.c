@@ -37,7 +37,7 @@ void				parse_camera(json_value *value, t_scene *s)
 	ft_bzero(&s->camera, sizeof(s->camera));
 	s->camera.rotate.x = 0;
 	s->camera.rotate.y = 0;
-	s->camera.ambient = (float3){{0, 0, 0}};
+	s->camera.ambient = (cl_float3){{0, 0, 0}};
 	if (value->u.array.values[0]->type != json_object)
 		ft_error("Not valid json camera.");
 	get_camera_info(value->u.array.values[0], &s->camera);
@@ -55,14 +55,15 @@ void				parse_camera(json_value *value, t_scene *s)
 		s->camera.ambient.s2 = 0;
 }
 
-void				init_camera(t_rt *pt, float3 origin)
+void				init_camera(t_rt *pt, cl_float3 origin)
 {
 	t_camera		*cam;
 
 	cam = &pt->scene.camera;
-	cam->canvas = (int2){{pt->sdl.win_w, pt->sdl.win_h}};
+	cam->canvas = (cl_int2){{pt->sdl.win_w, pt->sdl.win_h}};
 	cam->origin = origin;
 	cam->dir = cam->base_dir;
-	cam->cx = (float3){{cam->canvas.x * .5135f / (float)cam->canvas.y, 0, 0}};
+	cam->cx = (cl_float3){{cam->canvas.x * .5135f /
+		(float)cam->canvas.y, 0, 0}};
 	cam->cy = vmul(normalize(cross(cam->cx, cam->dir)), .5135f);
 }

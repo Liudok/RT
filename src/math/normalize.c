@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-float3	normalize(float3 v)
+cl_float3	normalize(cl_float3 v)
 {
 	double len;
 	double inv_len;

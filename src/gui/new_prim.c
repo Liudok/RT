@@ -12,7 +12,7 @@
 
 #include "../../include/panels.h"
 
-t_primitive			new_sphere(float3 origin, float radius)
+t_primitive			new_sphere(cl_float3 origin, float radius)
 {
 	t_primitive		prim;
 
@@ -22,7 +22,7 @@ t_primitive			new_sphere(float3 origin, float radius)
 	return (prim);
 }
 
-t_primitive			new_plane(float3 origin, float3 normal)
+t_primitive			new_plane(cl_float3 origin, cl_float3 normal)
 {
 	t_primitive		prim;
 
@@ -31,7 +31,8 @@ t_primitive			new_plane(float3 origin, float3 normal)
 	return (prim);
 }
 
-t_primitive			new_cylinder(float3 origin, float3 n, float r, float h)
+t_primitive			new_cylinder(cl_float3 origin, cl_float3 n, float r,
+						float h)
 {
 	t_primitive		prim;
 
@@ -43,7 +44,7 @@ t_primitive			new_cylinder(float3 origin, float3 n, float r, float h)
 	return (prim);
 }
 
-t_primitive			new_cone(float3 origin, float3 n, float m1, float m2)
+t_primitive			new_cone(cl_float3 origin, cl_float3 n, float m1, float m2)
 {
 	t_primitive		prim;
 
@@ -56,7 +57,7 @@ t_primitive			new_cone(float3 origin, float3 n, float m1, float m2)
 	return (prim);
 }
 
-t_primitive			new_disk(float3 origin, float3 normal, float radius)
+t_primitive			new_disk(cl_float3 origin, cl_float3 normal, float radius)
 {
 	t_primitive		prim;
 

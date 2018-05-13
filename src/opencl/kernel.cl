@@ -1,6 +1,3 @@
-#define KERNEL_ONLY
-
-#include "include/kernel.h"
 # define EPSILON 1e-3f
 # ifndef M_PI
 #  define M_PI 3.141595f

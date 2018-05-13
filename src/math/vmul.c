@@ -12,7 +12,7 @@
 
 #include "rt.h"
 
-float3	vmul(float3 a, float b)
+cl_float3	vmul(cl_float3 a, float b)
 {
-	return ((float3){{a.x * b, a.y * b, a.z * b}});
+	return ((cl_float3){{a.x * b, a.y * b, a.z * b}});
 }

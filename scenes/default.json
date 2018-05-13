@@ -18,29 +18,6 @@
 			"texture": [0.0, 0.0, 0.0, 0.0]
 		},
 		{
-			"type": "bool_substraction",
-			"material": "diffuse",
-			"color": [0.3 ,0.1, 0.8],
-			"origin": [0, 0.2, 6],
-			"texture": [0.0, 0.0, 0.0, 0.0]
-		},
-		{
-			"type": "julia",
-			"material": "diffuse",
-			"roughness": 0,
-			"ior": 1,
-			"color": [0.75, 0.75, 0.75],
-			"texture": [0, 0, 0, 0]
-		},
-		{
-			"type": "sphere",
-			"material": "diffuse",
-			"color": [0.9, 0.9, 0.9],
-			"origin": [-2.7, 0.8, 9],
-			"radius": 0.4,
-			"texture": [0.0, 0.0, 0.0, 0.0]
-		},
-		{
 			"type": "sphere",
 			"material": "diffuse",
 			"color": [0.9, 0.9, 0.9],
@@ -67,9 +44,9 @@
 		},
 		{
 			"type": "sphere",
-			"material": "emission",
+			"material": "diffuse",
 			"color": [0.9, 0.9, 0.9],
-			"origin": [0, -1001, 0],
+			"origin": [0, -1005, 0],
 			"radius": 1000.0,
 			"texture": [0.0, 0.0, 0.0, 0.0]
 		}

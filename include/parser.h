@@ -31,22 +31,34 @@ void			get_primitives_details(t_object *o, char *n,
 void			get_primitives_details2(t_object *o, char *n,
 					struct _json_value *val);
 void			parse_camera(json_value *value, t_scene *s);
-void			get_primitives_details(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details2(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details3(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details4(t_object *o, char *n, struct _json_value *val);
-void			get_primitives_details5(t_object *o, char *n, struct _json_value *val);
-int 			validation(t_object *o);
-void 			validation_sphere(t_sphere *o);
-void 			validation_plane(t_plane *o);
-void 			validation_cylinder(t_cylinder *o);
-void 			validation_cone(t_cone *o);
-void 			validation_disk(t_disk *o);
-void 			validation_torus(t_torus *o);
-void 			validation_triangle(t_triangle *o);
-void 			validation_mobius(t_mobius *o);
-void 			validation_cube(t_cube *o);
-void 			validation_parabaloid(t_parabaloid *o);
-void 			validation_julia(t_julia *o);
+void			get_primitives_details(t_object *o, char *n,
+										struct _json_value *val);
+void			get_primitives_details2(t_object *o, char *n,
+										struct _json_value *val);
+void			get_primitives_details3(t_object *o, char *n,
+										struct _json_value *val);
+void			get_primitives_details4(t_object *o, char *n,
+										struct _json_value *val);
+void			get_primitives_details5(t_object *o, char *n,
+										struct _json_value *val);
+int				validation(t_object *o);
+void			validation_sphere(t_sphere *o);
+void			validation_plane(t_plane *o);
+void			validation_cylinder(t_cylinder *o);
+void			validation_cone(t_cone *o);
+void			validation_disk(t_disk *o);
+void			validation_torus(t_torus *o);
+void			validation_triangle(t_triangle *o);
+void			validation_mobius(t_mobius *o);
+void			validation_cube(t_cube *o);
+void			validation_parabaloid(t_parabaloid *o);
+void			validation_julia(t_julia *o);
+float			get_number(json_value *value);
+void			remalloc_objscene(t_scene *scene);
+t_object		second_sphere(t_object *o);
+void			second_cylinder(int j, t_scene *s);
+void			get_object_info(json_value *value, t_object *o);
+void			put_default(json_value *value, t_scene *s, int i, int j);
+void			remalloc_objscene(t_scene *scene);
 
 #endif

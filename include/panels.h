@@ -32,6 +32,8 @@
 # define SHAPE_SIZE 500
 # define PROPERTIES 22
 
+typedef struct s_rt	t_rt;
+
 void				modify_scene(t_rt *rt, int i);
 void				start_settings_win(t_rt *rt, int i);
 void				remalloc_objs(t_rt *rt);
@@ -58,9 +60,10 @@ int					this_figure_props(t_obj_type type);
 void				change_value(t_object *o, int btn);
 void				apply_after_effect(t_rt *rt, int i);
 void				apply_after_effect2(t_rt *rt, int i);
-void 				clean_scene(t_rt *rt);
-int 				this_figure_small_props(t_obj_type type);
-cl_float		    my_atof(const char *val, float min, float max);
+void				clean_scene(t_rt *rt);
+int					this_figure_small_props(t_obj_type type);
+cl_float			my_atof(const char *val, float min, float max);
 cl_uchar			my_uchar(const char *val, float min, float max);
-void 				validation_fix(t_object *o);
+void				validation_fix(t_object *o);
+
 #endif

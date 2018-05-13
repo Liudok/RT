@@ -12,7 +12,7 @@
 
 #include "../../include/parser.h"
 
-void 	validation_mobius(t_mobius *o)
+void	validation_mobius(t_mobius *o)
 {
 	if (o->origin.s0 > MAXF || o->origin.s0 < MINF ||
 		o->origin.s1 > MAXF || o->origin.s1 < MINF ||
@@ -33,11 +33,10 @@ void 	validation_mobius(t_mobius *o)
 	}
 }
 
-void 	validation_cube(t_cube *o)
+void	validation_cube(t_cube *o)
 {
-	if (o->min.s0 > 500 || o->min.s0 < -500 ||
-		o->min.s1 > 500 || o->min.s1 < -500 ||
-		o->min.s2 > 500 || o->min.s2 < -500)
+	if (o->min.s0 > 500 || o->min.s0 < -500 || o->min.s1 > 500 ||
+		o->min.s1 < -500 || o->min.s2 > 500 || o->min.s2 < -500)
 	{
 		ft_putendl_fd("MIN of cube is invalid", 2);
 	}
@@ -47,12 +46,9 @@ void 	validation_cube(t_cube *o)
 	o->min.s0 = (o->min.s0 < -500) ? -500 : o->min.s0;
 	o->min.s1 = (o->min.s1 < -500) ? -500 : o->min.s1;
 	o->min.s2 = (o->min.s2 < -500) ? -500 : o->min.s2;
-	if (o->max.s0 > 500 || o->max.s0 < -500 ||
-		o->max.s1 > 500 || o->max.s1 < -500 ||
-		o->max.s2 > 500 || o->max.s2 < -500)
-	{
+	if (o->max.s0 > 500 || o->max.s0 < -500 || o->max.s1 > 500 ||
+		o->max.s1 < -500 || o->max.s2 > 500 || o->max.s2 < -500)
 		ft_putendl_fd("MIN of cube is invalid", 2);
-	}
 	o->max.s0 = (o->max.s0 > 500) ? 500 : o->max.s0;
 	o->max.s1 = (o->max.s1 > 500) ? 500 : o->max.s1;
 	o->max.s2 = (o->max.s2 > 500) ? 500 : o->max.s2;
@@ -66,26 +62,14 @@ void 	validation_cube(t_cube *o)
 	}
 }
 
-void 	validation_parabaloid(t_parabaloid *o)
+void	validation_parabaloid(t_parabaloid *o)
 {
-	if (o->origin.s0 > MAXF || o->origin.s0 < MINF ||
-		o->origin.s1 > MAXF || o->origin.s1 < MINF ||
-		o->origin.s2 > MAXF || o->origin.s2 < MINF)
-	{
-		ft_putendl_fd("ORIGIN of parabaloid is invalid", 2);
-	}
 	o->origin.s0 = (o->origin.s0 > MAXF) ? MAXF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 > MAXF) ? MAXF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 > MAXF) ? MAXF : o->origin.s2;
 	o->origin.s0 = (o->origin.s0 < MINF) ? MINF : o->origin.s0;
 	o->origin.s1 = (o->origin.s1 < MINF) ? MINF : o->origin.s1;
 	o->origin.s2 = (o->origin.s2 < MINF) ? MINF : o->origin.s2;
-	if (o->normal.s0 > 1 || o->normal.s0 < -1 ||
-		o->normal.s1 > 1 || o->normal.s1 < -1 ||
-		o->normal.s2 > 1 || o->normal.s2 < -1)
-	{
-		ft_putendl_fd("NORMAL of parabaloid is invalid", 2);
-	}
 	o->normal.s0 = (o->normal.s0 > 1) ? 1 : o->normal.s0;
 	o->normal.s1 = (o->normal.s1 > 1) ? 1 : o->normal.s1;
 	o->normal.s2 = (o->normal.s2 > 1) ? 1 : o->normal.s2;
@@ -104,7 +88,7 @@ void 	validation_parabaloid(t_parabaloid *o)
 	}
 }
 
-void 	validation_julia(t_julia *o)
+void	validation_julia(t_julia *o)
 {
 	if (o->c.s0 > 1 || o->c.s0 < -1 ||
 			o->c.s1 > 1 || o->c.s1 < -1 ||
@@ -112,6 +96,6 @@ void 	validation_julia(t_julia *o)
 			o->c.s3 > 1 || o->c.s3 < -1)
 	{
 		ft_putendl_fd("C of fractal julia is invalid", 2);
-		o->c = (float4){{-0.450,-0.447,0.181,0.306}};
+		o->c = (float4){{-0.450, -0.447, 0.181, 0.306}};
 	}
 }

@@ -32,7 +32,7 @@ SRCS        = main.c sdl_init.c buttons.c file_for_rendering.c panel.c validatio
               is_window_resizable.c off_event.c on_event.c rotate_camera.c new_prim.c new_prim2.c add_new_figure.c \
               update_camera.c init_opencl.c modify_scene.c settings_win.c check_pressing.c \
               change_value.c setting_win_textures.c real_setting_win_textures.c after_effects.c \
-              validation1.c validation2.c\
+              validation1.c validation2.c utils_gui.c rects_params.c parser_utils2.c parsing2.c validation3.c\
 
 OBJS        = $(SRCS:.c=.o)
 

@@ -1,0 +1,38 @@
+{
+	"objects": [{
+			"type": "plane",
+			"color": [0.2, 0.7, 0.8],
+			"material": "diffuse",
+			"roughness": 0,
+			"origin": [0, -2, 0],
+			"normal": [0, 1, 0],
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "parabaloid",
+			"material": "emission",
+			"roughness": 0,
+			"ior": 1,
+			"color": [0.9, 0.5, 0.9],
+			"origin": [7, 2, 40],
+			"normal": [0, -1, 0],
+			"radius": 0.1,
+			"max": 2,
+			"texture": [0, 0, 0, 0]
+		},
+		{
+			"type": "disk",
+			"material": "emission",
+			"color": [0.9, 0.9, 0.9],
+			"origin": [0, 7, 5],
+			"radius2": 70,
+			"normal": [0, 1, 0],
+			"texture": [0, 0, 0, 0]
+		}
+	],
+	"camera": [{
+		"origin": [0, 0, -25],
+		"dir": [0, 0, 1],
+		"ambient": [0, 0, 0]
+	}]
+}

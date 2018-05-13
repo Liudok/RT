@@ -46,9 +46,16 @@ const char				*g_errors[] = { "CL_SUCCESS", "CL_DEVICE_NOT_FOUND",
 	"CL_INVALID_LINKER_OPTIONS", "CL_INVALID_DEVICE_PARTITION_COUNT"
 };
 
+const cl_image_desc		g_texture_description = {
+	CL_MEM_OBJECT_IMAGE2D_ARRAY,
+	2048, 1024,
+	1, NUM_TEX + 2,
+	0, 0, 0, 0, NULL
+};
+
 void					check_error(cl_int status)
 {
-	char *error_string;
+	char				*error_string;
 
 	status = -status;
 	error_string = NULL;
@@ -67,9 +74,9 @@ void					check_error(cl_int status)
 void					rt_cl_bind_textures(t_cl_info *info, cl_mem mem,
 		SDL_Surface **textures, cl_uint2 *texture_sizes)
 {
-	int		i;
-	size_t	origin[3];
-	size_t	region[3];
+	int					i;
+	size_t				origin[3];
+	size_t				region[3];
 
 	i = 0;
 	origin[0] = 0;
@@ -94,10 +101,10 @@ void					rt_cl_bind_textures(t_cl_info *info, cl_mem mem,
 	origin[2] = i + 1;
 }
 
-static void				rt_cl_print_debug(t_cl_info *info)
+void				rt_cl_print_debug(t_cl_info *info)
 {
-	size_t	log_size;
-	char	*log;
+	size_t				log_size;
+	char				*log;
 
 	clGetProgramBuildInfo(info->program, info->device_id,
 			CL_PROGRAM_BUILD_LOG, 0, NULL, &log_size);
@@ -110,11 +117,11 @@ static void				rt_cl_print_debug(t_cl_info *info)
 
 cl_int					rt_cl_compile(t_cl_info *info, char *path)
 {
-	int			fd;
-	char		src[MAX_SOURCE_SIZE];
-	size_t		size;
-	cl_int		status;
-	char		*seeker;
+	int					fd;
+	char				src[MAX_SOURCE_SIZE];
+	size_t				size;
+	cl_int				status;
+	char				*seeker;
 
 	status = CL_SUCCESS;
 	if ((fd = open(path, O_RDONLY)) != -1)
@@ -135,13 +142,6 @@ cl_int					rt_cl_compile(t_cl_info *info, char *path)
 	check_error(status);
 	return (status);
 }
-
-const cl_image_desc		g_texture_description = {
-	CL_MEM_OBJECT_IMAGE2D_ARRAY,
-	2048, 1024,
-	1, NUM_TEX + 2,
-	0, 0, 0, 0, NULL
-};
 
 cl_mem					rt_cl_create_image_tex(t_cl_info *info,
 		SDL_Surface **textures, cl_uint2 *texture_sizes)

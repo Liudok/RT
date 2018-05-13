@@ -6,30 +6,14 @@
 /*   By: skamoza <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 13:31:55 by skamoza           #+#    #+#             */
-/*   Updated: 2018/05/11 20:49:37 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/13 16:01:39 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KERNEL_H
 # define KERNEL_H
 
-# ifndef NULL
-#  define NULL ((void *)0)
-# endif
-
-# define EPSILON 1e-3f
-# ifndef M_PI
-#  define M_PI 3.141595f
-# endif
-# ifndef KERNEL_ONLY
-#  include <OpenCL/cl.h>
-#  define float2 cl_float2
-#  define float3 cl_float3
-#  define float4 cl_float4
-#  define uchar4 cl_uchar4
-#  define uint	cl_uint
-#  define int2	cl_int2
-# endif
+# include <OpenCL/cl.h>
 
 typedef enum	e_obj_type
 {
@@ -46,81 +30,81 @@ typedef enum	e_material
 
 typedef struct	s_sphere
 {
-	float3		origin;
-	float		radius;
-	float		r2;
+	cl_float3		origin;
+	cl_float		radius;
+	cl_float		r2;
 }				t_sphere;
 
 typedef struct	s_plane
 {
-	float3		origin;
-	float3		normal;
+	cl_float3		origin;
+	cl_float3		normal;
 }				t_plane;
 
 typedef struct	s_cylinder
 {
-	float3		origin;
-	float3		normal;
-	float		radius;
-	float		r2;
-	float 		height;
+	cl_float3		origin;
+	cl_float3		normal;
+	cl_float		radius;
+	cl_float		r2;
+	cl_float 		height;
 }				t_cylinder;
 
 typedef struct	s_cone
 {
-	float3		origin;
-	float3		normal;
-	float 		half_tangent;
-	float 		m1;
-	float 		m2;
+	cl_float3		origin;
+	cl_float3		normal;
+	cl_float 		half_tangent;
+	cl_float 		m1;
+	cl_float 		m2;
 }				t_cone;
 
 typedef struct	s_disk
 {
-	float3		origin;
-	float3		normal;
-	float 		radius2;
+	cl_float3		origin;
+	cl_float3		normal;
+	cl_float 		radius2;
 }				t_disk;
 
 typedef struct	s_torus
 {
-	float3		origin;
-	float3		normal;
-	float 		big_radius2;
-	float 		small_radius2;
+	cl_float3		origin;
+	cl_float3		normal;
+	cl_float 		big_radius2;
+	cl_float 		small_radius2;
 }				t_torus;
 
 typedef struct	s_triangle
 {
-	float3		vertex0;
-	float3		vertex1;
-	float3		vertex2;
+	cl_float3		vertex0;
+	cl_float3		vertex1;
+	cl_float3		vertex2;
 }				t_triangle;
 
 typedef struct	s_mobius
 {
-	float3 		origin;
-	float 		size;
+	cl_float3 		origin;
+	cl_float 		size;
 }				t_mobius;
 
 typedef struct	s_cube
 {
-	float3		min;
-	float3		max;
-	int 		pipes_number;
+	cl_float3		min;
+	cl_float3		max;
+	cl_int 			pipes_number;
 }				t_cube;
 
 typedef struct	s_parabaloid
 {
-	float3		origin;
-	float3		normal;
-	float 		radius;
-	float 		max;
+	cl_float3		origin;
+	cl_float3		normal;
+	cl_float 		radius;
+	cl_float 		max;
 }				t_parabaloid;
 
 typedef struct	s_julia
 {
-	float4		c;
+	cl_float4		c;
 }				t_julia;
 
 typedef	union	u_primitive
@@ -143,67 +127,23 @@ typedef struct	s_object
 	t_obj_type	type;
 	t_primitive	prim;
 	t_material	material;
-	float		roughness;
-	float		ior;
-	float3		color;
-	uchar4 		texture;
+	cl_float	roughness;
+	cl_float	ior;
+	cl_float3	color;
+	cl_uchar4 	texture;
 }				t_object;
 
 typedef struct	s_camera
 {
-	float3		base_origin;
-	float3 		base_dir;
-	float3		origin;
-	float3		dir;
-	float3		cx;
-	float3		cy;
-	float3		ambient;
-	int2		canvas;
-	float2 		rotate;
+	cl_float3		base_origin;
+	cl_float3 		base_dir;
+	cl_float3		origin;
+	cl_float3		dir;
+	cl_float3		cx;
+	cl_float3		cy;
+	cl_float3		ambient;
+	cl_int2		canvas;
+	cl_float2 		rotate;
 }				t_camera;
-
-# ifdef KERNEL_ONLY
-
-typedef struct			s_surface
-{
-	global t_object		*obj;
-	t_material			material;
-	float				maxref;
-	float3				pos;
-	float3				emission;
-	float3				n;
-	float3				nl;
-	float3				f;
-	float3				ref;
-	float2				uv;
-	float 				m;
-	float 				ior;
-}						t_surface;
-
-typedef struct			s_ray
-{
-	float3				o;
-	float3				d;
-}						t_ray;
-
-typedef	struct			s_equation
-{
-	bool				flag;
-	float				aa;
-	float				pp;
-	float				rr;
-	float				q2;
-	float				c;
-	float				b;
-	float				br;
-	float				discr;
-	float				real1;
-	float				real2;
-	float				im1;
-	float				im2;
-	float2				l;
-}						t_equation;
-
-# endif
 
 #endif

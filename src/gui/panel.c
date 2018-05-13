@@ -6,7 +6,7 @@
 /*   By: lberezyn <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/20 15:07:11 by lberezyn          #+#    #+#             */
-/*   Updated: 2018/05/11 22:57:11 by skamoza          ###   ########.fr       */
+/*   Updated: 2018/05/13 16:52:31 by skamoza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void				set_bg(t_rt *s)
 {
 	unsigned timeout;
 
-	fprintf(stderr, " samples per pixel -> %d\r", s->samples);
+	ft_putstr_fd(" samples per pixel -> ", 2);
+	ft_putnbr_fd(s->samples, 2);
+	ft_putstr_fd("\r", 2);
 	timeout = SDL_GetTicks() + 17;
 	if (s->samples < 30)
 		render(s, timeout);

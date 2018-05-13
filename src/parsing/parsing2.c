@@ -73,6 +73,11 @@ t_object			second_sphere(t_object *o)
 	tmp.color = o->color;
 	tmp.texture = o->texture;
 	tmp.material = o->material;
+	if (o->type == bool_substraction)
+	{
+		tmp.texture.s0 = 255;
+		tmp.material = 3;
+	}
 	tmp.ior = o->ior;
 	tmp.roughness = o->roughness;
 	return (tmp);

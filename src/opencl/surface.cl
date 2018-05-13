@@ -116,6 +116,8 @@ float3	find_normal(global t_object *obj, float3 hit_pos, float m)
 
 static t_material  get_material(global t_object *obj, uint *seeds)
 {
+	if (obj->material == emission || obj->material == diffuse)
+		return (obj->material);
 	return (get_random(&seeds[0], &seeds[1]) < obj->roughness ?
 			diffuse :
 			obj->material);

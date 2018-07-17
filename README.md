@@ -2,3 +2,4 @@
 
 Path tracer on OpenCL written on C, uses JSON files.
 You can create new scene by adding different figures in runtime and save it to JSON file as well as to PNG.
+![img](https://github.com/Liudok/RT/blob/master/PNG/amazing.png)
